@@ -15,6 +15,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [Range(0f, 2f)] public float m_WalkstepLenghten;
         public float m_RunSpeed;
         [Range(0f, 2f)] public float m_RunstepLenghten;
+        public bool enableJump;
         public float m_JumpSpeed;
         public float m_StickToGroundForce;
         public float m_GravityMultiplier;
@@ -81,7 +82,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         {
             RotateView();
             // the jump state needs to read here to make sure it is not missed
-            if (!m_Jump && CanStandUp())
+            if (!m_Jump && CanStandUp() && enableJump)
             {
                 m_Jump = CrossPlatformInputManager.GetButtonDown("Jump");
             }
