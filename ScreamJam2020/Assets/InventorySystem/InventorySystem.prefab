@@ -313,7 +313,8 @@ MonoBehaviour:
   textName: {fileID: 1213801807737197665}
   textDescription: {fileID: 6977205621604834423}
   inventoryPrefab: {fileID: 2098521163135883009}
-  playerReference: {fileID: 0}
+  playerReference: {fileID: 6181635542439563922, guid: 2dbb4ae9becb97849b526969bbef046b,
+    type: 3}
 --- !u!1 &2098521163135883009
 GameObject:
   m_ObjectHideFlags: 0

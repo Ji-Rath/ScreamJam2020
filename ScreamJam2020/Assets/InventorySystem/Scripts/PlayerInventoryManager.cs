@@ -22,13 +22,14 @@ public class PlayerInventoryManager : MonoBehaviour
 
     void Start()
     {
+        //Get child gameObject to manage visibility of the inventory system
         inventoryReference = transform.GetChild(0).gameObject;
         playerController = playerReference.GetComponent<FirstPersonController>();
     }
 
     void Update()
     {
-        //Check if inventory key was pressed
+        //Check if inventory key was pressed (Should be moved to player controller to prevent random references)
         if (CrossPlatformInputManager.GetButtonDown("Inventory"))
         {
             inventoryVisible = !inventoryVisible;
@@ -44,11 +45,17 @@ public class PlayerInventoryManager : MonoBehaviour
     {
         if (inventoryVisible)
         {
+            //Update text
             textName.text = playerInventory.inventory[playerInventory.currentSlot].item.name;
             textDescription.text = playerInventory.inventory[playerInventory.currentSlot].item.description;
 
+            //Create the selected inventory prefab and delete the old one
             GameObject newInventoryPrefab = Instantiate(playerInventory.inventory[playerInventory.currentSlot].item.itemModel, inventoryPrefab.transform.position, Quaternion.identity);
             Destroy(inventoryPrefab);
+
+            //Add InventoryPrefab component for spin effect
+            newInventoryPrefab.AddComponent<InventoryPrefab>();
+
             inventoryPrefab = newInventoryPrefab;
         }
     }
@@ -61,7 +68,6 @@ public class PlayerInventoryManager : MonoBehaviour
         else
             playerInventory.currentSlot = 0;
 
-        Debug.Log(playerInventory.currentSlot);
         UpdateInventory();
     }
 
@@ -73,7 +79,6 @@ public class PlayerInventoryManager : MonoBehaviour
         else
             playerInventory.currentSlot = playerInventory.inventory.Length - 1;
 
-        Debug.Log(playerInventory.currentSlot);
         UpdateInventory();
     }
 }
