@@ -43,6 +43,9 @@ GameObject:
   - component: {fileID: 6181635542439563928}
   - component: {fileID: 6181635542439563929}
   - component: {fileID: 6181635542439563934}
+  - component: {fileID: 8735113333121868281}
+  - component: {fileID: 583278684}
+  - component: {fileID: 583278690}
   m_Layer: 11
   m_Name: Player
   m_TagString: Player
@@ -57,7 +60,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6181635542439563922}
-  m_LocalRotation: {x: -0, y: 0.7000575, z: -0, w: -0.71408653}
+  m_LocalRotation: {x: 0, y: 0.7000561, z: -0, w: -0.7140879}
   m_LocalPosition: {x: -69.12192, y: 11.57, z: -54.374577}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -97,9 +100,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_IsWalking: 0
   m_WalkSpeed: 4.5
-  m_WalkstepLenghten: 0
+  m_WalkstepLenghten: 0.53
   m_RunSpeed: 6
-  m_RunstepLenghten: 1.36
+  m_RunstepLenghten: 0.65
+  enableJump: 0
   m_JumpSpeed: 7
   m_StickToGroundForce: 15
   m_GravityMultiplier: 2
@@ -205,13 +209,13 @@ MonoBehaviour:
     BobAmount: 0.1
   m_StepInterval: 1
   m_FootstepSounds:
-  - {fileID: 8300000, guid: 42e65e088b3f4374e851b8dbd38f3df9, type: 3}
-  - {fileID: 8300000, guid: 8bc94ec6ed537e743b481638bdcd503d, type: 3}
-  m_JumpSound: {fileID: 8300000, guid: 5897aeed9b676024fbb8c694b421a861, type: 3}
-  m_LandSound: {fileID: 8300000, guid: 3b09d59f4499d45428baa7a21e954296, type: 3}
+  - {fileID: 8300000, guid: 04e2a9ff1d4471240a77cc069396c1af, type: 3}
+  - {fileID: 8300000, guid: 40e1d2d3aef18c645914c174be73b0a4, type: 3}
+  m_JumpSound: {fileID: 8300000, guid: 40e1d2d3aef18c645914c174be73b0a4, type: 3}
+  m_LandSound: {fileID: 8300000, guid: 04e2a9ff1d4471240a77cc069396c1af, type: 3}
   m_IsCrouching: 0
   originalHeight: 0
-  crouchHeight: 0.5
+  crouchHeight: 0.1
   t: 0
   crouchSpeed: 8.49
   crouchMovSpeed: 2.02
@@ -243,12 +247,12 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6181635542439563922}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
+  m_PlayOnAwake: 0
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -292,7 +296,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -332,6 +336,40 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &8735113333121868281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6181635542439563922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 488c2d5ccf3d6e244bcc1523d381bfd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isHiding: 0
+--- !u!81 &583278684
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6181635542439563922}
+  m_Enabled: 1
+--- !u!114 &583278690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6181635542439563922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 488c2d5ccf3d6e244bcc1523d381bfd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isHiding: 0
 --- !u!1 &6181635542651078422
 GameObject:
   m_ObjectHideFlags: 0
@@ -358,7 +396,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6181635542651078422}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.8000001, z: 0}
+  m_LocalPosition: {x: 0, y: 0.682, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6181635541808351303}
@@ -375,7 +413,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0.019607844}
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -388,21 +426,21 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.05
+  near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 75
   orthographic: 0
   orthographic size: 5
-  m_Depth: 0
+  m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_RenderingPath: -1
-  m_TargetTexture: {fileID: 0}
+  m_RenderingPath: 0
+  m_TargetTexture: {fileID: 8400000, guid: 8a9f74b9de7744f4883231817f8331fc, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 0
-  m_AllowMSAA: 0
+  m_AllowMSAA: 1
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
