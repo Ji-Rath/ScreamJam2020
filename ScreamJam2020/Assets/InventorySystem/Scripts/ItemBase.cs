@@ -8,6 +8,7 @@ using UnityEngine;
 public class ItemBase : ScriptableObject
 {
     public new string name;
+    [TextArea]
     public string description;
 
     public GameObject itemModel;
