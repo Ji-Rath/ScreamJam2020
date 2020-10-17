@@ -45,6 +45,9 @@ public class PlayerInventoryManager : MonoBehaviour
     {
         if (inventoryVisible)
         {
+            //You can either disable the controller or pause the game
+            playerController.enabled = false;
+
             //Update text
             textName.text = playerInventory.inventory[playerInventory.currentSlot].item.name;
             textDescription.text = playerInventory.inventory[playerInventory.currentSlot].item.description;
@@ -57,6 +60,11 @@ public class PlayerInventoryManager : MonoBehaviour
             newInventoryPrefab.AddComponent<InventoryPrefab>();
 
             inventoryPrefab = newInventoryPrefab;
+        }
+        else
+        {
+            //You can either enable the controller or unpause the game
+            playerController.enabled = true;
         }
     }
 

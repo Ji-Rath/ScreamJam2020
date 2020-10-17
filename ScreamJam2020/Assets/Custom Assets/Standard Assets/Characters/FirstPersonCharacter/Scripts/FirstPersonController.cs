@@ -99,7 +99,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 m_MoveDir.y = 0f;
             }
 
-            if (Input.GetKeyDown(KeyCode.C))
+            if (CrossPlatformInputManager.GetButtonDown("Crouch"))
             {
                 if (CanStandUp())
                 {
@@ -270,7 +270,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             // keep track of whether or not the character is walking or running
             if (!m_IsCrouching)
             {
-                m_IsWalking = !Input.GetKey(KeyCode.LeftShift);
+                m_IsWalking = !CrossPlatformInputManager.GetButton("Sprint");
             }
             
             if(m_IsCrouching && !m_IsWalking)
