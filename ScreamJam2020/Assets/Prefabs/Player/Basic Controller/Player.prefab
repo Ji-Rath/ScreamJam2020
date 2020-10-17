@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6181635541808351303}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: Items
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6181635541808351300}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.009, y: -0.146, z: 0}
+  m_LocalPosition: {x: 0.316, y: -0.273, z: 0.473}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6181635542651078431}
@@ -45,8 +45,9 @@ GameObject:
   - component: {fileID: 6181635542439563934}
   - component: {fileID: 8735113333121868281}
   - component: {fileID: 583278684}
-  - component: {fileID: 583278690}
-  m_Layer: 11
+  - component: {fileID: 583278692}
+  - component: {fileID: 583278693}
+  m_Layer: 0
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -357,7 +358,7 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6181635542439563922}
   m_Enabled: 1
---- !u!114 &583278690
+--- !u!114 &583278692
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -366,10 +367,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 6181635542439563922}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 488c2d5ccf3d6e244bcc1523d381bfd2, type: 3}
+  m_Script: {fileID: 11500000, guid: 2def30350f8e1d14b9aac1c166964a5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isHiding: 0
+  interactRange: 2
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 768
+  itemInView: {fileID: 0}
+  DesiredItemLocation: {fileID: 6181635541808351303}
+--- !u!114 &583278693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6181635542439563922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287b9aa1d3e395f4ca144ef5e66eca58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetLocation: {fileID: 0}
+  TargetItem: {fileID: 0}
+  smoothTime: 3
+  maxSway: 0.2
+  swaySensitivity: 0.1
 --- !u!1 &6181635542651078422
 GameObject:
   m_ObjectHideFlags: 0
@@ -381,7 +404,7 @@ GameObject:
   - component: {fileID: 6181635542651078431}
   - component: {fileID: 6181635542651078417}
   - component: {fileID: 6181635542651078428}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: FirstPersonCharacter
   m_TagString: MainCamera
   m_Icon: {fileID: 0}

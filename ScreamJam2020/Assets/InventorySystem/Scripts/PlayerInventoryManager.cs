@@ -36,6 +36,9 @@ public class PlayerInventoryManager : MonoBehaviour
         playerReference = GameManager.Get().playerRef;
         inventoryReference = transform.GetChild(0).gameObject;
         playerController = playerReference.GetComponent<FirstPersonController>();
+        textName.text = "";
+        textDescription.text = "";
+        textAmount.text = "";
     }
 
     void Update()
@@ -56,38 +59,52 @@ public class PlayerInventoryManager : MonoBehaviour
     //Update inventory information with the currently selected item
     void UpdateInventory()
     {
-        if(playerInventory.currentSlot < playerInventory.inventory.Count)
+        if(inventoryVisible)
         {
-            ItemSlot currentItem = playerInventory.inventory[playerInventory.currentSlot];
+            //You can either disable the controller or pause the game
+            playerController.enabled = false;
 
-            if (currentItem.itemAmount != 0 && inventoryVisible)
+            if (playerInventory.currentSlot < playerInventory.inventory.Count)
             {
-                //Update text
-                textName.text = currentItem.item.name;
-                textDescription.text = currentItem.item.description;
-                textAmount.text = currentItem.itemAmount + " / " + currentItem.item.maxStack;
+                ItemSlot currentItem = playerInventory.inventory[playerInventory.currentSlot];
 
-                //Create the selected inventory prefab and delete the old one
-                GameObject newInventoryPrefab = Instantiate(currentItem.item.itemModel, itemPrefabPosition);
-                Destroy(itemPrefab);
+                if (currentItem.itemAmount != 0)
+                {
+                    //Update text
+                    textName.text = currentItem.item.name;
+                    textDescription.text = currentItem.item.description;
+                    textAmount.text = currentItem.itemAmount + " / " + currentItem.item.maxStack;
 
-                //Add InventoryPrefab component for spin effect
-                newInventoryPrefab.AddComponent<InventoryPrefab>();
+                    //Create the selected inventory prefab and delete the old one
+                    GameObject newInventoryPrefab = Instantiate(currentItem.item.itemModel, itemPrefabPosition);
+                    Destroy(itemPrefab);
 
-                itemPrefab = newInventoryPrefab;
-            }
-            else
-            {
-                textName.text = "";
-                textDescription.text = "";
-                textAmount.text = "";
-                Destroy(itemPrefab);
+                    //Add InventoryPrefab component for spin effect
+                    newInventoryPrefab.AddComponent<InventoryPrefab>();
+
+                    itemPrefab = newInventoryPrefab;
+                }
+                else
+                {
+                    textName.text = "";
+                    textDescription.text = "";
+                    textAmount.text = "";
+                    Destroy(itemPrefab);
+                }
             }
         }
         else
         {
             //You can either enable the controller or unpause the game
             playerController.enabled = true;
+            if(itemPrefab)
+            {
+                textName.text = "";
+                textDescription.text = "";
+                textAmount.text = "";
+                Destroy(itemPrefab);
+            }
+            
         }
     }
 
@@ -121,7 +138,11 @@ public class PlayerInventoryManager : MonoBehaviour
     //Button for equipping the item
     public void EquipButton()
     {
-        playerReference.GetComponent<PlayerInteraction>().EquipItem(playerInventory.inventory[playerInventory.currentSlot].item.itemModel);
+        if(playerInventory.inventory.Count > 0)
+        {
+            playerReference.GetComponent<PlayerInteraction>().EquipItem(playerInventory.inventory[playerInventory.currentSlot].item.itemModel);
+        }
+        
     }
 
     public bool AddToInventory(ItemBase item, int amount = 1)

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Door : MonoBehaviour
+public class Door : InteractableBase
 {
     public delegate void OnDoorAction(GameObject trigger);
     public static OnDoorAction OnTriggerDisabled;
@@ -38,13 +38,18 @@ public class Door : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    /*void Update()
     {
         //test
         if(Input.GetKeyDown(KeyCode.Alpha1))
         {
             InteractDoor();
         }
+    }*/
+
+    public override void OnInteract()
+    {
+        InteractDoor();
     }
 
     public void InteractDoor()

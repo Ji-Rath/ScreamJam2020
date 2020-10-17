@@ -8,25 +8,36 @@ public class PlayerInteraction : MonoBehaviour
 {
     [Range(1f, 50f)]
     public float interactRange = 10f;
-    private GameObject itemInView;
+    public LayerMask layerMask;
+    public GameObject itemInView;
 
     public Transform DesiredItemLocation;
     private GameObject CurrentEquippedItem;
+    private FirstPersonController fpsController;
 
-    
+    private void Start()
+    {
+        fpsController = gameObject.GetComponent<FirstPersonController>();
+    }
 
     // Update is called once per frame
     void Update()
     {
-        if(gameObject.GetComponent<FirstPersonController>().enabled && CrossPlatformInputManager.GetButtonDown("Interact"))
+        if(fpsController.enabled)
         {
-            if(itemInView != null)
+            if(CrossPlatformInputManager.GetButtonDown("Interact"))
             {
-                itemInView.GetComponent<InteractableBase>().OnInteract();
+                if (itemInView != null)
+                {
+                    itemInView.GetComponent<InteractableBase>().OnInteract();
+                }
             }
-            else if (CurrentEquippedItem != null)
+            else if(CrossPlatformInputManager.GetButtonDown("Fire1"))
             {
-                CurrentEquippedItem.GetComponent<Pickupable>().OnUse();
+                if (CurrentEquippedItem != null)
+                {
+                    CurrentEquippedItem.GetComponent<Pickupable>().OnUse();
+                }
             }
         }
     }
@@ -34,21 +45,23 @@ public class PlayerInteraction : MonoBehaviour
     void FixedUpdate()
     {
         RaycastHit RayHit;
-        if (Physics.Raycast(transform.position, Camera.main.transform.forward, out RayHit, interactRange))
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out RayHit, interactRange, layerMask))
         {
             GameObject HitObject = RayHit.collider.gameObject;
             if (HitObject.GetComponent<InteractableBase>())
             {
                 itemInView = HitObject;
             }
-            else if (itemInView != null)
-            {
-                itemInView = null;
-            }
+            //Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward, Color.green);
         }
         else if (itemInView != null)
         {
             itemInView = null;
+            //Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward, Color.white);
+        }
+        else
+        {
+            //Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward, Color.white);
         }
     }
 
