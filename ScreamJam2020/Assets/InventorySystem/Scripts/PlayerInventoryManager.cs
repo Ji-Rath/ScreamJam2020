@@ -21,7 +21,7 @@ public class PlayerInventoryManager : MonoBehaviour
     private GameObject itemPrefab;
 
     //Get player reference to manage cursor locking
-    public GameObject playerReference;
+    private GameObject playerReference;
     private GameObject inventoryReference;
     private FirstPersonController playerController;
 
@@ -33,6 +33,7 @@ public class PlayerInventoryManager : MonoBehaviour
     void Start()
     {
         //Get child gameObject to manage visibility of the inventory system
+        playerReference = GameManager.Get().playerRef;
         inventoryReference = transform.GetChild(0).gameObject;
         playerController = playerReference.GetComponent<FirstPersonController>();
     }
@@ -57,6 +58,8 @@ public class PlayerInventoryManager : MonoBehaviour
         if(playerInventory.currentSlot < playerInventory.inventory.Count)
         {
             ItemSlot currentItem = playerInventory.inventory[playerInventory.currentSlot];
+            //You can either disable the controller or pause the game
+            playerController.enabled = false;
 
             if (currentItem.itemAmount != 0 && inventoryVisible)
             {
@@ -81,6 +84,11 @@ public class PlayerInventoryManager : MonoBehaviour
                 textAmount.text = "";
                 Destroy(itemPrefab);
             }
+        }
+        else
+        {
+            //You can either enable the controller or unpause the game
+            playerController.enabled = true;
         }
     }
 
@@ -108,7 +116,7 @@ public class PlayerInventoryManager : MonoBehaviour
             else
                 playerInventory.currentSlot = playerInventory.inventory.Count - 1;
             UpdateInventory();
-        }        
+        }
     }
 
     //Button for equipping the item
