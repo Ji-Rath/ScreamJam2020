@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.Characters.FirstPerson;
 using UnityStandardAssets.CrossPlatformInput;
 
 public class ItemSway : MonoBehaviour
 {
-
+    [HideInInspector]
     public Transform targetLocation;
     [HideInInspector]
     public GameObject TargetItem;
@@ -18,7 +19,7 @@ public class ItemSway : MonoBehaviour
     void LateUpdate()
     {
         //Item Sway
-        if (TargetItem != null && targetLocation != null)
+        if (TargetItem != null && targetLocation != null && gameObject.GetComponent<FirstPersonController>().enabled)
         {
             //Get values of mouse input
             float moveX = CrossPlatformInputManager.GetAxis("Mouse X") * swaySensitivity;

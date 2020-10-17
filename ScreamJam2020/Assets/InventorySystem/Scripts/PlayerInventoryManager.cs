@@ -47,6 +47,7 @@ public class PlayerInventoryManager : MonoBehaviour
             inventoryReference.SetActive(inventoryVisible);
             playerController.m_MouseLook.SetCursorLock(!inventoryVisible);
             playerInventory.currentSlot = 0;
+            playerController.enabled = !inventoryVisible;
 
             UpdateInventory();
         }
@@ -58,8 +59,6 @@ public class PlayerInventoryManager : MonoBehaviour
         if(playerInventory.currentSlot < playerInventory.inventory.Count)
         {
             ItemSlot currentItem = playerInventory.inventory[playerInventory.currentSlot];
-            //You can either disable the controller or pause the game
-            playerController.enabled = false;
 
             if (currentItem.itemAmount != 0 && inventoryVisible)
             {

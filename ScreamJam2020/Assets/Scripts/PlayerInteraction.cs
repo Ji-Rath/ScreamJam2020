@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.Characters.FirstPerson;
 using UnityStandardAssets.CrossPlatformInput;
 
 public class PlayerInteraction : MonoBehaviour
@@ -17,7 +18,7 @@ public class PlayerInteraction : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(CrossPlatformInputManager.GetButtonDown("Interact"))
+        if(gameObject.GetComponent<FirstPersonController>().enabled && CrossPlatformInputManager.GetButtonDown("Interact"))
         {
             if(itemInView != null)
             {
@@ -61,6 +62,7 @@ public class PlayerInteraction : MonoBehaviour
         CurrentEquippedItem.GetComponent<Collider>().enabled = false;
 
         GetComponent<ItemSway>().TargetItem = CurrentEquippedItem;
+        GetComponent<ItemSway>().targetLocation = DesiredItemLocation;
     }
 
     
