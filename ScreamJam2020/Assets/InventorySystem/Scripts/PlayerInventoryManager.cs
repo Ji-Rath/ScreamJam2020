@@ -16,13 +16,14 @@ public class PlayerInventoryManager : MonoBehaviour
     public GameObject inventoryPrefab;
 
     //Get player reference to manage cursor locking
-    public GameObject playerReference;
+    private GameObject playerReference;
     private GameObject inventoryReference;
     private FirstPersonController playerController;
 
     void Start()
     {
         //Get child gameObject to manage visibility of the inventory system
+        playerReference = GameManager.Get().playerRef;
         inventoryReference = transform.GetChild(0).gameObject;
         playerController = playerReference.GetComponent<FirstPersonController>();
     }

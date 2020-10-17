@@ -6,9 +6,18 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class MonsterAI : MonoBehaviour
 {
-    public GameObject playerRef;
-
+    private GameObject playerRef;
     private NavMeshAgent navAgent;
+    private Animator animator;
+    private Player player;
+
+    [Header("Enemy Variables"), Space]
+    public float attackDistance;
+    public float minimumLookAroundDistance;
+    public float lookAroundTime;
+    public Vector3 lastPosition;
+    private float lookAroundTimer;
+    private bool canStartTimer;
 
     [Header("Sight"), Space]
 
@@ -21,13 +30,33 @@ public class MonsterAI : MonoBehaviour
     void Awake()
     {
         //Get NavMeshAgent component for navigation
+        playerRef = GameManager.Get().playerRef;
         navAgent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
+        player = playerRef.GetComponent<Player>();
     }
 
     void Start()
     {
         //Start the visibility check coroutine
         StartCoroutine(CheckPlayerVisibility());
+    }
+
+    private void Update()
+    {
+        if(canStartTimer)
+        {
+            lookAroundTimer += Time.deltaTime;
+
+            if (lookAroundTimer >= lookAroundTime)
+            {
+                animator.SetTrigger("Disappear");
+                lookAroundTimer = 0;
+                canStartTimer = false;
+                //Test, maybe execute some kind of vanish animation before disabling the gameobject
+                gameObject.SetActive(false);
+            }
+        }
     }
 
     //Check whether player has been seen
@@ -43,8 +72,9 @@ public class MonsterAI : MonoBehaviour
             float PlayerAngle = Vector3.Angle(Direction, transform.forward);
 
             //Check if player is within viewing distance and within angle of view
-            if (PlayerDistance < sightRadius && PlayerAngle < halfViewAngle)
+            if (PlayerDistance < sightRadius && PlayerAngle < halfViewAngle && !player.isHiding)
             {
+                animator.SetBool("LostSight", false);
 
                 //Do a line trace to see if there is an object between the enemy and the player
                 RaycastHit RayHit;
@@ -53,6 +83,7 @@ public class MonsterAI : MonoBehaviour
                     if (RayHit.collider.tag == "Player")
                     {
                         navAgent.SetDestination(RayHit.collider.transform.position);
+                        lastPosition = RayHit.collider.transform.position;
                     }
 
                     Debug.DrawLine(transform.position, RayHit.point, Color.red, 0.5f);
@@ -61,10 +92,32 @@ public class MonsterAI : MonoBehaviour
                 {
                     Debug.DrawLine(transform.position, RayHit.point, Color.green, 0.5f);
                 }
+
+                //If its in attack distance, kill the player
+                if(PlayerDistance <= attackDistance)
+                {
+                    animator.SetTrigger("Attack");
+                    Debug.Log("Player Died");
+                }
+            }
+            else
+            {
+                //Go to last seen position
+                animator.SetBool("LostSight", true);
+                navAgent.SetDestination(lastPosition);
+                if(Vector3.Distance(transform.position, lastPosition) <= minimumLookAroundDistance)
+                {
+                    canStartTimer = true;
+                }
             }
         }
         
     }
 
-    
+    private void OnEnable()
+    {
+        StartCoroutine(CheckPlayerVisibility());
+        lastPosition = player.transform.position;
+        Debug.Log("Appeared Again");
+    }
 }
