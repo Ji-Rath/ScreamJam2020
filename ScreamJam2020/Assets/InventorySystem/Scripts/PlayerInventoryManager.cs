@@ -81,6 +81,7 @@ public class PlayerInventoryManager : MonoBehaviour
 
                     //Add InventoryPrefab component for spin effect
                     newInventoryPrefab.AddComponent<InventoryPrefab>();
+                    newInventoryPrefab.GetComponent<Rigidbody>().isKinematic = true;
 
                     itemPrefab = newInventoryPrefab;
                 }
@@ -176,6 +177,7 @@ public class PlayerInventoryManager : MonoBehaviour
     {
         for (int i = 0; i < playerInventory.inventory.Count; i++)
         {
+            //When the item is found, remove the set amount
             if(playerInventory.inventory[i].item == item)
             {
                 ItemSlot itemSlot = playerInventory.inventory[i];
