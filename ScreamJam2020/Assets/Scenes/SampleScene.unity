@@ -127,7 +127,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh57940
+  m_Name: pb_Mesh14476
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -7205,25 +7205,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2122735555}
     m_Modifications:
-    - target: {fileID: 6181635541808351300, guid: 2dbb4ae9becb97849b526969bbef046b,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
+    - target: {fileID: 583278692, guid: 2dbb4ae9becb97849b526969bbef046b, type: 3}
+      propertyPath: dropRange
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 583278692, guid: 2dbb4ae9becb97849b526969bbef046b, type: 3}
+      propertyPath: throwForce
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6181635542439563922, guid: 2dbb4ae9becb97849b526969bbef046b,
         type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 6181635542439563922, guid: 2dbb4ae9becb97849b526969bbef046b,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6181635542439563928, guid: 2dbb4ae9becb97849b526969bbef046b,
-        type: 3}
-      propertyPath: layer.m_Bits
-      value: 823
       objectReference: {fileID: 0}
     - target: {fileID: 6181635542439563930, guid: 2dbb4ae9becb97849b526969bbef046b,
         type: 3}
@@ -7279,11 +7272,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6181635542651078422, guid: 2dbb4ae9becb97849b526969bbef046b,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2dbb4ae9becb97849b526969bbef046b, type: 3}
