@@ -6,20 +6,26 @@ using UnityStandardAssets.CrossPlatformInput;
 
 public class ItemSway : MonoBehaviour
 {
-    [HideInInspector]
+    //[HideInInspector]
     public Transform targetLocation;
-    [HideInInspector]
+    //[HideInInspector]
     public GameObject TargetItem;
     public float smoothTime = 3f;
     public float maxSway = 0.2f;
     public float swaySensitivity = 0.1f;
     
     private Vector3 velocity = Vector3.zero;
-    
+    private FirstPersonController fpsController;
+
+    private void Start()
+    {
+        fpsController = GameManager.Get().playerRef.GetComponent<FirstPersonController>();
+    }
+
     void LateUpdate()
     {
         //Item Sway
-        if (TargetItem != null && targetLocation != null && gameObject.GetComponent<FirstPersonController>().enabled)
+        if (TargetItem != null && targetLocation != null && fpsController.enabled)
         {
             //Get values of mouse input
             float moveX = CrossPlatformInputManager.GetAxis("Mouse X") * swaySensitivity;

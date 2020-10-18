@@ -2,22 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Player : MonoBehaviour
 {
+    
     public bool isHiding;
     public GameObject currentHidingPlace;
+    
 
     // Start is called before the first frame update
     void Start()
     {
         Door.OnTriggerDisabled += DeactivateHiding;
+        
     }
 
-    /* // Update is called once per frame
+     // Update is called once per frame
      void Update()
      {
-
-     }*/
+        
+     }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -35,6 +39,8 @@ public class Player : MonoBehaviour
             isHiding = false;
         }
     }
+
+    
 
     private void DeactivateHiding(GameObject trigger)
     {
