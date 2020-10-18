@@ -10,6 +10,7 @@ public class PlayerInteraction : MonoBehaviour
     public float interactRange = 5f;
     public float throwForce = 10f;
     public LayerMask layerMask;
+    [HideInInspector]
     public GameObject itemInView;
 
     public Transform DesiredItemLocation;
@@ -86,6 +87,8 @@ public class PlayerInteraction : MonoBehaviour
         //Make sure it follows the player properly
         GetComponent<ItemSway>().TargetItem = currentEquippedItem;
         GetComponent<ItemSway>().targetLocation = DesiredItemLocation;
+
+        EventSystem.instance.TriggerNearbyEvent();
     }
 
     //Unequip the currently equipped item
