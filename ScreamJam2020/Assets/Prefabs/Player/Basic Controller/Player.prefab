@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6181635541808351303}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Items
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 583278684}
   - component: {fileID: 583278692}
   - component: {fileID: 583278693}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -222,7 +222,7 @@ MonoBehaviour:
   crouchMovSpeed: 2.02
   layer:
     serializedVersion: 2
-    m_Bits: 1847
+    m_Bits: 823
   originalSpeed: 0
   originalRunSpeed: 0
 --- !u!54 &6181635542439563929
@@ -350,6 +350,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isHiding: 0
+  currentHidingPlace: {fileID: 0}
 --- !u!81 &583278684
 AudioListener:
   m_ObjectHideFlags: 0
@@ -404,7 +405,7 @@ GameObject:
   - component: {fileID: 6181635542651078431}
   - component: {fileID: 6181635542651078417}
   - component: {fileID: 6181635542651078428}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: FirstPersonCharacter
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
