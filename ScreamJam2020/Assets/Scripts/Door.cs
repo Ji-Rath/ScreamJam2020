@@ -14,6 +14,7 @@ public class Door : InteractableBase
     [Header("Hiding Place Config"), Space]
     public bool isHidingPlace;
     public GameObject trigger;
+    public GameObject enemyStandPoint;
     private Animator animator;
     // Start is called before the first frame update
     void Start()

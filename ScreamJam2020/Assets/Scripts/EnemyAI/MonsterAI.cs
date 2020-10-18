@@ -117,7 +117,15 @@ public class MonsterAI : MonoBehaviour
     private void OnEnable()
     {
         StartCoroutine(CheckPlayerVisibility());
-        lastPosition = player.transform.position;
+        if (player.isHiding)
+        {
+            lastPosition = player.currentHidingPlace.transform.GetComponentInParent<Door>().enemyStandPoint.transform.position;
+        }
+        else
+        {
+            lastPosition = player.transform.position;
+        }
+        
         Debug.Log("Appeared Again");
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public bool isHiding;
-    private GameObject currentHidingPlace;
+    public GameObject currentHidingPlace;
 
     // Start is called before the first frame update
     void Start()

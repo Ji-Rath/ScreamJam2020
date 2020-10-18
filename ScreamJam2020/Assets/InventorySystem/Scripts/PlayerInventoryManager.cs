@@ -202,4 +202,10 @@ public class PlayerInventoryManager : MonoBehaviour
 
         playerInventory.inventory[slotIndex] = itemSlot;
     }
+
+    public void OnDestroy()
+    {
+        //Clean Scriptable Object
+        playerInventory.inventory.Clear();
+    }
 }
