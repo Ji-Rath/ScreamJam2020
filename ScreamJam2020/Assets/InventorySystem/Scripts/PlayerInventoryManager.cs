@@ -3,27 +3,23 @@ using System.Collections.Generic;
 using UnityStandardAssets.CrossPlatformInput;
 using UnityEngine;
 using UnityStandardAssets.Characters.FirstPerson;
-using TMPro;
-using System.Linq;
+
+using System;
 
 public class PlayerInventoryManager : MonoBehaviour
 {
     public static PlayerInventoryManager instance;
 
     public InventorySystem playerInventory;
+
+    [HideInInspector]
     public bool inventoryVisible = false;
 
-    //Get UI references
-    public TextMeshProUGUI textName;
-    public TextMeshProUGUI textDescription;
-    public TextMeshProUGUI textAmount;
-    public Transform itemPrefabPosition;
-    private GameObject itemPrefab;
-
     //Get player reference to manage cursor locking
-    private GameObject playerReference;
-    private GameObject inventoryReference;
     private FirstPersonController playerController;
+
+    //Event called to update the inventory UI
+    public static event Action UpdateInventoryEvent;
 
     void Awake()
     {
@@ -33,12 +29,7 @@ public class PlayerInventoryManager : MonoBehaviour
     void Start()
     {
         //Get child gameObject to manage visibility of the inventory system
-        playerReference = GameManager.Get().playerRef;
-        inventoryReference = transform.GetChild(0).gameObject;
-        playerController = playerReference.GetComponent<FirstPersonController>();
-        textName.text = "";
-        textDescription.text = "";
-        textAmount.text = "";
+        playerController = GetComponent<FirstPersonController>();
     }
 
     void Update()
@@ -47,9 +38,9 @@ public class PlayerInventoryManager : MonoBehaviour
         if (CrossPlatformInputManager.GetButtonDown("Inventory"))
         {
             inventoryVisible = !inventoryVisible;
-            inventoryReference.SetActive(inventoryVisible);
-            playerController.m_MouseLook.SetCursorLock(!inventoryVisible);
             playerInventory.currentSlot = 0;
+
+            playerController.m_MouseLook.SetCursorLock(!inventoryVisible);
             playerController.enabled = !inventoryVisible;
 
             UpdateInventory();
@@ -59,57 +50,11 @@ public class PlayerInventoryManager : MonoBehaviour
     //Update inventory information with the currently selected item
     void UpdateInventory()
     {
-        if(inventoryVisible)
-        {
-            //You can either disable the controller or pause the game
-            playerController.enabled = false;
-
-            if (playerInventory.currentSlot < playerInventory.inventory.Count)
-            {
-                ItemSlot currentItem = playerInventory.inventory[playerInventory.currentSlot];
-
-                if (currentItem.itemAmount != 0)
-                {
-                    //Update text
-                    textName.text = currentItem.item.name;
-                    textDescription.text = currentItem.item.description;
-                    textAmount.text = currentItem.itemAmount + " / " + currentItem.item.maxStack;
-
-                    //Create the selected inventory prefab and delete the old one
-                    GameObject newInventoryPrefab = Instantiate(currentItem.item.itemModel, itemPrefabPosition);
-                    Destroy(itemPrefab);
-
-                    //Add InventoryPrefab component for spin effect
-                    newInventoryPrefab.AddComponent<InventoryPrefab>();
-
-                    itemPrefab = newInventoryPrefab;
-                }
-                else
-                {
-                    textName.text = "";
-                    textDescription.text = "";
-                    textAmount.text = "";
-                    Destroy(itemPrefab);
-                }
-            }
-        }
-        else
-        {
-            //You can either enable the controller or unpause the game
-            playerController.enabled = true;
-            if(itemPrefab)
-            {
-                textName.text = "";
-                textDescription.text = "";
-                textAmount.text = "";
-                Destroy(itemPrefab);
-            }
-            
-        }
+        UpdateInventoryEvent?.Invoke();
     }
 
     //Called when the player wants to view the next item in their inventory
-    public void NextButton()
+    public void ViewNextItem()
     {
         if(playerInventory.currentSlot < playerInventory.inventory.Count - 1)
         {
@@ -123,7 +68,7 @@ public class PlayerInventoryManager : MonoBehaviour
     }
 
     //Called when the player wants to view the previous item in their inventory
-    public void PreviousButton()
+    public void ViewPreviousItem()
     {
         if(playerInventory.currentSlot != 0)
         {
@@ -136,15 +81,16 @@ public class PlayerInventoryManager : MonoBehaviour
     }
 
     //Button for equipping the item
-    public void EquipButton()
+    public void EquipSelectedItem()
     {
         if(playerInventory.inventory.Count > 0)
         {
-            playerReference.GetComponent<PlayerInteraction>().EquipItem(playerInventory.inventory[playerInventory.currentSlot].item.itemModel);
+            GetComponent<PlayerInteraction>().EquipItem(playerInventory.inventory[playerInventory.currentSlot].item.itemModel);
         }
         
     }
 
+    //Add specified item to the players inventory if possible
     public bool AddToInventory(ItemBase item, int amount = 1)
     {
         for (int i = 0; i < playerInventory.inventory.Count; i++)
@@ -176,6 +122,7 @@ public class PlayerInventoryManager : MonoBehaviour
     {
         for (int i = 0; i < playerInventory.inventory.Count; i++)
         {
+            //When the item is found, remove the set amount
             if(playerInventory.inventory[i].item == item)
             {
                 ItemSlot itemSlot = playerInventory.inventory[i];

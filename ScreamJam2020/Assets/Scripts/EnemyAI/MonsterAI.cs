@@ -128,4 +128,10 @@ public class MonsterAI : MonoBehaviour
         
         Debug.Log("Appeared Again");
     }
+
+    //Stimulates the monster to appear
+    public void CreateStimulus()
+    {
+        gameObject.SetActive(true);
+    }
 }

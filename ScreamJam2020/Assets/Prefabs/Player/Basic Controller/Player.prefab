@@ -48,6 +48,8 @@ GameObject:
   - component: {fileID: 583278684}
   - component: {fileID: 583278692}
   - component: {fileID: 583278693}
+  - component: {fileID: 8924290327163290303}
+  - component: {fileID: 2801203403735484225}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -373,11 +375,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactRange: 2
+  throwForce: 5
   layerMask:
     serializedVersion: 2
-    m_Bits: 768
+    m_Bits: 4864
   itemInView: {fileID: 0}
   DesiredItemLocation: {fileID: 6181635541808351303}
+  enableDebug: 0
 --- !u!114 &583278693
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -395,6 +399,33 @@ MonoBehaviour:
   smoothTime: 3
   maxSway: 0.2
   swaySensitivity: 0.1
+--- !u!114 &8924290327163290303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6181635542439563922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3e2bd056990b547b82defb4681dbbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerInventory: {fileID: 11400000, guid: 326e3abcfecaf53499cac571bf070c43, type: 2}
+  inventoryVisible: 0
+--- !u!114 &2801203403735484225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6181635542439563922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eda3d64092983f24ebf9fd6125fc3ca3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nearbyEventRadius: 10
 --- !u!1 &6181635542651078422
 GameObject:
   m_ObjectHideFlags: 0
