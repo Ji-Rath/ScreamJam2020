@@ -16651,6 +16651,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ViewPreviousItem
       objectReference: {fileID: 0}
+    - target: {fileID: 4330240243150058806, guid: 2a86260963cf2af49a81a99a11da449d,
+        type: 3}
+      propertyPath: inventoryManager
+      value: 
+      objectReference: {fileID: 583278685}
     - target: {fileID: 6776872007909079733, guid: 2a86260963cf2af49a81a99a11da449d,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
