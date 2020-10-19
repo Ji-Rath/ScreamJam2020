@@ -8,9 +8,7 @@ using System;
 
 public class InventoryManager : MonoBehaviour
 {
-    public static InventoryManager instance;
-
-    public InventorySystem playerInventory;
+    public InventorySystem currentInventory;
 
     [HideInInspector]
     public static bool inventoryVisible = false;
@@ -20,11 +18,6 @@ public class InventoryManager : MonoBehaviour
 
     //Event called to update the inventory UI
     public event Action UpdateInventoryEvent;
-
-    void Awake()
-    {
-        instance = this;
-    }
 
     void Start()
     {
@@ -38,7 +31,7 @@ public class InventoryManager : MonoBehaviour
         if (CrossPlatformInputManager.GetButtonDown("Inventory"))
         {
             inventoryVisible = !inventoryVisible;
-            playerInventory.currentSlot = 0;
+            currentInventory.currentSlot = 0;
 
             playerController.m_MouseLook.SetCursorLock(!inventoryVisible);
             playerController.enabled = !inventoryVisible;
@@ -56,12 +49,12 @@ public class InventoryManager : MonoBehaviour
     //Called when the player wants to view the next item in their inventory
     public void ViewNextItem()
     {
-        if(playerInventory.currentSlot < playerInventory.inventory.Count - 1)
+        if(currentInventory.currentSlot < currentInventory.inventory.Count - 1)
         {
-            if (playerInventory.inventory[playerInventory.currentSlot + 1].item != null)
-                playerInventory.currentSlot++;
+            if (currentInventory.inventory[currentInventory.currentSlot + 1].item != null)
+                currentInventory.currentSlot++;
             else
-                playerInventory.currentSlot = 0;
+                currentInventory.currentSlot = 0;
 
             UpdateInventory();
         }
@@ -70,12 +63,12 @@ public class InventoryManager : MonoBehaviour
     //Called when the player wants to view the previous item in their inventory
     public void ViewPreviousItem()
     {
-        if(playerInventory.currentSlot != 0)
+        if(currentInventory.currentSlot != 0)
         {
-            if (playerInventory.inventory[playerInventory.currentSlot - 1].item != null)
-                playerInventory.currentSlot--;
+            if (currentInventory.inventory[currentInventory.currentSlot - 1].item != null)
+                currentInventory.currentSlot--;
             else
-                playerInventory.currentSlot = playerInventory.inventory.Count - 1;
+                currentInventory.currentSlot = currentInventory.inventory.Count - 1;
             UpdateInventory();
         }
     }
@@ -83,9 +76,9 @@ public class InventoryManager : MonoBehaviour
     //Button for equipping the item
     public void EquipSelectedItem()
     {
-        if(playerInventory.inventory.Count > 0)
+        if(currentInventory.inventory.Count > 0)
         {
-            GetComponent<EquipSystem>().EquipItem(playerInventory.inventory[playerInventory.currentSlot].item.itemModel);
+            GetComponent<EquipSystem>().EquipItem(currentInventory.inventory[currentInventory.currentSlot].item.itemModel);
         }
         
     }
@@ -93,9 +86,9 @@ public class InventoryManager : MonoBehaviour
     //Add specified item to the players inventory if possible
     public bool AddToInventory(ItemBase item, int amount = 1)
     {
-        for (int i = 0; i < playerInventory.inventory.Count; i++)
+        for (int i = 0; i < currentInventory.inventory.Count; i++)
         {
-            ItemSlot itemSlot = playerInventory.inventory[i];
+            ItemSlot itemSlot = currentInventory.inventory[i];
             ItemBase itemTest = itemSlot.item;
 
             //Test whether the player already has the item in their inventory and if there is enough room
@@ -107,9 +100,9 @@ public class InventoryManager : MonoBehaviour
         }
 
         //If there is an empty slot available, use that instead
-        if (playerInventory.inventory.Count < playerInventory.maxSlots)
+        if (currentInventory.inventory.Count < currentInventory.maxSlots)
         {
-            playerInventory.inventory.Add(new ItemSlot(item, amount));
+            currentInventory.inventory.Add(new ItemSlot(item, amount));
             return true;
         }
 
@@ -120,18 +113,18 @@ public class InventoryManager : MonoBehaviour
     //Remove specified item/amount from inventory
     public bool RemoveFromInventory(ItemBase item, int amount)
     {
-        for (int i = 0; i < playerInventory.inventory.Count; i++)
+        for (int i = 0; i < currentInventory.inventory.Count; i++)
         {
             //When the item is found, remove the set amount
-            if(playerInventory.inventory[i].item == item)
+            if(currentInventory.inventory[i].item == item)
             {
-                ItemSlot itemSlot = playerInventory.inventory[i];
+                ItemSlot itemSlot = currentInventory.inventory[i];
                 itemSlot.itemAmount -= amount;
-                playerInventory.inventory[i] = itemSlot;
+                currentInventory.inventory[i] = itemSlot;
 
                 if (itemSlot.itemAmount <= 0)
                 {
-                    playerInventory.inventory.RemoveAt(i);
+                    currentInventory.inventory.RemoveAt(i);
                 }
 
                 return true;
@@ -144,15 +137,15 @@ public class InventoryManager : MonoBehaviour
     //Add specified item to the inventory (assuming it was possible)
     void AddToStack(int slotIndex, int amount)
     {
-        ItemSlot itemSlot = playerInventory.inventory[slotIndex];
+        ItemSlot itemSlot = currentInventory.inventory[slotIndex];
         itemSlot.itemAmount += amount;
 
-        playerInventory.inventory[slotIndex] = itemSlot;
+        currentInventory.inventory[slotIndex] = itemSlot;
     }
 
     public void OnDestroy()
     {
         //Clean Scriptable Object
-        playerInventory.inventory.Clear();
+        currentInventory.inventory.Clear();
     }
 }

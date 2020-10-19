@@ -4,11 +4,11 @@ using UnityEngine;
 
 public abstract class EventTimedBase : EventBase
 {
-    public float eventTime;
+    [Range(0f,60f)]
+    public float eventTime = 0;
 
     public override void OnEventTrigger()
     {
-        base.OnEventTrigger();
         StartCoroutine(TimedEvent());
     }
 

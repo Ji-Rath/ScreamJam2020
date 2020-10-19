@@ -20,7 +20,7 @@ public class InventoryUI : MonoBehaviour
 
     void Start()
     {
-        playerInventory = InventoryManager.instance.playerInventory;
+        playerInventory = inventoryManager.currentInventory;
         inventoryManager.UpdateInventoryEvent += UpdateInventoryUI;
 
         textName.text = "";

@@ -11,13 +11,27 @@ public abstract class EventBase : MonoBehaviour
     private bool HasTriggered = false;
     public static List<EventBase> events = new List<EventBase>();
 
-    public virtual void OnEventTrigger()
+    public void EventTrigger()
     {
-        HasTriggered = true;
+        if(!MultipleTriggers)
+            HasTriggered = true;
+
+        if (CanTrigger)
+            OnEventTrigger();
+
+        if (HasTriggered)
+            Destroy(gameObject);
     }
+
+    public abstract void OnEventTrigger();
 
     void Awake()
     {
         events.Add(this);
+    }
+
+    void OnDisable()
+    {
+        events.Remove(this);
     }
 }

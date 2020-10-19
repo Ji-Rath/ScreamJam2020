@@ -12,6 +12,11 @@ public class EventSystem : MonoBehaviour
         instance = this;
     }
 
+    void Start()
+    {
+        TriggerRandomEvent();
+    }
+
     //Get a random nearby event and trigger it
     public void TriggerNearbyEvent()
     {
@@ -26,7 +31,7 @@ public class EventSystem : MonoBehaviour
     {
         List<EventBase> events = EventBase.events;
         EventBase eventFound = events[Random.Range(0, events.Count - 1)];
-        eventFound.OnEventTrigger();
+        eventFound.EventTrigger();
     }
 
     //Trigger a list of events
@@ -34,7 +39,7 @@ public class EventSystem : MonoBehaviour
     {
         foreach(EventBase selectedEvent in events)
         {
-            selectedEvent.OnEventTrigger();
+            selectedEvent.EventTrigger();
         }
     }
 }

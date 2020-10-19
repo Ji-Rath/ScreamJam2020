@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 870533951944402626}
   - component: {fileID: 870533951944402624}
-  - component: {fileID: 470877902}
   m_Layer: 11
   m_Name: EventBase
   m_TagString: Untagged
@@ -45,19 +44,3 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &470877902
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 870533951944402627}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c23adf924bec74740ae036411237346b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MultipleTriggers: 1
-  CanTrigger: 1
-  lights:
-  - {fileID: 0}
