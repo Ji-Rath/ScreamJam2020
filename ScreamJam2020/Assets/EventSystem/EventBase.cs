@@ -9,9 +9,15 @@ public abstract class EventBase : MonoBehaviour
     [Tooltip("Whether the event can be triggered")]
     public bool CanTrigger = true;
     private bool HasTriggered = false;
+    public static List<EventBase> events = new List<EventBase>();
 
     public virtual void OnEventTrigger()
     {
         HasTriggered = true;
+    }
+
+    void Awake()
+    {
+        events.Add(this);
     }
 }

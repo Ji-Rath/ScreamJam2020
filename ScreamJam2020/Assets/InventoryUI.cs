@@ -6,6 +6,7 @@ using TMPro;
 public class InventoryUI : MonoBehaviour
 {
     private InventorySystem playerInventory;
+    public InventoryManager inventoryManager;
 
     //Get UI references
     public TextMeshProUGUI textName;
@@ -19,8 +20,8 @@ public class InventoryUI : MonoBehaviour
 
     void Start()
     {
-        PlayerInventoryManager.UpdateInventoryEvent += UpdateInventoryUI;
-        playerInventory = PlayerInventoryManager.instance.playerInventory;
+        playerInventory = InventoryManager.instance.playerInventory;
+        inventoryManager.UpdateInventoryEvent += UpdateInventoryUI;
 
         textName.text = "";
         textDescription.text = "";
@@ -29,7 +30,7 @@ public class InventoryUI : MonoBehaviour
 
     void UpdateInventoryUI()
     {
-        if (PlayerInventoryManager.instance.inventoryVisible)
+        if (InventoryManager.inventoryVisible)
         {
             inventoryReference.SetActive(true);
 
@@ -73,6 +74,6 @@ public class InventoryUI : MonoBehaviour
 
     void OnDestroy()
     {
-        PlayerInventoryManager.UpdateInventoryEvent -= UpdateInventoryUI;
+        inventoryManager.UpdateInventoryEvent -= UpdateInventoryUI;
     }
 }
