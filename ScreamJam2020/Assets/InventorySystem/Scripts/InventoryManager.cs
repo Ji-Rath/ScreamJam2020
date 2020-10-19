@@ -6,20 +6,20 @@ using UnityStandardAssets.Characters.FirstPerson;
 
 using System;
 
-public class PlayerInventoryManager : MonoBehaviour
+public class InventoryManager : MonoBehaviour
 {
-    public static PlayerInventoryManager instance;
+    public static InventoryManager instance;
 
     public InventorySystem playerInventory;
 
     [HideInInspector]
-    public bool inventoryVisible = false;
+    public static bool inventoryVisible = false;
 
     //Get player reference to manage cursor locking
     private FirstPersonController playerController;
 
     //Event called to update the inventory UI
-    public static event Action UpdateInventoryEvent;
+    public event Action UpdateInventoryEvent;
 
     void Awake()
     {
@@ -85,7 +85,7 @@ public class PlayerInventoryManager : MonoBehaviour
     {
         if(playerInventory.inventory.Count > 0)
         {
-            GetComponent<PlayerInteraction>().EquipItem(playerInventory.inventory[playerInventory.currentSlot].item.itemModel);
+            GetComponent<EquipSystem>().EquipItem(playerInventory.inventory[playerInventory.currentSlot].item.itemModel);
         }
         
     }

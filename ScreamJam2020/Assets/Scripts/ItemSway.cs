@@ -6,10 +6,9 @@ using UnityStandardAssets.CrossPlatformInput;
 
 public class ItemSway : MonoBehaviour
 {
-    //[HideInInspector]
     public Transform targetLocation;
-    //[HideInInspector]
     public GameObject TargetItem;
+
     public float smoothTime = 3f;
     public float maxSway = 0.2f;
     public float swaySensitivity = 0.1f;
