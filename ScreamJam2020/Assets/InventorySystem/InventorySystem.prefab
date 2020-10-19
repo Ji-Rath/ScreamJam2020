@@ -119,8 +119,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 34700601525774688}
-        m_MethodName: EquipButton
+      - m_Target: {fileID: 8924290327163290303, guid: 2dbb4ae9becb97849b526969bbef046b,
+          type: 3}
+        m_MethodName: EquipSelectedItem
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -304,7 +305,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2793561264408524298
 Transform:
   m_ObjectHideFlags: 0
@@ -562,7 +563,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2098521163120732056}
-  - component: {fileID: 34700601525774688}
+  - component: {fileID: 4330240243150058806}
   m_Layer: 0
   m_Name: InventorySystem
   m_TagString: Untagged
@@ -585,7 +586,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &34700601525774688
+--- !u!114 &4330240243150058806
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -594,16 +595,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2098521163120732071}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3e2bd056990b547b82defb4681dbbe, type: 3}
+  m_Script: {fileID: 11500000, guid: e0248bf88135f5644af3616b334486c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerInventory: {fileID: 11400000, guid: 326e3abcfecaf53499cac571bf070c43, type: 2}
-  inventoryVisible: 0
   textName: {fileID: 1213801807737197665}
   textDescription: {fileID: 6977205621604834423}
   textAmount: {fileID: 8480224235682865738}
   itemPrefabPosition: {fileID: 2098521163135883010}
-  playerReference: {fileID: 0}
+  inventoryReference: {fileID: 1331571699130322101}
 --- !u!1 &2098521163135883009
 GameObject:
   m_ObjectHideFlags: 0
@@ -1089,8 +1088,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 34700601525774688}
-        m_MethodName: NextButton
+      - m_Target: {fileID: 8924290327163290303, guid: 2dbb4ae9becb97849b526969bbef046b,
+          type: 3}
+        m_MethodName: ViewNextItem
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1467,8 +1467,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 34700601525774688}
-        m_MethodName: PreviousButton
+      - m_Target: {fileID: 8924290327163290303, guid: 2dbb4ae9becb97849b526969bbef046b,
+          type: 3}
+        m_MethodName: ViewPreviousItem
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
