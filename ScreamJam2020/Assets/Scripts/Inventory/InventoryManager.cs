@@ -8,6 +8,8 @@ using System;
 
 public class InventoryManager : MonoBehaviour
 {
+    public delegate void OnInventoryAction();
+    public static OnInventoryAction OnInventoryFullyEmptySlot;
     public InventorySystem currentInventory;
 
     [HideInInspector]
@@ -125,6 +127,10 @@ public class InventoryManager : MonoBehaviour
                 if (itemSlot.itemAmount <= 0)
                 {
                     currentInventory.inventory.RemoveAt(i);
+                    if(OnInventoryFullyEmptySlot != null)
+                    {
+                        OnInventoryFullyEmptySlot();
+                    }
                 }
 
                 return true;
