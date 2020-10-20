@@ -14,7 +14,7 @@ public class LoaderManager : MonobehaviourSingleton<LoaderManager>
     public float timeLoading;
     public float minTimeToLoad = 2;
     private bool doOnce;
-    private bool instantChange = false;
+    public bool instantChange = false;
     private AsyncOperation ao = null;
 
     public void LoadScene(string sceneName)
@@ -50,7 +50,6 @@ public class LoaderManager : MonobehaviourSingleton<LoaderManager>
             ao = SceneManager.LoadSceneAsync(scene);
             ao.allowSceneActivation = false;
         }
-        
 
         while (!ao.isDone)
         {
@@ -82,6 +81,8 @@ public class LoaderManager : MonobehaviourSingleton<LoaderManager>
                 if(acceptLoad)
                 {
                     ao.allowSceneActivation = true;
+                    Destroy(UILoadingScreen.Get().gameObject);
+                    Destroy(gameObject);
                 }
                 
             }
