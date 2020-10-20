@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class GameManager : MonobehaviourSingleton<GameManager>
 {
+    public float textTime;
+    public string text;
     public GameObject playerRef;
     public GameObject enemyRef;
     private MonsterAI enemy;
@@ -28,10 +30,12 @@ public class GameManager : MonobehaviourSingleton<GameManager>
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        //Test
+        /*if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            SpawnEnemyNearby();
-        }
+            DialogueBox.Get().SetText(text);
+            DialogueBox.Get().TriggerText(textTime);
+        }*/
     }
 
     //Stimulates the monster to appear at an available spawn point

@@ -54,5 +54,8 @@ public class EquipSystem : MonoBehaviour
         {
             OnPlayerDropItem();
         }
+
+        DialogueBox.Get().SetText("I think the enemy heard that..");
+        DialogueBox.Get().TriggerText(2);
     }
 }
