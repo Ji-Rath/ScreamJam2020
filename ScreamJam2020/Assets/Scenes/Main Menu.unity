@@ -4007,6 +4007,7 @@ GameObject:
   - component: {fileID: 1035405109}
   - component: {fileID: 1035405107}
   - component: {fileID: 1035405108}
+  - component: {fileID: 1035405110}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -4175,6 +4176,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1035405105}
   m_CullTransparentMesh: 0
+--- !u!114 &1035405110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1035405105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39dedb8753b347f4c91a9d7b04391b17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 1035405107}
+  titleText: 'Tip: '
+  tips:
+  - Throwing objects alerts the enemy
+  - You can lose sight of the enemy by hiding in closets or lockers
+  - Your inventory is limited, plan ahead what you will carry
+  - Nobody is afraid of everything, but everyone is afraid of something
 --- !u!1 &1041953836
 GameObject:
   m_ObjectHideFlags: 0
@@ -5203,6 +5223,17 @@ MonoBehaviour:
       - m_Target: {fileID: 966322756}
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1035405110}
+        m_MethodName: SetRandomTip
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
