@@ -48,6 +48,6 @@ public class EquipSystem : MonoBehaviour
         itemBody.angularVelocity = new Vector3(throwForce, throwForce, throwForce);
 
         //Cause enemy to appear
-        GameManager.Get().enemyRef.GetComponent<MonsterAI>().CreateStimulus();
+        GameManager.Get().enemyRef.GetComponent<MonsterAI>().SpawnEnemyNearby();
     }
 }

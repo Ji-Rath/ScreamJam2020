@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.Characters.FirstPerson;
@@ -10,12 +11,14 @@ public class PlayerInteraction : MonoBehaviour
     public float interactRange = 5f;
     [Tooltip("Mask for ray cast on interactable objects")]
     public LayerMask layerMask;
-    [HideInInspector]
+    
     public GameObject itemInView;
     
     private FirstPersonController fpsController;
 
     public bool enableDebug = false;
+
+    public event Action InteractHover;
 
     private void Start()
     {
@@ -25,7 +28,7 @@ public class PlayerInteraction : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!fpsController || fpsController.enabled)
+        if(fpsController.enabled)
         {
             EquipSystem equipSystem = GetComponent<EquipSystem>();
             if (CrossPlatformInputManager.GetButtonDown("Interact") && itemInView != null)
@@ -53,20 +56,19 @@ public class PlayerInteraction : MonoBehaviour
         {
             GameObject HitObject = RayHit.collider.gameObject;
             if (HitObject.GetComponent<InteractableBase>())
+            {
                 itemInView = HitObject;
-
+                InteractHover?.Invoke();
+            }
+                
             if (enableDebug)
                 Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward, Color.green);
         }
-        else if (itemInView != null)
+        else if(!object.ReferenceEquals(itemInView, null)) //Hacky way to make sure that the itemInView is not null regardless of whether it is destroyed
         {
             itemInView = null;
+            InteractHover?.Invoke();
 
-            if (enableDebug)
-                Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward, Color.white);
-        }
-        else
-        {
             if (enableDebug)
                 Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward, Color.white);
         }

@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -16,8 +15,8 @@ public class MonsterAI : MonoBehaviour
     public float minimumLookAroundDistance;
     public float lookAroundTime;
     public Vector3 lastPosition;
-    private float lookAroundTimer;
-    private bool canStartTimer;
+    public float spawnRadiusMin = 3f;
+    public float spawnRadiusMax = 6f;
 
     [Header("Sight"), Space]
 
@@ -42,21 +41,14 @@ public class MonsterAI : MonoBehaviour
         StartCoroutine(CheckPlayerVisibility());
     }
 
-    private void Update()
+    IEnumerator LookForPlayer()
     {
-        if(canStartTimer)
-        {
-            lookAroundTimer += Time.deltaTime;
+        yield return new WaitForSeconds(lookAroundTime);
 
-            if (lookAroundTimer >= lookAroundTime)
-            {
-                animator.SetTrigger("Disappear");
-                lookAroundTimer = 0;
-                canStartTimer = false;
-                //Test, maybe execute some kind of vanish animation before disabling the gameobject
-                gameObject.SetActive(false);
-            }
-        }
+        animator.SetTrigger("Disappear");
+
+        //Test, maybe execute some kind of vanish animation before disabling the gameobject
+        gameObject.SetActive(false);
     }
 
     //Check whether player has been seen
@@ -107,7 +99,7 @@ public class MonsterAI : MonoBehaviour
                 navAgent.SetDestination(lastPosition);
                 if(Vector3.Distance(transform.position, lastPosition) <= minimumLookAroundDistance)
                 {
-                    canStartTimer = true;
+                    StartCoroutine(LookForPlayer());
                 }
             }
         }
@@ -129,9 +121,24 @@ public class MonsterAI : MonoBehaviour
         Debug.Log("Appeared Again");
     }
 
-    //Stimulates the monster to appear
-    public void CreateStimulus()
+    //Stimulates the monster to appear at an available spawn point
+    public void SpawnEnemyNearby()
     {
-        gameObject.SetActive(true);
+        GameManager gameManager = GameManager.Get();
+        for (int i = 0; i < gameManager.spawnPoints.Length; i++)
+        {
+            Vector3 spawnPos = gameManager.spawnPoints[i].transform.position;
+            float distanceBetween = Vector3.Distance(gameManager.playerRef.transform.position, spawnPos);
+            Ray ray = new Ray(spawnPos, (gameManager.playerRef.transform.position - spawnPos).normalized);
+            
+
+            if (distanceBetween < spawnRadiusMax && distanceBetween > spawnRadiusMin 
+                && Physics.Raycast(ray, distanceBetween, LayerMask.GetMask("Default")))
+            {
+                gameObject.SetActive(true);
+                gameObject.transform.position = spawnPos;
+                break;
+            }
+        }
     }
 }
