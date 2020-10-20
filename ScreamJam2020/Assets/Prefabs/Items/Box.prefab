@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -2129686046296535113}
   - component: {fileID: -42599410382228946}
   m_Layer: 8
-  m_Name: Bandage 1
+  m_Name: Box
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d990537033d3bf3458fe75a8ea5df77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: a764522fae7697e4e953956de13184b9, type: 2}
+  item: {fileID: 11400000, guid: bbd62bc29d2644046b3e5e615a409d20, type: 2}
 --- !u!54 &-42599410382228946
 Rigidbody:
   m_ObjectHideFlags: 0

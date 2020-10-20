@@ -32,6 +32,7 @@ public class InventoryUI : MonoBehaviour
         textDescription.text = "";
         textAmount.text = "";
         InventoryManager.OnInventoryFullyEmptySlot += DeleteItem;
+        MonsterAI.OnMonsterKillPlayer += DisableInventoryUI;
     }
 
     void UpdateInventoryUI()
@@ -111,9 +112,15 @@ public class InventoryUI : MonoBehaviour
             Destroy(itemPrefab);
     }
 
+    private void DisableInventoryUI()
+    {
+        gameObject.SetActive(false);
+    }
+
     void OnDestroy()
     {
         inventoryManager.UpdateInventoryEvent -= UpdateInventoryUI;
         InventoryManager.OnInventoryFullyEmptySlot -= DeleteItem;
+        MonsterAI.OnMonsterKillPlayer -= DisableInventoryUI;
     }
 }
