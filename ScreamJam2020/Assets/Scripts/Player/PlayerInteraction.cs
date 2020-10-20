@@ -8,6 +8,7 @@ public class PlayerInteraction : MonoBehaviour
 {
     [Range(1f, 50f)]
     public float interactRange = 5f;
+    [Tooltip("Mask for ray cast on interactable objects")]
     public LayerMask layerMask;
     [HideInInspector]
     public GameObject itemInView;
