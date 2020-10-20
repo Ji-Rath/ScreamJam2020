@@ -405,7 +405,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: -3.2300003, y: -1.9580001, z: 0}
 --- !u!114 &244797391
 MonoBehaviour:
@@ -509,8 +509,8 @@ RectTransform:
   - {fileID: 1035405106}
   - {fileID: 473652679}
   - {fileID: 1000870843}
-  m_Father: {fileID: 1761811873}
-  m_RootOrder: 4
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -941,7 +941,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &424110747
 GameObject:
@@ -2652,7 +2652,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.00012207031, y: -0.000061035156}
+  m_AnchoredPosition: {x: 0, y: -0.00012207031}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &850394733
@@ -3625,7 +3625,7 @@ RectTransform:
   - {fileID: 897587621}
   - {fileID: 465220995}
   m_Father: {fileID: 1761811873}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3886,7 +3886,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 50.965515}
+  m_AnchoredPosition: {x: 0, y: 50.965454}
   m_SizeDelta: {x: 548.1547, y: 165.61353}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1000870844
@@ -4007,6 +4007,7 @@ GameObject:
   - component: {fileID: 1035405109}
   - component: {fileID: 1035405107}
   - component: {fileID: 1035405108}
+  - component: {fileID: 1035405110}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -4175,6 +4176,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1035405105}
   m_CullTransparentMesh: 0
+--- !u!114 &1035405110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1035405105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39dedb8753b347f4c91a9d7b04391b17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 1035405107}
+  titleText: 'Tip: '
+  tips:
+  - Throwing objects alerts the enemy
+  - You can lose sight of the enemy by hiding in closets or lockers
+  - Your inventory is limited, plan ahead what you will carry
+  - Nobody is afraid of everything, but everyone is afraid of something
 --- !u!1 &1041953836
 GameObject:
   m_ObjectHideFlags: 0
@@ -5203,6 +5223,17 @@ MonoBehaviour:
       - m_Target: {fileID: 966322756}
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1035405110}
+        m_MethodName: SetRandomTip
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -6303,7 +6334,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1761811872
 GameObject:
@@ -6336,10 +6367,9 @@ Transform:
   - {fileID: 303822314}
   - {fileID: 930488954}
   - {fileID: 1098005132}
-  - {fileID: 253082992}
   - {fileID: 966322757}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1817905502
 GameObject:
@@ -6892,6 +6922,7 @@ MonoBehaviour:
   acceptLoad: 0
   timeLoading: 0
   minTimeToLoad: 6
+  instantChange: 0
 --- !u!4 &1838103522
 Transform:
   m_ObjectHideFlags: 0
@@ -6904,7 +6935,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1919144363
 GameObject:

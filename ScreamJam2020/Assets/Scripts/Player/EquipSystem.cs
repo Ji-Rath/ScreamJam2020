@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EquipSystem : MonoBehaviour
 {
+    public delegate void OnPlayerEquipAction();
+    public static OnPlayerEquipAction OnPlayerDropItem;
 
     [HideInInspector]
     public Pickupable currentEquippedItem = null;
@@ -48,6 +50,9 @@ public class EquipSystem : MonoBehaviour
         itemBody.angularVelocity = new Vector3(throwForce, throwForce, throwForce);
 
         //Cause enemy to appear
-        GameManager.Get().enemyRef.GetComponent<MonsterAI>().SpawnEnemyNearby();
+        if(OnPlayerDropItem != null)
+        {
+            OnPlayerDropItem();
+        }
     }
 }

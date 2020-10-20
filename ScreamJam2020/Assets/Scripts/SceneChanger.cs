@@ -27,9 +27,19 @@ public class SceneChanger : MonoBehaviour
         {
             LoaderManager.Get().LoadScene(sceneToChange);
             UILoadingScreen.Get().SetVisible(true);
+
+            if (GameManager.Get())
+            {
+                Destroy(GameManager.Get().gameObject);
+            }
         }
         else
         {
+            if (GameManager.Get())
+            {
+                Destroy(GameManager.Get().gameObject);
+            }
+
             SceneManager.LoadScene(sceneToChange);
         }
         
@@ -41,10 +51,21 @@ public class SceneChanger : MonoBehaviour
         {
             LoaderManager.Get().LoadScene(newScene);
             UILoadingScreen.Get().SetVisible(true);
+
+            if(GameManager.Get().gameObject)
+            {
+                Destroy(GameManager.Get().gameObject);
+            }
         }
         else
         {
-            SceneManager.LoadScene(newScene);
+            if (GameManager.Get().gameObject)
+            {
+                Destroy(GameManager.Get().gameObject);
+            }
+
+
+            SceneManager.LoadScene(newScene);  
         }
         
     }
