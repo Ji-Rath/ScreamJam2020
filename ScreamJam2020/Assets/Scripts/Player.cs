@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    
+    public Camera playerCamera;
+    public Camera pixelCamera;
     public bool isHiding;
     public GameObject currentHidingPlace;
     
@@ -14,7 +15,12 @@ public class Player : MonoBehaviour
     void Start()
     {
         Door.OnTriggerDisabled += DeactivateHiding;
+        //pixelCamera.enabled = false;
+        //playerCamera.enabled = false;
+        //pixelCamera.enabled = true;
+        //playerCamera.enabled = true;
         
+
     }
 
      // Update is called once per frame

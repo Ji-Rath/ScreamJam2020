@@ -27,4 +27,9 @@ public class TextColorHover : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 	{
 		text.color = basicColor;
 	}
+
+    private void OnDisable()
+    {
+		text.color = basicColor;
+	}
 }
