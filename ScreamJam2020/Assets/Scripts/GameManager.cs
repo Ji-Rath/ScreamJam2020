@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class GameManager : MonobehaviourSingleton<GameManager>
 {
-    public float spawnRadiusMin;
-    public float spawnRadiusMax;
     public GameObject playerRef;
     public GameObject enemyRef;
 
@@ -25,23 +23,9 @@ public class GameManager : MonobehaviourSingleton<GameManager>
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Alpha2))
+        if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            ActivateEnemy();
-        }
-    }
-
-    public void ActivateEnemy()
-    {
-        for (int i = 0; i < spawnPoints.Length; i++)
-        {
-            if(Vector3.Distance(playerRef.transform.position, spawnPoints[i].transform.position) < spawnRadiusMax &&
-                Vector3.Distance(playerRef.transform.position, spawnPoints[i].transform.position) > spawnRadiusMin)
-            {
-                enemyRef.SetActive(true);
-                enemyRef.transform.position = spawnPoints[i].transform.position;
-                i = spawnPoints.Length;
-            }
+            enemyRef.GetComponent<MonsterAI>().SpawnEnemyNearby();
         }
     }
 }

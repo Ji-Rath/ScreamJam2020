@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.Characters.FirstPerson;
@@ -10,12 +11,14 @@ public class PlayerInteraction : MonoBehaviour
     public float interactRange = 5f;
     [Tooltip("Mask for ray cast on interactable objects")]
     public LayerMask layerMask;
-    [HideInInspector]
+    
     public GameObject itemInView;
     
     private FirstPersonController fpsController;
 
     public bool enableDebug = false;
+
+    public event Action InteractHover;
 
     private void Start()
     {
@@ -53,7 +56,16 @@ public class PlayerInteraction : MonoBehaviour
         {
             GameObject HitObject = RayHit.collider.gameObject;
             if (HitObject.GetComponent<InteractableBase>())
+            {
+                if (itemInView == null)
+                {
+                    itemInView = HitObject;
+                    InteractHover?.Invoke();
+                }
+
                 itemInView = HitObject;
+            }
+                
 
             if (enableDebug)
                 Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward, Color.green);
@@ -61,6 +73,8 @@ public class PlayerInteraction : MonoBehaviour
         else if (itemInView != null)
         {
             itemInView = null;
+
+            InteractHover?.Invoke();
 
             if (enableDebug)
                 Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward, Color.white);
