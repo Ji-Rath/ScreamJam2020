@@ -10,8 +10,11 @@ public class InteractUI : MonoBehaviour
 
     private PlayerInteraction playerInteract;
 
+    private bool isVisible = false;
+
     void Start()
     {
+        //Listen for InteractHover event
         playerInteract = GameManager.Get().playerRef.GetComponent<PlayerInteraction>();
         playerInteract.InteractHover += UI_InteractHover;
 
@@ -20,22 +23,41 @@ public class InteractUI : MonoBehaviour
 
     void UI_InteractHover()
     {
+        //Make sure player is hovering over an item
         if (playerInteract.itemInView)
         {
-            InteractableBase item = playerInteract.itemInView.GetComponent<InteractableBase>();
+            //Update interact UI text
+            InteractableBase interactable = playerInteract.itemInView.GetComponent<InteractableBase>();
+            Pickupable pickupable = playerInteract.itemInView.GetComponent<Pickupable>();
 
-            interactAnimator.SetTrigger("FadeIn");
+            if (pickupable)
+                textInteractable.text = pickupable.item.name;
+            else if (interactable)
+                textInteractable.text = interactable.name;
 
-            if (item)
-                textInteractable.text = item.name;
+            //Make text visible if it is not already
+            if (!isVisible)
+            {
+                isVisible = true;
+                interactAnimator.SetBool("isVisible", isVisible);
+            }
         }
-        else
+        else if (isVisible)
         {
-            interactAnimator.SetTrigger("FadeOut");
-            Debug.Log("FadeOut");
+            //Delay fade out to make sure text does not blink while quickly switching targets
+            isVisible = false;
+            StartCoroutine(DelayedFadeOut());
         }
+    }
 
-        
+    IEnumerator DelayedFadeOut()
+    {
+        yield return new WaitForSeconds(0.25f);
+
+        if (!playerInteract.itemInView)
+            interactAnimator.SetBool("isVisible", isVisible);
+        else
+            isVisible = true;
     }
 
     void OnDestroy()
