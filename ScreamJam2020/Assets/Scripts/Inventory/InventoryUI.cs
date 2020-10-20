@@ -23,9 +23,7 @@ public class InventoryUI : MonoBehaviour
         playerInventory = inventoryManager.currentInventory;
         inventoryManager.UpdateInventoryEvent += UpdateInventoryUI;
 
-        textName.text = "";
-        textDescription.text = "";
-        textAmount.text = "";
+        EmptyInventory();
     }
 
     void UpdateInventoryUI()
@@ -57,19 +55,29 @@ public class InventoryUI : MonoBehaviour
                 }
                 else
                 {
-                    textName.text = "";
-                    textDescription.text = "";
-                    textAmount.text = "";
-
-                    if (itemPrefab != null)
-                        Destroy(itemPrefab);
+                    EmptyInventory();
                 }
+            }
+            else
+            {
+                EmptyInventory();
             }
         }
         else
         {
             inventoryReference.SetActive(false);
         }
+    }
+
+    //Clear all item text from the inventory
+    void EmptyInventory()
+    {
+        textName.text = "";
+        textDescription.text = "";
+        textAmount.text = "";
+
+        if (itemPrefab != null)
+            Destroy(itemPrefab);
     }
 
     void OnDestroy()

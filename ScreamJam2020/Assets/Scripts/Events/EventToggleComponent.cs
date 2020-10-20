@@ -8,7 +8,7 @@ public class EventToggleComponent : EventBase
     [Tooltip("Whether to make component disabled or enabled")]
     public bool SetDisabled;
 
-    public override void OnEventTrigger()
+    public override void EventTrigger()
     {
         foreach (Behaviour component in toggleComponent)
             component.enabled = !SetDisabled;

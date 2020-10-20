@@ -12,9 +12,10 @@ public class EventSystem : MonoBehaviour
         instance = this;
     }
 
-    void Start()
+    void Update()
     {
-        TriggerRandomEvent();
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+            TriggerRandomEvent();
     }
 
     //Get a random nearby event and trigger it
@@ -22,16 +23,36 @@ public class EventSystem : MonoBehaviour
     {
         LayerMask mask = LayerMask.GetMask("Events");
         Collider[] hitEvents = Physics.OverlapSphere(transform.position, nearbyEventRadius, mask);
-        EventBase eventFound = hitEvents[Random.Range(0, hitEvents.Length - 1)].GetComponent<EventBase>();
-        eventFound.OnEventTrigger();
+        EventBase eventFound = hitEvents[Random.Range(0, hitEvents.Length)].GetComponent<EventBase>();
+        
+        //Just loop through the events if the first random one doesnt work, lol
+        if(!eventFound.OnEventTrigger())
+        {
+            for(int i=0; i<hitEvents.Length;i++)
+            {
+                eventFound = hitEvents[i].GetComponent<EventBase>();
+                if (eventFound.OnEventTrigger())
+                    break;
+            }
+        }
     }
 
     //Trigger a random event
     public static void TriggerRandomEvent()
     {
         List<EventBase> events = EventBase.events;
-        EventBase eventFound = events[Random.Range(0, events.Count - 1)];
-        eventFound.EventTrigger();
+        EventBase eventFound = events[Random.Range(0, events.Count)];
+
+        //Just loop through the events if the first random one doesnt work, lol
+        if (!eventFound.OnEventTrigger())
+        {
+            for (int i = 0; i < events.Count; i++)
+            {
+                eventFound = events[i].GetComponent<EventBase>();
+                if (eventFound.OnEventTrigger())
+                    break;
+            }
+        }
     }
 
     //Trigger a list of events
@@ -39,7 +60,7 @@ public class EventSystem : MonoBehaviour
     {
         foreach(EventBase selectedEvent in events)
         {
-            selectedEvent.EventTrigger();
+            selectedEvent.OnEventTrigger();
         }
     }
 }
