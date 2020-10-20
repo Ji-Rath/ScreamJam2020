@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2627987821623902893}
   m_Layer: 9
   m_Name: Trigger
-  m_TagString: Untagged
+  m_TagString: HidingPlace
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,6 +44,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-2204032702128735064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8169293630566889451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9dba3d73228e0804d9f4d2993dc06683, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trigger: {fileID: 8615887294509667507}
+  enemyStandPoint: {fileID: 0}
 --- !u!1001 &9136154851987573505
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -133,6 +147,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7bec48f7309cd624aad2e2b320cf5c88, type: 3}
+--- !u!1 &8169293630566889451 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1122818149803277546, guid: 7bec48f7309cd624aad2e2b320cf5c88,
+    type: 3}
+  m_PrefabInstance: {fileID: 9136154851987573505}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8169293630566889448 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1122818149803277545, guid: 7bec48f7309cd624aad2e2b320cf5c88,

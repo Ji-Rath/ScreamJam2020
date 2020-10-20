@@ -1,32 +1,23 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Animator))]
 public class Door : InteractableBase
 {
-    public delegate void OnDoorAction(GameObject trigger);
-    public static OnDoorAction OnTriggerDisabled;
-    
     public bool isLocked;
     public bool isOpen;
     public bool canInteract = true;
 
-    [Header("Hiding Place Config"), Space]
-    public bool isHidingPlace;
-    public GameObject trigger;
-    public GameObject enemyStandPoint;
     private Animator animator;
+
+    public delegate void DoorEvent(bool isOpen);
+    public event DoorEvent OnInteractDoor;
+
     // Start is called before the first frame update
     void Start()
     {
-        if (isHidingPlace)
-        {
-            if (trigger)
-            {
-                trigger.SetActive(false);
-            }
-        }
-
         animator = GetComponent<Animator>();
         if(isOpen)
         {
@@ -55,29 +46,26 @@ public class Door : InteractableBase
 
     public void InteractDoor()
     {
-        if(canInteract)
+        if (canInteract && !isLocked)
         {
-            if (!isLocked)
-            {
-                isOpen = !isOpen;
+            isOpen = !isOpen;
 
-                if (isOpen)
-                {
-                    // Open
-                    animator.SetTrigger("Open");
-                    canInteract = false;
-                   
-                }
-                else
-                {
-                    // Close
-                    animator.SetTrigger("Close");
-                    canInteract = false;
-                    
-                }
+            if (isOpen)
+            {
+                // Open
+                animator.SetTrigger("Open");
+                canInteract = false;
             }
+            else
+            {
+                // Close
+                animator.SetTrigger("Close");
+                canInteract = false;
+                    
+            }
+
+            OnInteractDoor?.Invoke(isOpen);
         }
-        
     }
 
     public void CanInteract()
@@ -88,31 +76,5 @@ public class Door : InteractableBase
     public void CannotInteract()
     {
         canInteract = false;
-    }
-
-    public void ActivateTrigger()
-    {
-        if(isHidingPlace)
-        {
-            if(trigger)
-            {
-                trigger.SetActive(true);
-            }
-        }
-    }
-
-    public void DeactivateTrigger()
-    {
-        if (isHidingPlace)
-        {
-            if (trigger)
-            {
-                trigger.SetActive(false);
-                if(OnTriggerDisabled != null)
-                {
-                    OnTriggerDisabled(trigger);
-                }
-            }
-        }
     }
 }

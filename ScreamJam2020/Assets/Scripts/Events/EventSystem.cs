@@ -23,7 +23,7 @@ public class EventSystem : MonoBehaviour
         LayerMask mask = LayerMask.GetMask("Events");
         Collider[] hitEvents = Physics.OverlapSphere(transform.position, nearbyEventRadius, mask);
         EventBase eventFound = hitEvents[Random.Range(0, hitEvents.Length - 1)].GetComponent<EventBase>();
-        eventFound.OnEventTrigger();
+        eventFound.EventTrigger();
     }
 
     //Trigger a random event

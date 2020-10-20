@@ -14,20 +14,11 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Door.OnTriggerDisabled += DeactivateHiding;
         //pixelCamera.enabled = false;
         //playerCamera.enabled = false;
         //pixelCamera.enabled = true;
         //playerCamera.enabled = true;
-        
-
     }
-
-     // Update is called once per frame
-     void Update()
-     {
-        
-     }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -47,21 +38,14 @@ public class Player : MonoBehaviour
     }
 
     
-
-    private void DeactivateHiding(GameObject trigger)
+    //Update hiding status of player
+    public void UpdateHideStatus(GameObject trigger)
     {
-        if(isHiding)
+        if(trigger == currentHidingPlace)
         {
-            if(trigger == currentHidingPlace)
-            {
-                isHiding = false;
-                currentHidingPlace = null;
-            }
+            //Update hide status and current spot depending on whether the player is actually 'hidden'
+            isHiding = trigger.activeSelf;
+            currentHidingPlace = isHiding ? null : currentHidingPlace;
         }
-    }
-
-    private void OnDestroy()
-    {
-        Door.OnTriggerDisabled -= DeactivateHiding;
     }
 }
