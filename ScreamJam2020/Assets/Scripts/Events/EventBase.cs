@@ -12,6 +12,8 @@ public abstract class EventBase : MonoBehaviour
     public bool CanTrigger = true;
     protected bool HasTriggered = false;
     public static List<EventBase> events = new List<EventBase>();
+    public AudioClip soundClip;
+    public AudioSource audioSource;
 
     //Called when an event wants to be triggered
     public virtual bool OnEventTrigger()
@@ -49,6 +51,7 @@ public abstract class EventBase : MonoBehaviour
     void Awake()
     {
         events.Add(this);
+        audioSource = GetComponent<AudioSource>();
     }
 
     //Remove event from the list of possible events
