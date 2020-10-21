@@ -7,6 +7,8 @@ public class Pickupable : InteractableBase
 {
     [Tooltip("The item that will be given to the player when interacted")]
     public ItemBase item;
+    [Range(0,100)]
+    public int enemySpawnChance;
     public AudioClip pickupSound;
     public AudioClip useSound;
 

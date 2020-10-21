@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EquipSystem : MonoBehaviour
 {
-    public delegate void OnPlayerEquipAction();
+    public delegate void OnPlayerEquipAction(int chance);
     public static OnPlayerEquipAction OnPlayerDropItem;
 
     [HideInInspector]
@@ -57,6 +57,7 @@ public class EquipSystem : MonoBehaviour
         
 
         GameObject droppedItem = Instantiate(item.itemModel, gameObject.transform.position, Quaternion.identity);
+        Pickupable pickup = droppedItem.GetComponent<Pickupable>();
 
         //Add velocity and angular velocity to thrown object
         Rigidbody itemBody = droppedItem.GetComponent<Rigidbody>();
@@ -64,12 +65,15 @@ public class EquipSystem : MonoBehaviour
         itemBody.angularVelocity = new Vector3(throwForce, throwForce, throwForce);
 
         //Cause enemy to appear
-        if(OnPlayerDropItem != null)
+        if(pickup)
         {
-            OnPlayerDropItem();
+            if (OnPlayerDropItem != null)
+            {
+                OnPlayerDropItem(pickup.enemySpawnChance);
+            }
         }
+        
 
-        DialogueBox.Get().SetText("I think the enemy heard that..");
-        DialogueBox.Get().TriggerText(2);
+        
     }
 }
