@@ -28,7 +28,6 @@ public class InventoryUI : MonoBehaviour
         playerInventory = inventoryManager.currentInventory;
         inventoryManager.UpdateInventoryEvent += UpdateInventoryUI;
 
-
         InventoryManager.OnInventoryFullyEmptySlot += DeleteItem;
         MonsterAI.OnMonsterKillPlayer += DisableInventoryUI;
         EmptyInventory();

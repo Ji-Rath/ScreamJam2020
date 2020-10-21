@@ -5,6 +5,7 @@ public class Pickupable : InteractableBase
 {
     [Tooltip("The item that will be given to the player when interacted")]
     public ItemBase item;
+    public bool destroyOnUse = true;
 
     [Header("Sound Config"), Space]
     public AudioClip pickupSound;
@@ -44,19 +45,27 @@ public class Pickupable : InteractableBase
         //If the item could be used, play sound
         if(Use())
         {
+            //Play use sound
             if (audioSource)
             {
                 audioSource.clip = useSound;
                 audioSource.Play();
             }
 
-            playerInventory.RemoveFromInventory(item, 1);
-            Destroy(gameObject);
+            //Destroy item if specified
+            if(destroyOnUse)
+            {
+                playerInventory.RemoveFromInventory(item, 1);
+                Destroy(gameObject);
+            }
+
+            //Show used message
             UpdateUseText();
             DialogueBox.Get().TriggerText(onUseMessage);
         }
     }
 
+    //Update useMessage with appropriate text related to the item, can probably be put in a static class later on
     void UpdateUseText()
     {
         GameObject itemInView = playerInventory.GetComponent<PlayerInteraction>().GetItemInView();

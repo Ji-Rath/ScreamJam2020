@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator)), RequireComponent(typeof(AudioSource))]
-public class Door : InteractableBase
+public class Door : Interactable
 {
+    [Header("Door Config"), Space]
     public bool isLocked;
     public bool isOpen;
     public bool canInteract = true;
