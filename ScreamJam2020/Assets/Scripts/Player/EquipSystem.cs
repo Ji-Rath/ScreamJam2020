@@ -44,6 +44,8 @@ public class EquipSystem : MonoBehaviour
     //Drop the selected item
     public void DropItem(ItemBase item)
     {
+        if (!item) { Debug.Log("No Item found to drop!"); return; }
+
         GetComponent<InventoryManager>().RemoveFromInventory(item, 1);
 
         if (currentEquippedItem != null)
@@ -54,7 +56,6 @@ public class EquipSystem : MonoBehaviour
             audioSource.clip = dropSound;
             audioSource.Play();
         }
-        
 
         GameObject droppedItem = Instantiate(item.itemModel, gameObject.transform.position, Quaternion.identity);
 
@@ -64,7 +65,7 @@ public class EquipSystem : MonoBehaviour
         itemBody.angularVelocity = new Vector3(throwForce, throwForce, throwForce);
 
         //Cause enemy to appear
-        if(OnPlayerDropItem != null)
+        if (OnPlayerDropItem != null)
         {
             OnPlayerDropItem();
         }
