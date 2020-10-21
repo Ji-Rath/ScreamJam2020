@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EventToggleLightFlickerTimed : EventTimedBase
 {
+    [Header("Toggle Config"), Space]
     public List<FlickeringEffect> toggleComponent = new List<FlickeringEffect>();
     [Tooltip("Whether to make component disabled or enabled for a set time")]
     public bool SetEnable;
@@ -14,14 +15,24 @@ public class EventToggleLightFlickerTimed : EventTimedBase
         //Set components to specified state
         foreach (FlickeringEffect component in toggleComponent)
             component.activateFlicker = !SetEnable;
-        
-        if(audioSource)
+
+        if (audioSource)
         {
-            if(soundClip)
+            if (soundClip)
             {
-                audioSource.clip = soundClip;
-                audioSource.Play();
+                GameObject audioObject = new GameObject();
+                audioObject.name = "Audio Object";
+                AudioSource source = audioObject.AddComponent<AudioSource>();
+                source.clip = soundClip;
+                source.Play();
+                Destroy(audioObject, soundClip.length);
             }
+        }
+
+        if (dialogueText != "")
+        {
+            DialogueBox.Get().SetText(dialogueText);
+            DialogueBox.Get().TriggerText(dialogueTime);
         }
 
         yield return new WaitForSeconds(eventTime);

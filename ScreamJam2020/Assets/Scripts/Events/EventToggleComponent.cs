@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class EventToggleComponent : EventBase
 {
+    [Header("Toggle Config"), Space]
     public List<Behaviour> toggleComponent = new List<Behaviour>();
     [Tooltip("Whether to make component disabled or enabled")]
     public bool SetDisabled;
-    public string dialogueText;
-    public float dialogueTime;
+    
 
     public override void EventTrigger()
     {

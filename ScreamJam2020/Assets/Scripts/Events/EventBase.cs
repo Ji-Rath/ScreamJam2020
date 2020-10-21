@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class EventBase : MonoBehaviour
 {
+    [Header("Main Config"), Space]
     [Tooltip("Whether the event can trigger multiple times")]
     public bool MultipleTriggers = false;
     [Tooltip("Time between being able to trigger the event")]
@@ -12,8 +13,12 @@ public abstract class EventBase : MonoBehaviour
     public bool CanTrigger = true;
     protected bool HasTriggered = false;
     public static List<EventBase> events = new List<EventBase>();
+    [Header("Dialogue Text Config"), Space]
     public AudioClip soundClip;
     public AudioSource audioSource;
+    [Header("Dialogue Text Config"), Space]
+    public string dialogueText;
+    public float dialogueTime;
 
     //Called when an event wants to be triggered
     public virtual bool OnEventTrigger()
