@@ -15,7 +15,7 @@ public class PlayerInteraction : MonoBehaviour
     [Tooltip("Mask for ray cast on interactable objects")]
     public LayerMask layerMask;
     
-    public GameObject itemInView;
+    private GameObject itemInView;
     
     private FirstPersonController fpsController;
 
@@ -75,5 +75,10 @@ public class PlayerInteraction : MonoBehaviour
             if (enableDebug)
                 Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward, Color.white);
         }
+    }
+
+    public GameObject GetItemInView()
+    {
+        return itemInView;
     }
 }

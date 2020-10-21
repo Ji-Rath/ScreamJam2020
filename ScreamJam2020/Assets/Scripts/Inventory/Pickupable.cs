@@ -8,7 +8,7 @@ public class Pickupable : InteractableBase
     [Tooltip("The item that will be given to the player when interacted")]
     public ItemBase item;
 
-    private InventoryManager playerInventory;
+    protected InventoryManager playerInventory;
 
     void Start()
     {

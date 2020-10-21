@@ -28,10 +28,15 @@ public class InventoryUI : MonoBehaviour
         playerInventory = inventoryManager.currentInventory;
         inventoryManager.UpdateInventoryEvent += UpdateInventoryUI;
 
-
+<<<<<<< HEAD
+        textName.text = "";
+        textDescription.text = "";
+        textAmount.text = "";
         InventoryManager.OnInventoryFullyEmptySlot += DeleteItem;
         MonsterAI.OnMonsterKillPlayer += DisableInventoryUI;
+=======
         EmptyInventory();
+>>>>>>> f151327784ec78a704ec2d4cbc3e8f429e12c4e2
     }
 
     void UpdateInventoryUI()
@@ -41,7 +46,7 @@ public class InventoryUI : MonoBehaviour
             inventoryReference.SetActive(true);
             CheckButton(nextButton, prevButton);
 
-            if(playerInventory.currentSlot < playerInventory.inventory.Count)
+            if (playerInventory.currentSlot < playerInventory.inventory.Count)
             {
                 ItemSlot currentItem = playerInventory.inventory[playerInventory.currentSlot];
 
@@ -78,6 +83,7 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
+<<<<<<< HEAD
     public void CheckButton(Button nextButton,Button prevButton)
     {
         if(inventoryManager.currentInventory.currentSlot >= playerInventory.inventory.Count-1)
@@ -101,6 +107,10 @@ public class InventoryUI : MonoBehaviour
     }
 
     public void DeleteItem()
+=======
+    //Clear all item text from the inventory
+    void EmptyInventory()
+>>>>>>> f151327784ec78a704ec2d4cbc3e8f429e12c4e2
     {
         textName.text = "";
         textDescription.text = "";
@@ -110,22 +120,14 @@ public class InventoryUI : MonoBehaviour
             Destroy(itemPrefab);
     }
 
+<<<<<<< HEAD
     private void DisableInventoryUI()
     {
         gameObject.SetActive(false);
     }
 
-    //Clear all item text from the inventory
-    void EmptyInventory()
-    {
-        textName.text = "";
-        textDescription.text = "";
-        textAmount.text = "";
-
-        if (itemPrefab != null)
-            Destroy(itemPrefab);
-    }
-
+=======
+>>>>>>> f151327784ec78a704ec2d4cbc3e8f429e12c4e2
     void OnDestroy()
     {
         inventoryManager.UpdateInventoryEvent -= UpdateInventoryUI;

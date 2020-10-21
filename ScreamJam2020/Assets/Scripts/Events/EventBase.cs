@@ -6,30 +6,52 @@ public abstract class EventBase : MonoBehaviour
 {
     [Tooltip("Whether the event can trigger multiple times")]
     public bool MultipleTriggers = false;
+    [Tooltip("Time between being able to trigger the event")]
+    public float eventCooldown = 5f;
     [Tooltip("Whether the event can be triggered")]
     public bool CanTrigger = true;
-    private bool HasTriggered = false;
+    protected bool HasTriggered = false;
     public static List<EventBase> events = new List<EventBase>();
 
-    public void EventTrigger()
+    //Called when an event wants to be triggered
+    public virtual bool OnEventTrigger()
     {
-        if(!MultipleTriggers)
-            HasTriggered = true;
-
         if (CanTrigger)
-            OnEventTrigger();
+        {
+            if (!MultipleTriggers)
+                HasTriggered = true;
+            else
+                StartCoroutine(EventCoolDown());
 
-        if (HasTriggered)
-            Destroy(gameObject);
+            EventTrigger();
+            CanTrigger = false;
+
+            if (HasTriggered)
+                Destroy(gameObject);
+
+            return true;
+        }
+        return false;
     }
 
-    public abstract void OnEventTrigger();
+    //Coroutine event cooldown
+    protected IEnumerator EventCoolDown()
+    {
+        yield return new WaitForSeconds(eventCooldown);
 
+        CanTrigger = true;
+    }
+
+    //Actual code for executing event
+    public abstract void EventTrigger();
+
+    //Add event to the list of possible events
     void Awake()
     {
         events.Add(this);
     }
 
+    //Remove event from the list of possible events
     void OnDisable()
     {
         events.Remove(this);

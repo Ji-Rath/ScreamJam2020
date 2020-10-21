@@ -24,11 +24,12 @@ public class InteractUI : MonoBehaviour
     void UI_InteractHover()
     {
         //Make sure player is hovering over an item
-        if (playerInteract.itemInView)
+        GameObject itemInView = playerInteract.GetItemInView();
+        if (itemInView)
         {
             //Update interact UI text
-            InteractableBase interactable = playerInteract.itemInView.GetComponent<InteractableBase>();
-            Pickupable pickupable = playerInteract.itemInView.GetComponent<Pickupable>();
+            InteractableBase interactable = itemInView.GetComponent<InteractableBase>();
+            Pickupable pickupable = itemInView.GetComponent<Pickupable>();
 
             if (pickupable)
                 textInteractable.text = pickupable.item.name;
@@ -54,7 +55,7 @@ public class InteractUI : MonoBehaviour
     {
         yield return new WaitForSeconds(0.25f);
 
-        if (!playerInteract.itemInView)
+        if (!playerInteract.GetItemInView())
             interactAnimator.SetBool("isVisible", isVisible);
         else
             isVisible = true;
