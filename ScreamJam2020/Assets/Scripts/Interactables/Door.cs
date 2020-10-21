@@ -10,6 +10,11 @@ public class Door : InteractableBase
     public bool isOpen;
     public bool canInteract = true;
 
+    [Header("Sound Config"),Space]
+    private AudioSource audioSource;
+    public AudioClip openSound;
+    public AudioClip closeSound;
+
     private Animator animator;
 
     public delegate void DoorEvent(bool isOpen);
@@ -18,6 +23,7 @@ public class Door : InteractableBase
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         if(isOpen)
         {
@@ -55,13 +61,24 @@ public class Door : InteractableBase
                 // Open
                 animator.SetTrigger("Open");
                 canInteract = false;
+                if(audioSource)
+                {
+                    audioSource.clip = openSound;
+                    audioSource.Play();
+                }
+                
             }
             else
             {
                 // Close
                 animator.SetTrigger("Close");
                 canInteract = false;
-                    
+                if (audioSource)
+                {
+                    audioSource.clip = closeSound;
+                    audioSource.Play();
+                }
+                
             }
 
             OnInteractDoor?.Invoke(isOpen);

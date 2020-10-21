@@ -10,8 +10,15 @@ public class EquipSystem : MonoBehaviour
     [HideInInspector]
     public Pickupable currentEquippedItem = null;
     public Transform itemDisplay;
+    public AudioClip dropSound;
+    private AudioSource audioSource;
 
     public float throwForce = 10f;
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     public void EquipItem(GameObject item)
     {
@@ -41,6 +48,13 @@ public class EquipSystem : MonoBehaviour
 
         if (currentEquippedItem != null)
             Destroy(currentEquippedItem.gameObject);
+
+        if(audioSource)
+        {
+            audioSource.clip = dropSound;
+            audioSource.Play();
+        }
+        
 
         GameObject droppedItem = Instantiate(item.itemModel, gameObject.transform.position, Quaternion.identity);
 

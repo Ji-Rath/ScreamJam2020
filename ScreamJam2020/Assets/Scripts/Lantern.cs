@@ -9,6 +9,9 @@ public class Lantern : MonoBehaviour
     public GameObject lanternObject;
     public GameObject lanternLight;
     private Animator lanternAnimator;
+    private AudioSource audioSource;
+    public AudioClip lanternONSound;
+    public AudioClip lanternOFFSound;
     public bool canSwitchLantern = true;
 
 
@@ -16,6 +19,7 @@ public class Lantern : MonoBehaviour
     void Start()
     {
         lanternAnimator = lanternObject.GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -49,11 +53,23 @@ public class Lantern : MonoBehaviour
             {
                 lanternAnimator.SetTrigger("On");
                 lanternLight.SetActive(true);
+                if (audioSource)
+                {
+                    audioSource.clip = lanternONSound;
+                    audioSource.Play();
+                }
+                
             }
             else
             {
                 lanternAnimator.SetTrigger("Off");
                 lanternLight.SetActive(false);
+                if (audioSource)
+                {
+                    audioSource.clip = lanternOFFSound;
+                    audioSource.Play();
+                }
+                
             }
         }
     }
