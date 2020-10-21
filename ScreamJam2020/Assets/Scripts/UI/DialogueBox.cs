@@ -78,4 +78,11 @@ public class DialogueBox : MonobehaviourSingleton<DialogueBox>
         canAppear = true;
         textTime = newTextTime;
     }
+
+    //Overloaded method that takes both a time and string
+    public void TriggerText(string newText, float newTextTime = 2f)
+    {
+        SetText(newText);
+        TriggerText(newTextTime);
+    }
 }

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Pickupable : InteractableBase
@@ -9,11 +7,16 @@ public class Pickupable : InteractableBase
     public ItemBase item;
     [Range(0,100)]
     public int enemySpawnChance;
+
+    [Header("Sound Config"), Space]
     public AudioClip pickupSound;
     public AudioClip useSound;
 
     private AudioSource audioSource;
     protected InventoryManager playerInventory;
+
+    [Tooltip("Message displayed when item is successfully used"), TextArea]
+    public string onUseMessage;
 
     void Start()
     {
@@ -31,24 +34,42 @@ public class Pickupable : InteractableBase
             {
                 audioSource.clip = pickupSound;
                 audioSource.Play();
-            }       
+            }
             Destroy(gameObject);
         }
-            
         else
             Debug.Log("Unable to add to inventory!");
     }
 
-    public virtual void OnUse()
+    public void OnUse()
     {
-        if (audioSource)
+        //If the item could be used, play sound
+        if(Use())
         {
-            audioSource.clip = useSound;
-            audioSource.Play();
+            if (audioSource)
+            {
+                audioSource.clip = useSound;
+                audioSource.Play();
+            }
+
+            playerInventory.RemoveFromInventory(item, 1);
+            Destroy(gameObject);
+            UpdateUseText();
+            DialogueBox.Get().TriggerText(onUseMessage);
         }
-        
-        playerInventory.RemoveFromInventory(item, 1);
-        Destroy(gameObject);
-        Debug.Log("Used Item");
+    }
+
+    void UpdateUseText()
+    {
+        GameObject itemInView = playerInventory.GetComponent<PlayerInteraction>().GetItemInView();
+        onUseMessage = onUseMessage.Replace("{item}", item.name);
+        if(itemInView)
+            onUseMessage = onUseMessage.Replace("{itemInView}", itemInView.name);
+    }
+
+    //Functionality of using item, returns whether the item could be used. Should be overridden
+    public virtual bool Use()
+    {
+        return false;
     }
 }

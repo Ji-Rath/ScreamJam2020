@@ -112,6 +112,7 @@ MonoBehaviour:
   enemySpawnChance: 100
   pickupSound: {fileID: 8300000, guid: 51c204c48468b0341ae8dccf9817a7ff, type: 3}
   useSound: {fileID: 8300000, guid: 83e268a525ede6e4bb625c684d3234b5, type: 3}
+  onUseMessage: 
 --- !u!54 &-42599410382228946
 Rigidbody:
   m_ObjectHideFlags: 0

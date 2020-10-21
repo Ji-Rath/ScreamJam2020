@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(Animator)), RequireComponent(typeof(AudioSource))]
 public class Door : InteractableBase
 {
     public bool isLocked;
@@ -11,9 +11,10 @@ public class Door : InteractableBase
     public bool canInteract = true;
 
     [Header("Sound Config"),Space]
-    private AudioSource audioSource;
     public AudioClip openSound;
     public AudioClip closeSound;
+    public AudioClip lockedSound;
+    private AudioSource audioSource;
 
     private Animator animator;
 
@@ -35,16 +36,6 @@ public class Door : InteractableBase
         }
     }
 
-    // Update is called once per frame
-    /*void Update()
-    {
-        //test
-        if(Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            InteractDoor();
-        }
-    }*/
-
     public override void OnInteract()
     {
         InteractDoor();
@@ -52,36 +43,47 @@ public class Door : InteractableBase
 
     public void InteractDoor()
     {
-        if (canInteract && !isLocked)
+        if (!isLocked)
         {
-            isOpen = !isOpen;
-
-            if (isOpen)
+            if(canInteract)
             {
-                // Open
-                animator.SetTrigger("Open");
-                canInteract = false;
-                if(audioSource)
-                {
-                    audioSource.clip = openSound;
-                    audioSource.Play();
-                }
-                
-            }
-            else
-            {
-                // Close
-                animator.SetTrigger("Close");
-                canInteract = false;
-                if (audioSource)
-                {
-                    audioSource.clip = closeSound;
-                    audioSource.Play();
-                }
-                
-            }
+                isOpen = !isOpen;
 
-            OnInteractDoor?.Invoke(isOpen);
+                if (isOpen)
+                {
+                    // Open
+                    animator.SetTrigger("Open");
+                    canInteract = false;
+                    if (audioSource)
+                    {
+                        audioSource.clip = openSound;
+                        audioSource.Play();
+                    }
+
+                }
+                else
+                {
+                    // Close
+                    animator.SetTrigger("Close");
+                    canInteract = false;
+                    if (audioSource)
+                    {
+                        audioSource.clip = closeSound;
+                        audioSource.Play();
+                    }
+
+                }
+
+                OnInteractDoor?.Invoke(isOpen);
+            }
+        }
+        else
+        {
+            if (audioSource)
+            {
+                audioSource.clip = lockedSound;
+                audioSource.Play();
+            }
         }
     }
 
