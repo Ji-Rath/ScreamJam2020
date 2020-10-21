@@ -982,6 +982,8 @@ MonoBehaviour:
   CanTrigger: 1
   soundClip: {fileID: 8300000, guid: a43ce6f0312939d45be6c0d0693bb7f1, type: 3}
   audioSource: {fileID: 0}
+  dialogueText: 
+  dialogueTime: 0
   eventTime: 5
   toggleComponent:
   - {fileID: 1818834608}
@@ -2162,6 +2164,8 @@ MonoBehaviour:
   CanTrigger: 1
   soundClip: {fileID: 0}
   audioSource: {fileID: 0}
+  dialogueText: 
+  dialogueTime: 0
   explosionForce: 100
   explosionRadius: 3
   layerMask:
@@ -3685,11 +3689,11 @@ MonoBehaviour:
   CanTrigger: 1
   soundClip: {fileID: 8300000, guid: 9353a58b9b4a28b42af6214a065e47e9, type: 3}
   audioSource: {fileID: 0}
+  dialogueText: 
+  dialogueTime: 0
   toggleComponent:
   - {fileID: 420432678}
   SetDisabled: 0
-  dialogueText: 
-  dialogueTime: 0
 --- !u!82 &333253685
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5546,12 +5550,12 @@ MonoBehaviour:
   CanTrigger: 1
   soundClip: {fileID: 8300000, guid: a54744fde01d6644ba433826f053e381, type: 3}
   audioSource: {fileID: 0}
+  dialogueText: I need to restore the power
+  dialogueTime: 2
   toggleComponent:
   - {fileID: 1191152081}
   - {fileID: 1184375380}
   SetDisabled: 1
-  dialogueText: I need to restore the power
-  dialogueTime: 2
 --- !u!82 &470877903
 AudioSource:
   m_ObjectHideFlags: 0
@@ -7618,6 +7622,8 @@ MonoBehaviour:
   CanTrigger: 1
   soundClip: {fileID: 8300000, guid: 238ac970b5d8c2349a6cbd4e3a402c63, type: 3}
   audioSource: {fileID: 0}
+  dialogueText: 
+  dialogueTime: 0
   eventTime: 3
   toggleComponent:
   - {fileID: 1356960045}
@@ -7718,6 +7724,74 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &880638670
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 880638671}
+  - component: {fileID: 880638672}
+  - component: {fileID: 880638673}
+  m_Layer: 0
+  m_Name: Cutscene Test 1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &880638671
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 880638670}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.7, y: -3.7, z: -9.75}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &880638672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 880638670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f001dd1261b16c4db12d7afe7af3365, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activateWithTrigger: 1
+  triggerOnce: 1
+  startDialogue: 0
+  dialogueIndex: 0
+  allText:
+  - elementTitle: First message
+    text: This is the first message
+    textTime: 3
+  - elementTitle: Second Message
+    text: This is the second message. its a bit longer
+    textTime: 5
+--- !u!65 &880638673
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 880638670}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 2.6310427, z: 3.63768}
+  m_Center: {x: 0, y: -0.20493805, z: 0.0853405}
 --- !u!43 &890677318
 Mesh:
   m_ObjectHideFlags: 0
