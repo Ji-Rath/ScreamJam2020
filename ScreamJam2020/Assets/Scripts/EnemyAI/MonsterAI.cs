@@ -5,6 +5,10 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class MonsterAI : MonoBehaviour
 {
+    public delegate void OnMonsterAction();
+    public static OnMonsterAction OnMonsterKillPlayer;
+
+
     private GameObject playerRef;
     private NavMeshAgent navAgent;
     private Animator animator;
@@ -89,6 +93,11 @@ public class MonsterAI : MonoBehaviour
                 if(PlayerDistance <= attackDistance)
                 {
                     animator.SetTrigger("Attack");
+                    if(OnMonsterKillPlayer != null)
+                    {
+                        OnMonsterKillPlayer();
+                    }
+                    navAgent.isStopped = true;
                     Debug.Log("Player Died");
                 }
             }
@@ -111,7 +120,7 @@ public class MonsterAI : MonoBehaviour
         StartCoroutine(CheckPlayerVisibility());
         if (player.isHiding)
         {
-            lastPosition = player.currentHidingPlace.transform.GetComponentInParent<Door>().enemyStandPoint.transform.position;
+            lastPosition = player.currentHidingPlace.transform.GetComponentInParent<HidingSpot>().enemyStandPoint.transform.position;
         }
         else
         {
@@ -121,24 +130,6 @@ public class MonsterAI : MonoBehaviour
         Debug.Log("Appeared Again");
     }
 
-    //Stimulates the monster to appear at an available spawn point
-    public void SpawnEnemyNearby()
-    {
-        GameManager gameManager = GameManager.Get();
-        for (int i = 0; i < gameManager.spawnPoints.Length; i++)
-        {
-            Vector3 spawnPos = gameManager.spawnPoints[i].transform.position;
-            float distanceBetween = Vector3.Distance(gameManager.playerRef.transform.position, spawnPos);
-            Ray ray = new Ray(spawnPos, (gameManager.playerRef.transform.position - spawnPos).normalized);
-            
-
-            if (distanceBetween < spawnRadiusMax && distanceBetween > spawnRadiusMin 
-                && Physics.Raycast(ray, distanceBetween, LayerMask.GetMask("Default")))
-            {
-                gameObject.SetActive(true);
-                gameObject.transform.position = spawnPos;
-                break;
-            }
-        }
-    }
+    
+    
 }

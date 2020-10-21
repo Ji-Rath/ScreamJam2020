@@ -10,11 +10,13 @@ public class EventToggleComponentTimed : EventTimedBase
 
     public override IEnumerator TimedEvent()
     {
+        //Set components to specified state
         foreach(Behaviour component in toggleComponent)
             component.enabled = !SetDisabled;
 
         yield return new WaitForSeconds(eventTime);
 
+        //Set components back to default state
         foreach (Behaviour component in toggleComponent)
             component.enabled = SetDisabled;
     }

@@ -8,6 +8,8 @@ using System;
 
 public class InventoryManager : MonoBehaviour
 {
+    public delegate void OnInventoryAction();
+    public static OnInventoryAction OnInventoryFullyEmptySlot;
     public InventorySystem currentInventory;
 
     [HideInInspector]
@@ -23,6 +25,7 @@ public class InventoryManager : MonoBehaviour
     {
         //Get child gameObject to manage visibility of the inventory system
         playerController = GetComponent<FirstPersonController>();
+        MonsterAI.OnMonsterKillPlayer += DisableInventory;
     }
 
     void Update()
@@ -38,6 +41,11 @@ public class InventoryManager : MonoBehaviour
 
             UpdateInventory();
         }
+    }
+
+    private void DisableInventory()
+    {
+        enabled = false;
     }
 
     //Update inventory information with the currently selected item
@@ -125,6 +133,10 @@ public class InventoryManager : MonoBehaviour
                 if (itemSlot.itemAmount <= 0)
                 {
                     currentInventory.inventory.RemoveAt(i);
+                    if(OnInventoryFullyEmptySlot != null)
+                    {
+                        OnInventoryFullyEmptySlot();
+                    }
                 }
 
                 return true;
@@ -147,5 +159,6 @@ public class InventoryManager : MonoBehaviour
     {
         //Clean Scriptable Object
         currentInventory.inventory.Clear();
+        MonsterAI.OnMonsterKillPlayer -= DisableInventory;
     }
 }
