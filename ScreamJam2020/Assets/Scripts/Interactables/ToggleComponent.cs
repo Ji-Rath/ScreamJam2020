@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ToggleComponent : InteractableBase
+public class ToggleComponent : Interactable
 {
     public List<Behaviour> toggleComponent = new List<Behaviour>();
 

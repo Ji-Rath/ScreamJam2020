@@ -23,6 +23,11 @@ public class PlayerInteraction : MonoBehaviour
 
     public event Action InteractHover;
 
+    public delegate void UseItemHandler(Pickupable pickupable);
+    public event UseItemHandler UseItem;
+
+    public event Action CancelAction;
+
     private void Start()
     {
         fpsController = GetComponent<FirstPersonController>();
@@ -42,12 +47,23 @@ public class PlayerInteraction : MonoBehaviour
             else if (equipSystem && equipSystem.currentEquippedItem)
             {
                 Pickupable pickupable = equipSystem.currentEquippedItem.GetComponent<Pickupable>();
-                //Using item that the player has equipped
-                if (CrossPlatformInputManager.GetButtonDown("Fire1"))
-                    pickupable.OnUse();
-                else if (CrossPlatformInputManager.GetButtonDown("DropItem"))
-                    equipSystem.DropItem(pickupable.item);
-            }
+                if (pickupable)
+                {
+                    //Using item that the player has equipped
+                    if (CrossPlatformInputManager.GetButtonDown("Fire1"))
+                    {
+                        pickupable.OnUse();
+                        UseItem?.Invoke(pickupable);
+                    }
+                    else if (CrossPlatformInputManager.GetButtonDown("DropItem"))
+                        equipSystem.DropItem(pickupable.item);
+                }
+            } 
+        }
+
+        if (CrossPlatformInputManager.GetButtonDown("Cancel"))
+        {
+            CancelAction();
         }
     }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+[RequireComponent(typeof(Animator))]
 public class InteractUI : MonoBehaviour
 {
     public TextMeshProUGUI textInteractable;
