@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
-public class Door : InteractableBase
+public class Door : Interactable
 {
     public bool disableCollider;
     public bool openOnce;
+    [Header("Door Config"), Space]
     public bool isLocked;
     public bool isOpen;
     public bool canInteract = true;
