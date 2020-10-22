@@ -60,6 +60,7 @@ public class PlayerInteraction : MonoBehaviour
                 }
             } 
         }
+
         if (CrossPlatformInputManager.GetButtonDown("Cancel"))
         {
             CancelAction();

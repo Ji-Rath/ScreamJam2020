@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class InventoryUI : MonoBehaviour
+public class InventoryUI : UIBase
 {
     private InventorySystem playerInventory;
     public InventoryManager inventoryManager;
@@ -23,8 +23,15 @@ public class InventoryUI : MonoBehaviour
     [Tooltip("GameObject to toggle active when using Inventory UI")]
     public GameObject inventoryReference;
 
-    void Start()
+    public override bool IsEnabled()
     {
+        return InventoryManager.inventoryVisible;
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+
         playerInventory = inventoryManager.currentInventory;
         inventoryManager.UpdateInventoryEvent += UpdateInventoryUI;
 
@@ -35,46 +42,52 @@ public class InventoryUI : MonoBehaviour
 
     void UpdateInventoryUI()
     {
-        if (InventoryManager.inventoryVisible)
+        if (CanEnable())
         {
-            inventoryReference.SetActive(true);
-            CheckButton(nextButton, prevButton);
+            DisablePlayer(InventoryManager.inventoryVisible);
 
-            if(playerInventory.currentSlot < playerInventory.inventory.Count)
+            if (InventoryManager.inventoryVisible)
             {
-                ItemSlot currentItem = playerInventory.inventory[playerInventory.currentSlot];
+                inventoryReference.SetActive(true);
+                CheckButton(nextButton, prevButton);
 
-                if (currentItem.itemAmount != 0)
+                if (playerInventory.currentSlot < playerInventory.inventory.Count)
                 {
-                    //Update text
-                    textName.text = currentItem.item.name;
-                    textDescription.text = currentItem.item.description;
-                    textAmount.text = "Amount: " + currentItem.itemAmount + " / " + currentItem.item.maxStack;
+                    ItemSlot currentItem = playerInventory.inventory[playerInventory.currentSlot];
 
-                    //Create the selected inventory prefab and delete the old one
-                    GameObject newInventoryPrefab = Instantiate(currentItem.item.itemModel, itemPrefabPosition);
-                    Destroy(itemPrefab);
+                    if (currentItem.itemAmount != 0)
+                    {
+                        //Update text
+                        textName.text = currentItem.item.name;
+                        textDescription.text = currentItem.item.description;
+                        textAmount.text = "Amount: " + currentItem.itemAmount + " / " + currentItem.item.maxStack;
 
-                    //Add InventoryPrefab component for spin effect
-                    newInventoryPrefab.AddComponent<InventoryPrefab>();
-                    newInventoryPrefab.GetComponent<Rigidbody>().isKinematic = true;
+                        //Create the selected inventory prefab and delete the old one
+                        GameObject newInventoryPrefab = Instantiate(currentItem.item.itemModel, itemPrefabPosition);
+                        Destroy(itemPrefab);
 
-                    itemPrefab = newInventoryPrefab;
+                        //Add InventoryPrefab component for spin effect
+                        newInventoryPrefab.AddComponent<InventoryPrefab>();
+                        newInventoryPrefab.GetComponent<Rigidbody>().isKinematic = true;
+
+                        itemPrefab = newInventoryPrefab;
+                    }
+                    else
+                    {
+                        EmptyInventory();
+                    }
                 }
                 else
                 {
                     EmptyInventory();
                 }
             }
-            else
+            else if (inventoryReference.activeSelf)
             {
-                EmptyInventory();
+                inventoryReference.SetActive(false);
             }
         }
-        else
-        {
-            inventoryReference.SetActive(false);
-        }
+        
     }
 
     public void CheckButton(Button nextButton,Button prevButton)

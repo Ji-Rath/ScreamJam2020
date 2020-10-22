@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
 using TMPro;
 using UnityEngine;
 
-public class ReadUI : MonoBehaviour
+public class ReadUI : UIBase
 {
     public TextMeshProUGUI textRead;
     private Animator interactAnimator;
@@ -12,8 +11,16 @@ public class ReadUI : MonoBehaviour
 
     private PlayerInteraction playerInteraction;
 
-    void Start()
+    public override bool IsEnabled()
     {
+        //Make sure transition animation isnt playing while determining visibility
+        return isVisible || interactAnimator.GetCurrentAnimatorStateInfo(0).IsTag("Transition");
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+
         interactAnimator = GetComponent<Animator>();
 
         playerInteraction = GameManager.Get().playerRef.GetComponent<PlayerInteraction>();
@@ -37,6 +44,8 @@ public class ReadUI : MonoBehaviour
             //If item is not valid, return
             if (!readable) { Debug.LogError("Unable to access readable item!"); return; }
 
+            DisablePlayer(true);
+
             //Display text and make UI visible
             textRead.text = readable.content;
         
@@ -51,6 +60,7 @@ public class ReadUI : MonoBehaviour
         {
             isVisible = false;
             interactAnimator.SetBool("isVisible", isVisible);
+            DisablePlayer(false);
         }
     }
 
