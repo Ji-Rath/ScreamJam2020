@@ -20,7 +20,7 @@ public class KeyPadDoor : Door
     private GameObject player;
     private bool isKeypadMenuOpen;
     // Start is called before the first frame update
-    private void Start()
+    protected void Start()
     {
         base.Start();
 

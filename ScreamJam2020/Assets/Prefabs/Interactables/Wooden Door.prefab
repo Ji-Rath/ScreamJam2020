@@ -270,6 +270,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61d887d6aec2f9d45b9c921f3ba2afc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactMessage: Open Door
   isLocked: 0
   isOpen: 0
   canInteract: 1

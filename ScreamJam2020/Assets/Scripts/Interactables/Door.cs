@@ -3,12 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Animator)), RequireComponent(typeof(AudioSource))]
+[RequireComponent(typeof(AudioSource))]
 public class Door : InteractableBase
 {
+    public bool disableCollider;
+    public bool openOnce;
     public bool isLocked;
     public bool isOpen;
     public bool canInteract = true;
+
+    [Header("No Animation Config")]
+    public GameObject openState;
+    public GameObject closeState;
 
     [Header("Sound Config"),Space]
     public AudioClip openSound;
@@ -27,14 +33,20 @@ public class Door : InteractableBase
     {
         audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
-        if(isOpen)
+
+        if (animator)
         {
-            animator.SetBool("StartOpen", true);
+            if (isOpen)
+            {
+                animator.SetBool("StartOpen", true);
+            }
+            else
+            {
+                animator.SetBool("StartOpen", false);
+            }
         }
-        else
-        {
-            animator.SetBool("StartOpen", false);
-        }
+        
+        
     }
 
     public override void OnInteract()
@@ -53,19 +65,50 @@ public class Door : InteractableBase
                 if (isOpen)
                 {
                     // Open
-                    animator.SetTrigger("Open");
+                    if(animator)
+                    {
+                        animator.SetTrigger("Open");
+                    }
+                    else
+                    {
+                        openState.SetActive(true);
+                        closeState.SetActive(false);
+                        if (disableCollider)
+                        {
+                            GetComponent<BoxCollider>().enabled = false;
+                        }
+
+                    }
+                    
                     canInteract = false;
                     if (audioSource)
                     {
                         audioSource.clip = openSound;
                         audioSource.Play();
                     }
-
+                    if(openOnce)
+                    {
+                        enabled = false;
+                    }
                 }
                 else
                 {
                     // Close
-                    animator.SetTrigger("Close");
+                    if (animator)
+                    {
+                        animator.SetTrigger("Close");
+                    }
+                    else
+                    {
+                        openState.SetActive(false);
+                        closeState.SetActive(true);
+                        if (disableCollider)
+                        {
+                            GetComponent<BoxCollider>().enabled = true;
+                        }
+
+                    }
+                    
                     canInteract = false;
                     if (audioSource)
                     {

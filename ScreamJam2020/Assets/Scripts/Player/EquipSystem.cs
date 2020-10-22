@@ -11,6 +11,7 @@ public class EquipSystem : MonoBehaviour
     public Pickupable currentEquippedItem = null;
     public Transform itemDisplay;
     public AudioClip dropSound;
+    public Vector3 scalePreview;
     private AudioSource audioSource;
 
     public float throwForce = 10f;
@@ -28,7 +29,7 @@ public class EquipSystem : MonoBehaviour
         //Create new item
         
         currentEquippedItem = Instantiate(item, itemDisplay).GetComponent<Pickupable>();
-        currentEquippedItem.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        currentEquippedItem.transform.localScale = scalePreview;
         currentEquippedItem.GetComponent<Collider>().enabled = false;
         currentEquippedItem.GetComponent<Rigidbody>().isKinematic = true;
 

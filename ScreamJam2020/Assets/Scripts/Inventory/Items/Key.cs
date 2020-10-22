@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Key : Pickupable
 {
+    public bool instantlyOpen;
+
     public override bool Use()
     {
         GameObject itemInView = GameManager.Get().playerRef.GetComponent<PlayerInteraction>().GetItemInView();
@@ -13,7 +15,12 @@ public class Key : Pickupable
             KeyDoor keyDoor = itemInView.GetComponent<KeyDoor>();
             if (keyDoor)
             {
-                return keyDoor.UnlockKey(item);
+                bool couldUnlock = keyDoor.UnlockKey(item);
+                if(instantlyOpen)
+                {
+                    keyDoor.InteractDoor();
+                }
+                return couldUnlock;
             }
         }
         return false;

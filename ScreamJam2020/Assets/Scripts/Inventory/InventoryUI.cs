@@ -18,6 +18,7 @@ public class InventoryUI : MonoBehaviour
     public Transform itemPrefabPosition;
     public Color normalColor;
     public Color disabledColor;
+    public Vector3 scalePreview;
     private GameObject itemPrefab;
 
     [Tooltip("GameObject to toggle active when using Inventory UI")]
@@ -55,6 +56,7 @@ public class InventoryUI : MonoBehaviour
                     //Create the selected inventory prefab and delete the old one
                     GameObject newInventoryPrefab = Instantiate(currentItem.item.itemModel, itemPrefabPosition);
                     Destroy(itemPrefab);
+                    newInventoryPrefab.transform.localScale = scalePreview;
 
                     //Add InventoryPrefab component for spin effect
                     newInventoryPrefab.AddComponent<InventoryPrefab>();
