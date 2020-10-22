@@ -38,19 +38,18 @@ public class ReadUI : UIBase
             //If item is not valid, return
             if (!pickupable) { Debug.LogError("Unable to access pickupable!"); return; }
 
-            //Check if item used is readable
-            Readable readable = (Readable)pickupable.item;
+            //If item is not readable, return
+            Readable readable = pickupable.item as Readable;
+            if (readable)
+            {
+                DisablePlayer(true);
 
-            //If item is not valid, return
-            if (!readable) { Debug.LogError("Unable to access readable item!"); return; }
+                //Display text and make UI visible
+                textRead.text = readable.content;
 
-            DisablePlayer(true);
-
-            //Display text and make UI visible
-            textRead.text = readable.content;
-        
-            isVisible = true;
-            interactAnimator.SetBool("isVisible", isVisible);
+                isVisible = true;
+                interactAnimator.SetBool("isVisible", isVisible);
+            }
         }
     }
 
