@@ -14,7 +14,8 @@ public class Door : InteractableBase
     public AudioClip openSound;
     public AudioClip closeSound;
     public AudioClip lockedSound;
-    private AudioSource audioSource;
+    [HideInInspector]
+    protected AudioSource audioSource;
 
     private Animator animator;
 
@@ -22,7 +23,7 @@ public class Door : InteractableBase
     public event DoorEvent OnInteractDoor;
 
     // Start is called before the first frame update
-    void Start()
+    protected void Start()
     {
         audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
