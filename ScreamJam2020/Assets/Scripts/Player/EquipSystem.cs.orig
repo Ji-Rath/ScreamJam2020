@@ -66,7 +66,11 @@ public class EquipSystem : MonoBehaviour
         itemBody.angularVelocity = new Vector3(throwForce, throwForce, throwForce);
 
         //Cause enemy to appear
+<<<<<<< HEAD
         if(pickup)
+=======
+        if (OnPlayerDropItem != null)
+>>>>>>> 798538ab12579525f6240943befb0d27630bfece
         {
             if (OnPlayerDropItem != null)
             {

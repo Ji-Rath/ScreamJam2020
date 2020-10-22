@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EventToggleComponent : EventBase
+public class EventToggleLightFlickerTimed : EventTimedBase
 {
     [Header("Toggle Config"), Space]
-    public List<Behaviour> toggleComponent = new List<Behaviour>();
-    [Tooltip("Whether to make component disabled or enabled")]
-    public bool SetDisabled;
+    public List<FlickeringEffect> toggleComponent = new List<FlickeringEffect>();
+    [Tooltip("Whether to make component disabled or enabled for a set time")]
+    public bool SetEnable;
     
 
-    public override void EventTrigger()
+    public override IEnumerator TimedEvent()
     {
-        foreach (Behaviour component in toggleComponent)
-            component.enabled = !SetDisabled;
+        //Set components to specified state
+        foreach (FlickeringEffect component in toggleComponent)
+            component.activateFlicker = !SetEnable;
 
         if (audioSource)
         {
@@ -33,6 +34,11 @@ public class EventToggleComponent : EventBase
             DialogueBox.Get().SetText(dialogueText);
             DialogueBox.Get().TriggerText(dialogueTime);
         }
-        
+
+        yield return new WaitForSeconds(eventTime);
+
+        //Set components back to default state
+        foreach (FlickeringEffect component in toggleComponent)
+            component.activateFlicker = SetEnable;
     }
 }

@@ -12,6 +12,7 @@ public abstract class EventTimedBase : EventBase
     //Called when an event wants to be triggered
     public override bool OnEventTrigger()
     {
+
         if (CanTrigger)
         {
             if (!MultipleTriggers)
