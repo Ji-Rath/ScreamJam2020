@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 1991430169688245698}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -124,11 +124,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 722d2f47dc07d07468fb20b3c84943ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  notShowButtonPrompt: 0
   item: {fileID: 11400000, guid: 0f983b4432981454a8bce77c3473048b, type: 2}
   destroyOnUse: 1
+  enemySpawnChance: 18
   pickupSound: {fileID: 8300000, guid: 51c204c48468b0341ae8dccf9817a7ff, type: 3}
   useSound: {fileID: 8300000, guid: 83e268a525ede6e4bb625c684d3234b5, type: 3}
   onUseMessage: Used {item} on {itemInView}
+  instantlyOpen: 0
 --- !u!82 &5291986852362735430
 AudioSource:
   m_ObjectHideFlags: 0

@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public abstract class InteractableBase : MonoBehaviour
 {
+    public bool notShowButtonPrompt;
     
     
     /// <summary>

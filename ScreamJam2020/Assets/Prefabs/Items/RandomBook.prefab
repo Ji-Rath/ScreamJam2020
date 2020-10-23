@@ -220,9 +220,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f8aeb6699b2c3d49a7fa7d4da1cbf15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactMessage: 
   item: {fileID: 11400000, guid: 3c585591013d9bb40a35d9681da41739, type: 2}
   destroyOnUse: 0
+  enemySpawnChance: 0
   enemySpawnChance: 20
   pickupSound: {fileID: 8300000, guid: 51c204c48468b0341ae8dccf9817a7ff, type: 3}
   useSound: {fileID: 8300000, guid: 83e268a525ede6e4bb625c684d3234b5, type: 3}
-  onUseMessage: 
+  onUseMessage: adasdasdasdasdas

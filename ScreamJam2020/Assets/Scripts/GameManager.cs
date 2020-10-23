@@ -9,6 +9,9 @@ public class GameManager : MonobehaviourSingleton<GameManager>
     public string text;
     public GameObject playerRef;
     public GameObject enemyRef;
+    public KeyDoor vodooDollDoor;
+    public KeyDoor mainEntrance;
+    public DeathScreen deathScreen;
     private MonsterAI enemy;
 
     public GameObject spawnPointsParent;
@@ -25,6 +28,16 @@ public class GameManager : MonobehaviourSingleton<GameManager>
 
         EquipSystem.OnPlayerDropItem += SpawnEnemyNearby;
         enemy = enemyRef.GetComponent<MonsterAI>();
+
+        if(vodooDollDoor)
+        {
+            vodooDollDoor.OnKeyDoorUnlocked += UnlockMainEntrance;
+        }
+
+        if (mainEntrance)
+        {
+            mainEntrance.OnDoorOpened += PlayerVictoryEvent;
+        }
     }
 
     // Update is called once per frame
@@ -69,8 +82,38 @@ public class GameManager : MonobehaviourSingleton<GameManager>
         
     }
 
+    public void UnlockMainEntrance()
+    {
+        if(mainEntrance)
+        {
+            mainEntrance.isLocked = false;
+            //mainEntrance.InteractDoor();
+
+            DialogueBox.Get().SetText("The main entrance is open..");
+            DialogueBox.Get().TriggerText(3);
+        }
+    }
+
+    public void PlayerVictoryEvent()
+    {
+        Debug.Log("PLAYER WON!");
+        if (deathScreen)
+        {
+            deathScreen.StartWinScreen();
+        }
+    }
+
     private void OnDestroy()
     {
         EquipSystem.OnPlayerDropItem -= SpawnEnemyNearby;
+        if (vodooDollDoor)
+        {
+            vodooDollDoor.OnKeyDoorUnlocked -= UnlockMainEntrance;
+        }
+
+        if (mainEntrance)
+        {
+            mainEntrance.OnDoorOpened -= PlayerVictoryEvent;
+        }
     }
 }

@@ -6,6 +6,9 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class Door : Interactable
 {
+    public delegate void OnDoorAction();
+    public OnDoorAction OnDoorOpened;
+
     public bool disableCollider;
     public bool openOnce;
     [Header("Door Config"), Space]
@@ -100,7 +103,21 @@ public class Door : Interactable
 
     private void CloseDoor()
     {
-        animator.SetTrigger("Close");
+        if(animator)
+        {
+            animator.SetTrigger("Close");
+        }
+        else
+        {
+            closeState.SetActive(true);
+            openState.SetActive(false);
+        }
+
+        if (disableCollider)
+        {
+            GetComponent<BoxCollider>().enabled = false;
+        }
+
         canInteract = false;
         if (audioSource)
         {
@@ -111,12 +128,31 @@ public class Door : Interactable
 
     private void OpenDoor()
     {
-        animator.SetTrigger("Open");
+        if (animator)
+        {
+            animator.SetTrigger("Open");
+        }
+        else
+        {
+            closeState.SetActive(false);
+            openState.SetActive(true);
+        }
+
+        if(disableCollider)
+        {
+            GetComponent<BoxCollider>().enabled = false;
+        }
+        
         canInteract = false;
         if (audioSource)
         {
             audioSource.clip = openSound;
             audioSource.Play();
+        }
+
+        if(OnDoorOpened != null)
+        {
+            OnDoorOpened();
         }
     }
 
