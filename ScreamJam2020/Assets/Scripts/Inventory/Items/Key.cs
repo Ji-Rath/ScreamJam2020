@@ -15,7 +15,7 @@ public class Key : Pickupable
             KeyDoor keyDoor = itemInView.GetComponent<KeyDoor>();
             if (keyDoor)
             {
-                bool couldUnlock = keyDoor.UnlockKey(item);
+                bool couldUnlock = keyDoor.OnItemUse(item);
                 if(instantlyOpen)
                 {
                     keyDoor.InteractDoor();

@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KeyDoor : Door
+[Serializable]
+public class KeyDoor : Door, IItemUsable
 {
     public delegate void OnKeyDoorAction();
     public OnKeyDoorAction OnKeyDoorOpened;
@@ -15,7 +17,9 @@ public class KeyDoor : Door
     [Tooltip("Message to display when the door is locked"), TextArea]
     public string lockedMessage;
 
-    public bool UnlockKey(ItemBase item)
+    public event Action UseItem;
+
+    public bool OnItemUse(ItemBase item)
     {
         if(!allKeysInInventory)
         {
@@ -35,7 +39,8 @@ public class KeyDoor : Door
                 }
             }
 
-            return isCorrectKey;
+            UseItem?.Invoke();
+        	return isCorrectKey;
         }
         else
         {
@@ -96,5 +101,10 @@ public class KeyDoor : Door
         {
             DialogueBox.Get().TriggerText(lockedMessage);
         }
+    }
+
+    public bool IsCorrect()
+    {
+        return keysNeeded.Count == 0;
     }
 }

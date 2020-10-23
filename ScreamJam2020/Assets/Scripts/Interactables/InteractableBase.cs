@@ -6,6 +6,10 @@ using UnityEngine;
 public abstract class InteractableBase : MonoBehaviour
 {
     public bool notShowButtonPrompt;
-    public string interactMessage;
+    
+    
+    /// <summary>
+    /// Called whenever something interacts with the interactable
+    /// </summary>
     public abstract void OnInteract();
 }

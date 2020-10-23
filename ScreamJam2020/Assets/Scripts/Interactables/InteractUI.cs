@@ -28,16 +28,32 @@ public class InteractUI : MonoBehaviour
         GameObject itemInView = playerInteract.GetItemInView();
         if (itemInView)
         {
+            textInteractable.text = "";
+
             //Update interact UI text
-            InteractableBase interactable = itemInView.GetComponent<InteractableBase>();
+            Interactable interactable = itemInView.GetComponent<Interactable>();
             Pickupable pickupable = itemInView.GetComponent<Pickupable>();
 
             if (pickupable)
-                textInteractable.text = pickupable.interactMessage;
-            else if (interactable)
-                textInteractable.text = interactable.interactMessage;
+                textInteractable.text = "Press E to pickup "+pickupable.item.name;
+            else if (interactable && GetItemInViewName() != "")
+            {
+                string interactName = GetItemInViewName();
 
-            if(!interactable.notShowButtonPrompt)
+                Pickupable currentlyEquipped = playerInteract.GetComponent<EquipSystem>().currentEquippedItem;
+                IItemUsable itemUsable = interactable as IItemUsable;
+                if ((itemUsable != null && !itemUsable.IsCorrect()) && currentlyEquipped) //Display 'Use [item] on [itemhover]'
+                    textInteractable.text = "Use " + currentlyEquipped.item.name + " on " + interactName;
+            }
+            else
+            {
+                isVisible = false;
+                StartCoroutine(DelayedFadeOut());
+            }
+                
+
+            //Make text visible if it is not already
+            if (!isVisible && textInteractable.text != "")
             {
                 //Make text visible if it is not already
                 if (!isVisible)
@@ -56,11 +72,29 @@ public class InteractUI : MonoBehaviour
         }
     }
 
+    string GetItemInViewName()
+    {
+        string interactName = "";
+        GameObject itemInView = playerInteract.GetItemInView();
+        if(itemInView)
+        {
+            Interactable interactable = itemInView.GetComponent<Interactable>();
+            if(interactable)
+            {
+                if (interactable.interactableName != "") //Display interactable name
+                    interactName = interactable.interactableName;
+                else if (interactable.hoverMessage != "") //Display hover message
+                    interactName = interactable.hoverMessage;
+            }
+        }
+        return interactName;
+    }
+
     IEnumerator DelayedFadeOut()
     {
         yield return new WaitForSeconds(0.25f);
 
-        if (!playerInteract.GetItemInView())
+        if (GetItemInViewName() == "")
             interactAnimator.SetBool("isVisible", isVisible);
         else
             isVisible = true;

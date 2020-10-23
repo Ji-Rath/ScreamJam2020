@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(NavMeshAgent)), RequireComponent(typeof(Animator))]
 public class MonsterAI : MonoBehaviour
 {
     public delegate void OnMonsterAction();

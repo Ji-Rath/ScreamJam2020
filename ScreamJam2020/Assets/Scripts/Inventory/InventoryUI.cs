@@ -52,16 +52,23 @@ public class InventoryUI : UIBase
                 inventoryReference.SetActive(true);
                 CheckButton(nextButton, prevButton);
 
+                //Ensure the current slot is a valid slot
                 if (playerInventory.currentSlot < playerInventory.inventory.Count)
                 {
                     ItemSlot currentItem = playerInventory.inventory[playerInventory.currentSlot];
 
+                    //Make sure the amount is not 0 for some reason
                     if (currentItem.itemAmount != 0)
                     {
                         //Update text
                         textName.text = currentItem.item.name;
                         textDescription.text = currentItem.item.description;
-                        textAmount.text = "Amount: " + currentItem.itemAmount + " / " + currentItem.item.maxStack;
+
+                        //Do not display stack count if the max stack is 1
+                        if (currentItem.item.maxStack > 1)
+                            textAmount.text = "Amount: " + currentItem.itemAmount + " / " + currentItem.item.maxStack;
+                        else
+                            textAmount.text = "";
 
                         //Create the selected inventory prefab and delete the old one
                         GameObject newInventoryPrefab = Instantiate(currentItem.item.itemModel, itemPrefabPosition);
