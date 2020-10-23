@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(NavMeshAgent)), RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(NavMeshAgent))]
 public class MonsterAI : MonoBehaviour
 {
     public delegate void OnMonsterAction();
@@ -11,7 +11,7 @@ public class MonsterAI : MonoBehaviour
 
     private GameObject playerRef;
     private NavMeshAgent navAgent;
-    private Animator animator;
+    public Animator animator;
     private Player player;
     private HidingSpot playerHidingSpot;
 
@@ -36,7 +36,7 @@ public class MonsterAI : MonoBehaviour
         //Get NavMeshAgent component for navigation
         playerRef = GameManager.Get().playerRef;
         navAgent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
+        //animator = GetComponent<Animator>();
         player = playerRef.GetComponent<Player>();
     }
 
@@ -44,6 +44,13 @@ public class MonsterAI : MonoBehaviour
     {
         //Start the visibility check coroutine
         StartCoroutine(CheckPlayerVisibility());
+    }
+    void Update()
+    {
+        if(navAgent.destination.magnitude != 0)
+        {
+            animator.SetFloat("SpeedMultiplier", navAgent.velocity.magnitude/navAgent.speed);
+        }
     }
 
     IEnumerator LookForPlayer()

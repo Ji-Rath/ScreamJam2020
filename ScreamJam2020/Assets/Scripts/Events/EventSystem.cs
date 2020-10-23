@@ -23,16 +23,19 @@ public class EventSystem : MonoBehaviour
     {
         LayerMask mask = LayerMask.GetMask("Events");
         Collider[] hitEvents = Physics.OverlapSphere(transform.position, nearbyEventRadius, mask);
-        EventBase eventFound = hitEvents[Random.Range(0, hitEvents.Length)].GetComponent<EventBase>();
-        
-        //Just loop through the events if the first random one doesnt work, lol
-        if(!eventFound.OnEventTrigger())
+        if(hitEvents.Length > 0)
         {
-            for(int i=0; i<hitEvents.Length;i++)
+            EventBase eventFound = hitEvents[Random.Range(0, hitEvents.Length)].GetComponent<EventBase>();
+
+            //Just loop through the events if the first random one doesnt work, lol
+            if (!eventFound.OnEventTrigger())
             {
-                eventFound = hitEvents[i].GetComponent<EventBase>();
-                if (eventFound.OnEventTrigger())
-                    break;
+                for (int i = 0; i < hitEvents.Length; i++)
+                {
+                    eventFound = hitEvents[i].GetComponent<EventBase>();
+                    if (eventFound.OnEventTrigger())
+                        break;
+                }
             }
         }
     }
@@ -41,18 +44,22 @@ public class EventSystem : MonoBehaviour
     public static void TriggerRandomEvent()
     {
         List<EventBase> events = EventBase.events;
-        EventBase eventFound = events[Random.Range(0, events.Count)];
-
-        //Just loop through the events if the first random one doesnt work, lol
-        if (!eventFound.OnEventTrigger())
+        if (events.Count > 0)
         {
-            for (int i = 0; i < events.Count; i++)
+            EventBase eventFound = events[Random.Range(0, events.Count)];
+
+            //Just loop through the events if the first random one doesnt work, lol
+            if (!eventFound.OnEventTrigger())
             {
-                eventFound = events[i].GetComponent<EventBase>();
-                if (eventFound.OnEventTrigger())
-                    break;
+                for (int i = 0; i < events.Count; i++)
+                {
+                    eventFound = events[i].GetComponent<EventBase>();
+                    if (eventFound.OnEventTrigger())
+                        break;
+                }
             }
         }
+        
     }
 
     //Trigger a list of events

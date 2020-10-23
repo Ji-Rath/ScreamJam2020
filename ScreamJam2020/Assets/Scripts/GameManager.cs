@@ -44,11 +44,10 @@ public class GameManager : MonobehaviourSingleton<GameManager>
     void Update()
     {
         //Test
-        /*if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            DialogueBox.Get().SetText(text);
-            DialogueBox.Get().TriggerText(textTime);
-        }*/
+            SpawnEnemyNearby(100);
+        }
     }
 
     //Stimulates the monster to appear at an available spawn point
