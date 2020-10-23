@@ -12,7 +12,7 @@ public class HidingSpot : MonoBehaviour
     void Start()
     {
         //Listen for DoorInteraction
-        GetComponent<Door>().OnInteractDoor += HideSpot_InteractDoor;
+        GetComponent<Door>().DoorInteract += HideSpot_DoorInteract;
 
         //Disable trigger on start
         if (trigger)
@@ -20,7 +20,7 @@ public class HidingSpot : MonoBehaviour
     }
 
     //Toggle trigger when the specified door is interacted with
-    void HideSpot_InteractDoor(bool isOpen)
+    void HideSpot_DoorInteract(bool isOpen)
     {
         trigger.SetActive(!isOpen);
 
@@ -30,6 +30,6 @@ public class HidingSpot : MonoBehaviour
     void OnDestroy()
     {
         //Stop listening for event
-        GetComponent<Door>().OnInteractDoor -= HideSpot_InteractDoor;
+        GetComponent<Door>().DoorInteract -= HideSpot_DoorInteract;
     }
 }

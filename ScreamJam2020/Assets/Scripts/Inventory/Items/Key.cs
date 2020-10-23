@@ -13,7 +13,7 @@ public class Key : Pickupable
             KeyDoor keyDoor = itemInView.GetComponent<KeyDoor>();
             if (keyDoor)
             {
-                return keyDoor.UnlockKey(item);
+                return keyDoor.OnItemUse(item);
             }
         }
         return false;

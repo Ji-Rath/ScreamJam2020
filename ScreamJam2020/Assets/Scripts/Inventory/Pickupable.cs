@@ -1,5 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
+/// <summary>
+/// Class that handles objects that can be picked up by the player and optionally used
+/// </summary>
 [RequireComponent(typeof(Rigidbody))]
 public class Pickupable : InteractableBase
 {
@@ -15,14 +19,20 @@ public class Pickupable : InteractableBase
 
     private AudioSource audioSource;
     protected InventoryManager playerInventory;
+    protected PlayerInteraction playerInteract;
 
     [Tooltip("Message displayed when item is successfully used"), TextArea]
     public string onUseMessage;
 
+    public event Action PickupEvent;
+
     void Start()
     {
         //Get player inventory
-        playerInventory = GameManager.Get().playerRef.GetComponent<InventoryManager>();
+        GameObject playerRef = GameManager.Get().playerRef;
+        playerInventory = playerRef.GetComponent<InventoryManager>();
+        playerInteract = playerRef.GetComponent<PlayerInteraction>();
+
         audioSource = GameManager.Get().playerRef.GetComponent<AudioSource>();
     }
 
@@ -36,12 +46,17 @@ public class Pickupable : InteractableBase
                 audioSource.clip = pickupSound;
                 audioSource.Play();
             }
+
+            PickupEvent?.Invoke();
             Destroy(gameObject);
         }
         else
             Debug.Log("Unable to add to inventory!");
     }
 
+    /// <summary>
+    /// Called when the item will be used
+    /// </summary>
     public void OnUse()
     {
         //If the item could be used, play sound
@@ -67,18 +82,33 @@ public class Pickupable : InteractableBase
         }
     }
 
-    //Update useMessage with appropriate text related to the item, can probably be put in a static class later on
+    /// <summary>
+    /// Update useMessage with appropriate text related to the item, can probably be put in a static class later on
+    /// </summary>
     void UpdateUseText()
     {
-        GameObject itemInView = playerInventory.GetComponent<PlayerInteraction>().GetItemInView();
+        GameObject itemInView = playerInteract.GetItemInView();
         onUseMessage = onUseMessage.Replace("{item}", item.name);
         if(itemInView)
             onUseMessage = onUseMessage.Replace("{itemInView}", itemInView.name);
     }
 
-    //Functionality of using item, returns whether the item could be used. Should be overridden
+    /// <summary>
+    /// Functionality of using the item
+    /// </summary>
+    /// <returns>Whether the item could be used.</returns>
     public virtual bool Use()
     {
+        //Check if the player is hovering over an ItemPlacement object and determine whether the object is able to be used by it
+        GameObject itemInView = playerInteract.GetItemInView();
+        if (itemInView)
+        {
+            ItemPlacement itemPlacement = itemInView.GetComponent<ItemPlacement>();
+            if (itemPlacement)
+            {
+                return itemPlacement.OnItemUse(item);
+            }
+        }
         return false;
     }
 }

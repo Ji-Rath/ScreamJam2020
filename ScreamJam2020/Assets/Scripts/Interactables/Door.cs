@@ -20,7 +20,7 @@ public class Door : Interactable
     private Animator animator;
 
     public delegate void DoorEvent(bool isOpen);
-    public event DoorEvent OnInteractDoor;
+    public event DoorEvent DoorInteract;
 
     // Start is called before the first frame update
     void Start()
@@ -42,41 +42,21 @@ public class Door : Interactable
         InteractDoor();
     }
 
+    public override void Activate(bool activate)
+    {
+        isLocked = !activate;
+
+        if (isLocked && isOpen)
+            ToggleDoor();
+        if (!isLocked && !isOpen)
+            ToggleDoor();
+    }
+
     public void InteractDoor()
     {
-        if (!isLocked)
+        if (!isLocked && canInteract)
         {
-            if(canInteract)
-            {
-                isOpen = !isOpen;
-
-                if (isOpen)
-                {
-                    // Open
-                    animator.SetTrigger("Open");
-                    canInteract = false;
-                    if (audioSource)
-                    {
-                        audioSource.clip = openSound;
-                        audioSource.Play();
-                    }
-
-                }
-                else
-                {
-                    // Close
-                    animator.SetTrigger("Close");
-                    canInteract = false;
-                    if (audioSource)
-                    {
-                        audioSource.clip = closeSound;
-                        audioSource.Play();
-                    }
-
-                }
-
-                OnInteractDoor?.Invoke(isOpen);
-            }
+            ToggleDoor();
         }
         else
         {
@@ -85,6 +65,45 @@ public class Door : Interactable
                 audioSource.clip = lockedSound;
                 audioSource.Play();
             }
+        }
+    }
+
+    private void ToggleDoor()
+    {
+        isOpen = !isOpen;
+        DoorInteract?.Invoke(isOpen);
+
+        if (isOpen)
+        {
+            // Open
+            OpenDoor();
+        }
+        else
+        {
+            // Close
+            CloseDoor();
+        }
+    }
+
+    private void CloseDoor()
+    {
+        animator.SetTrigger("Close");
+        canInteract = false;
+        if (audioSource)
+        {
+            audioSource.clip = closeSound;
+            audioSource.Play();
+        }
+    }
+
+    private void OpenDoor()
+    {
+        animator.SetTrigger("Open");
+        canInteract = false;
+        if (audioSource)
+        {
+            audioSource.clip = openSound;
+            audioSource.Play();
         }
     }
 
