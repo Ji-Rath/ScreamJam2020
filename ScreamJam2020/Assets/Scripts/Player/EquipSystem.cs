@@ -25,7 +25,17 @@ public class EquipSystem : MonoBehaviour
     {
         //Destroy currently equipped item
         if (currentEquippedItem != null)
+        {
+            if (currentEquippedItem.item == item.GetComponent<Pickupable>().item)
+            {
+                Destroy(currentEquippedItem.gameObject);
+                return;
+            }
+
             Destroy(currentEquippedItem.gameObject);
+        }
+        
+
         //Create new item
         
         currentEquippedItem = Instantiate(item, itemDisplay).GetComponent<Pickupable>();

@@ -34,6 +34,7 @@ public class DeathScreen : MonoBehaviour
     private Color deathScreenColor;
     public bool isPlayerDead;
     private bool deathScreenFinish = false;
+    private bool playSoundOnce = false;
     private AudioSource audioSource;
 
     // Start is called before the first frame update
@@ -115,14 +116,20 @@ public class DeathScreen : MonoBehaviour
 
     public void StartDeathScreen()
     {
-        if(audioSource)
+        if (!playSoundOnce)
         {
-            if(deathSound)
+            if (audioSource)
             {
-                audioSource.clip = deathSound;
-                audioSource.Play();
+                if (deathSound)
+                {
+                    audioSource.clip = deathSound;
+                    audioSource.Play();
+                }
             }
+
+            playSoundOnce = true;
         }
+        
         isPlayerDead = true;
     }
 

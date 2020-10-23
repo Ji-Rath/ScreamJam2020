@@ -156,12 +156,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   notShowButtonPrompt: 0
-  interactMessage: Grab Key?
   item: {fileID: 11400000, guid: f5842bc1301f4f34c88c583f0108e8d4, type: 2}
   destroyOnUse: 1
   enemySpawnChance: 0
   pickupSound: {fileID: 8300000, guid: 51c204c48468b0341ae8dccf9817a7ff, type: 3}
-  useSound: {fileID: 8300000, guid: 83e268a525ede6e4bb625c684d3234b5, type: 3}
+  useSound: {fileID: 8300000, guid: ef70bfa46e8e6fe40baed23cc14ceaea, type: 3}
   onUseMessage: Used {item} on {itemInView}
   instantlyOpen: 0
 --- !u!82 &-6016051436014703682
