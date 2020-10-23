@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -122,10 +123,7 @@ public class MonsterAI : MonoBehaviour
                 if(PlayerDistance <= attackDistance)
                 {
                     animator.SetTrigger("Attack");
-                    if(OnMonsterKillPlayer != null)
-                    {
-                        OnMonsterKillPlayer();
-                    }
+                    OnMonsterKillPlayer?.Invoke();
                     navAgent.isStopped = true;
                     Debug.Log("Player Died");
                 }
@@ -179,6 +177,5 @@ public class MonsterAI : MonoBehaviour
         Debug.Log("Appeared Again");
     }
 
-    
-    
+
 }
