@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 2728676007500759509}
   - component: {fileID: 2918712958806083373}
   m_Layer: 8
-  m_Name: RandomBook
+  m_Name: Butchers Diary
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -252,12 +252,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   notShowButtonPrompt: 0
-  item: {fileID: 11400000, guid: 3c585591013d9bb40a35d9681da41739, type: 2}
+  item: {fileID: 11400000, guid: 1d0ed900a2576ed4b95af19510551994, type: 2}
   destroyOnUse: 0
   enemySpawnChance: 0
   pickupSound: {fileID: 8300000, guid: 51c204c48468b0341ae8dccf9817a7ff, type: 3}
   useSound: {fileID: 8300000, guid: 83e268a525ede6e4bb625c684d3234b5, type: 3}
-  onUseMessage: adasdasdasdasdas
+  onUseMessage: 
 --- !u!1001 &7228093708860283580
 PrefabInstance:
   m_ObjectHideFlags: 0
