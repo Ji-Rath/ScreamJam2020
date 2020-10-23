@@ -140,6 +140,7 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
+        Debug.Log("Unable to remove item!");
         return false;
     }
 

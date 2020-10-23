@@ -29,13 +29,26 @@ public class InteractUI : MonoBehaviour
         if (itemInView)
         {
             //Update interact UI text
-            InteractableBase interactable = itemInView.GetComponent<InteractableBase>();
+            Interactable interactable = itemInView.GetComponent<Interactable>();
             Pickupable pickupable = itemInView.GetComponent<Pickupable>();
 
             if (pickupable)
-                textInteractable.text = pickupable.interactMessage;
+                textInteractable.text = "Press E to pickup "+pickupable.item.name;
             else if (interactable)
-                textInteractable.text = interactable.interactMessage;
+            {
+                string interactName = interactable.name;
+                
+                if (interactable.interactableName != "") //Display interactable name
+                    interactName = interactable.interactableName;
+                else if (interactable.hoverMessage != "") //Display hover message
+                    interactName = interactable.hoverMessage;
+
+                textInteractable.text = interactName;
+
+                if (interactable as IItemUsable != null && playerInteract.GetComponent<EquipSystem>().currentEquippedItem) //Display 'Use [item] on [itemhover]'
+                    textInteractable.text = "Use " + playerInteract.GetComponent<EquipSystem>().currentEquippedItem.item.name + " on " + interactName;
+            }
+                
 
             //Make text visible if it is not already
             if (!isVisible)

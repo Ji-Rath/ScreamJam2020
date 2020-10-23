@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 6162535495591835047}
   - component: {fileID: 4322656410413393655}
   - component: {fileID: 1164345986695995063}
-  - component: {fileID: -2129686046296535113}
   - component: {fileID: -42599410382228946}
   - component: {fileID: 5022020842006327924}
   - component: {fileID: 5487957201706778370}
@@ -98,25 +97,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.6072204, y: 0.53137946, z: 0.50868785}
   m_Center: {x: 0.037602663, y: -0.026134372, z: -0.018763483}
---- !u!114 &-2129686046296535113
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2259674738032079030}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d990537033d3bf3458fe75a8ea5df77f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactMessage: Press E to Grab Bandages
-  item: {fileID: 11400000, guid: a764522fae7697e4e953956de13184b9, type: 2}
-  destroyOnUse: 1
-  enemySpawnChance: 20
-  pickupSound: {fileID: 8300000, guid: 51c204c48468b0341ae8dccf9817a7ff, type: 3}
-  useSound: {fileID: 8300000, guid: 83e268a525ede6e4bb625c684d3234b5, type: 3}
-  onUseMessage: 
 --- !u!54 &-42599410382228946
 Rigidbody:
   m_ObjectHideFlags: 0
