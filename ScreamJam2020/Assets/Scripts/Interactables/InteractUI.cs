@@ -41,9 +41,17 @@ public class InteractUI : MonoBehaviour
                 string interactName = GetItemInViewName();
 
                 Pickupable currentlyEquipped = playerInteract.GetComponent<EquipSystem>().currentEquippedItem;
-                IItemUsable itemUsable = interactable as IItemUsable;
-                if ((itemUsable != null && !itemUsable.IsCorrect()) && currentlyEquipped) //Display 'Use [item] on [itemhover]'
-                    textInteractable.text = "Use " + currentlyEquipped.item.name + " on " + interactName;
+                if(currentlyEquipped)
+                {
+                    IItemUsable itemUsable = interactable as IItemUsable;
+                    if ((itemUsable != null && !itemUsable.IsCorrect()) && currentlyEquipped) //Display 'Use [item] on [itemhover]'
+                        textInteractable.text = "Use " + currentlyEquipped.item.name + " on " + interactName;
+                }
+                else
+                {
+                    textInteractable.text = interactName;
+                }
+                
             }
             else
             {

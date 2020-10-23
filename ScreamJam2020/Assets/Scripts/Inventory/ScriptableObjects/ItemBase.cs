@@ -13,5 +13,5 @@ public class ItemBase : ScriptableObject
 
     public GameObject itemModel;
 
-    public int maxStack;
+    public int maxStack = 1;
 }

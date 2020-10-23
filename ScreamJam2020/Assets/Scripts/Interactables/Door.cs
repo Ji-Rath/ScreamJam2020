@@ -6,6 +6,9 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class Door : Interactable
 {
+    public delegate void OnDoorAction();
+    public OnDoorAction OnDoorOpened;
+
     public bool disableCollider;
     public bool openOnce;
     [Header("Door Config"), Space]
@@ -145,6 +148,11 @@ public class Door : Interactable
         {
             audioSource.clip = openSound;
             audioSource.Play();
+        }
+
+        if(OnDoorOpened != null)
+        {
+            OnDoorOpened();
         }
     }
 

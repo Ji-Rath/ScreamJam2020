@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using UnityStandardAssets.Characters.FirstPerson;
 
 public class DeathScreen : MonoBehaviour
@@ -26,15 +27,19 @@ public class DeathScreen : MonoBehaviour
     [Header("Death Screen Config"), Space]
     public CanvasGroup canvas;
     public GameObject deathPanel;
+    public TextMeshProUGUI text;
+    public AudioClip deathSound;
     public float newAlphaValueSpeed;
     private float newAlphaValue;
     private Color deathScreenColor;
     public bool isPlayerDead;
     private bool deathScreenFinish = false;
+    private AudioSource audioSource;
 
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         player = GameManager.Get().playerRef;
         handsLeft.fillAmount = 0;
         handsRight.fillAmount = 0;
@@ -48,6 +53,7 @@ public class DeathScreen : MonoBehaviour
         appear = true;
 
         MonsterAI.OnMonsterKillPlayer += StartDeathScreen;
+
     }
 
     // Update is called once per frame
@@ -109,7 +115,21 @@ public class DeathScreen : MonoBehaviour
 
     public void StartDeathScreen()
     {
+        if(audioSource)
+        {
+            if(deathSound)
+            {
+                audioSource.clip = deathSound;
+                audioSource.Play();
+            }
+        }
         isPlayerDead = true;
+    }
+
+    public void StartWinScreen()
+    {
+        isPlayerDead = true;
+        text.text = "You won!";
     }
 
     public void UpdateClearScreen()

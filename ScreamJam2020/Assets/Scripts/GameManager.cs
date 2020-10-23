@@ -10,6 +10,8 @@ public class GameManager : MonobehaviourSingleton<GameManager>
     public GameObject playerRef;
     public GameObject enemyRef;
     public KeyDoor vodooDollDoor;
+    public KeyDoor mainEntrance;
+    public DeathScreen deathScreen;
     private MonsterAI enemy;
 
     public GameObject spawnPointsParent;
@@ -29,7 +31,12 @@ public class GameManager : MonobehaviourSingleton<GameManager>
 
         if(vodooDollDoor)
         {
-            vodooDollDoor.OnKeyDoorOpened += PlayerVictoryEvent;
+            vodooDollDoor.OnKeyDoorUnlocked += UnlockMainEntrance;
+        }
+
+        if (mainEntrance)
+        {
+            mainEntrance.OnDoorOpened += PlayerVictoryEvent;
         }
     }
 
@@ -75,9 +82,25 @@ public class GameManager : MonobehaviourSingleton<GameManager>
         
     }
 
+    public void UnlockMainEntrance()
+    {
+        if(mainEntrance)
+        {
+            mainEntrance.isLocked = false;
+            //mainEntrance.InteractDoor();
+
+            DialogueBox.Get().SetText("The main entrance is open..");
+            DialogueBox.Get().TriggerText(3);
+        }
+    }
+
     public void PlayerVictoryEvent()
     {
         Debug.Log("PLAYER WON!");
+        if (deathScreen)
+        {
+            deathScreen.StartWinScreen();
+        }
     }
 
     private void OnDestroy()
@@ -85,7 +108,12 @@ public class GameManager : MonobehaviourSingleton<GameManager>
         EquipSystem.OnPlayerDropItem -= SpawnEnemyNearby;
         if (vodooDollDoor)
         {
-            vodooDollDoor.OnKeyDoorOpened -= PlayerVictoryEvent;
+            vodooDollDoor.OnKeyDoorUnlocked -= UnlockMainEntrance;
+        }
+
+        if (mainEntrance)
+        {
+            mainEntrance.OnDoorOpened -= PlayerVictoryEvent;
         }
     }
 }

@@ -1,12 +1,15 @@
 ﻿
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
+[RequireComponent(typeof(Animator))]
 public class ReadUI : UIBase
 {
     public static ReadUI instance;
 
     public TextMeshProUGUI textRead;
+    public Image imageRead;
     private Animator interactAnimator;
 
     private bool isVisible = false;
@@ -43,12 +46,27 @@ public class ReadUI : UIBase
 
             //If item is not readable, return
             ItemReadable readable = pickupable.item as ItemReadable;
+            ItemReadableImage readableImage = pickupable.item as ItemReadableImage;
             if (readable)
             {
                 DisablePlayer(true);
+                textRead.enabled = true;
+                imageRead.enabled = false;
 
                 //Display text and make UI visible
                 textRead.text = readable.content;
+
+                isVisible = true;
+                interactAnimator.SetBool("isVisible", isVisible);
+            }
+            else if (readableImage)
+            {
+                DisablePlayer(true);
+                textRead.enabled = false;
+                imageRead.enabled = true;
+
+                //Display text and make UI visible
+                imageRead.sprite = readableImage.image;
 
                 isVisible = true;
                 interactAnimator.SetBool("isVisible", isVisible);

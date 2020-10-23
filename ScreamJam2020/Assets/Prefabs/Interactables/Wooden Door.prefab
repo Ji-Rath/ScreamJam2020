@@ -270,14 +270,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61d887d6aec2f9d45b9c921f3ba2afc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactMessage: Open Door
+  notShowButtonPrompt: 0
+  interactableName: Door
+  hoverMessage: Open Door
+  disableCollider: 0
+  openOnce: 0
   isLocked: 0
   isOpen: 0
   canInteract: 1
+  openState: {fileID: 0}
+  closeState: {fileID: 0}
   openSound: {fileID: 8300000, guid: 343536f952b5ca7449f5143105d2a7bd, type: 3}
   closeSound: {fileID: 8300000, guid: 9a15ced3868cd864c8cc5e627113a3e1, type: 3}
   lockedSound: {fileID: 8300000, guid: bcf3a7a5a6aede848aa7cc751852559e, type: 3}
   keysNeeded: []
+  allKeysInInventory: 0
   lockedMessage: The door is locked.
 --- !u!208 &2585283513724538604
 NavMeshObstacle:

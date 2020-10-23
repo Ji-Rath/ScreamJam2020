@@ -7,7 +7,8 @@ using UnityEngine;
 public class KeyDoor : Door, IItemUsable
 {
     public delegate void OnKeyDoorAction();
-    public OnKeyDoorAction OnKeyDoorOpened;
+    public OnKeyDoorAction OnKeyDoorUnlocked;
+    
 
     [Header("Locked Door Config")]
     [Tooltip("A list of items that will unlock the door")]
@@ -33,9 +34,9 @@ public class KeyDoor : Door, IItemUsable
             if (isLocked && keysNeeded.Count == 0)
             {
                 isLocked = false;
-                if(OnKeyDoorOpened != null)
+                if(OnKeyDoorUnlocked != null)
                 {
-                    OnKeyDoorOpened();
+                    OnKeyDoorUnlocked();
                 }
             }
 
@@ -76,9 +77,9 @@ public class KeyDoor : Door, IItemUsable
 
                 isLocked = false;
 
-                if (OnKeyDoorOpened != null)
+                if (OnKeyDoorUnlocked != null)
                 {
-                    OnKeyDoorOpened();
+                    OnKeyDoorUnlocked();
                 }
 
                 return true;
