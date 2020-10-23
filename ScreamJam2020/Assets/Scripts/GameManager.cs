@@ -40,16 +40,6 @@ public class GameManager : MonobehaviourSingleton<GameManager>
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        //Test
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            SpawnEnemyNearby(100);
-        }
-    }
-
     //Stimulates the monster to appear at an available spawn point
     public void SpawnEnemyNearby(int chance)
     {
