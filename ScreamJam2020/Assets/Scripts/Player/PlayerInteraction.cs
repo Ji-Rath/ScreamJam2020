@@ -23,8 +23,7 @@ public class PlayerInteraction : MonoBehaviour
 
     public event Action InteractHover;
 
-    public delegate void UseItemHandler(Pickupable pickupable);
-    public event UseItemHandler UseItem;
+    public event Action<Pickupable> UseItem;
 
     public event Action CancelAction;
 

@@ -57,10 +57,10 @@ public class Pickupable : InteractableBase
     /// <summary>
     /// Called when the item will be used
     /// </summary>
-    public void OnUse()
+    public bool OnUse()
     {
         //If the item could be used, play sound
-        if(Use())
+        if(!UseOnInteractactable() && Use())
         {
             //Play use sound
             if (audioSource)
@@ -79,7 +79,10 @@ public class Pickupable : InteractableBase
             //Show used message
             UpdateUseText();
             DialogueBox.Get().TriggerText(onUseMessage);
+
+            return true;
         }
+        return false;
     }
 
     /// <summary>
@@ -94,21 +97,33 @@ public class Pickupable : InteractableBase
     }
 
     /// <summary>
-    /// Functionality of using the item
+    /// Called to see if the current pickupable can be used on whats being hovered by the player
     /// </summary>
-    /// <returns>Whether the item could be used.</returns>
-    public virtual bool Use()
+    /// <returns></returns>
+    private bool UseOnInteractactable()
     {
         //Check if the player is hovering over an ItemPlacement object and determine whether the object is able to be used by it
         GameObject itemInView = playerInteract.GetItemInView();
         if (itemInView)
         {
             ItemPlacement itemPlacement = itemInView.GetComponent<ItemPlacement>();
-            if (itemPlacement)
+            if (itemPlacement && itemPlacement.OnItemUse(item))
             {
-                return itemPlacement.OnItemUse(item);
+                playerInventory.RemoveFromInventory(item, 1);
+                Destroy(gameObject);
+                return true;
             }
         }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Functionality of using the item
+    /// </summary>
+    /// <returns>Whether the item could be used.</returns>
+    public virtual bool Use()
+    {
         return false;
     }
 }
