@@ -33,9 +33,9 @@ public class InteractUI : MonoBehaviour
             Pickupable pickupable = itemInView.GetComponent<Pickupable>();
 
             if (pickupable)
-                textInteractable.text = pickupable.item.name;
+                textInteractable.text = pickupable.interactMessage;
             else if (interactable)
-                textInteractable.text = interactable.name;
+                textInteractable.text = interactable.interactMessage;
 
             //Make text visible if it is not already
             if (!isVisible)

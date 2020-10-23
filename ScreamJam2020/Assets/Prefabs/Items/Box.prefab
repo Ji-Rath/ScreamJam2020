@@ -108,6 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d990537033d3bf3458fe75a8ea5df77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactMessage: Press E to Grab BOX
   item: {fileID: 11400000, guid: bbd62bc29d2644046b3e5e615a409d20, type: 2}
   destroyOnUse: 1
   enemySpawnChance: 100

@@ -3,19 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Animator)), RequireComponent(typeof(AudioSource))]
+[RequireComponent(typeof(AudioSource))]
 public class Door : Interactable
 {
+    public bool disableCollider;
+    public bool openOnce;
     [Header("Door Config"), Space]
     public bool isLocked;
     public bool isOpen;
     public bool canInteract = true;
 
+    [Header("No Animation Config")]
+    public GameObject openState;
+    public GameObject closeState;
+
     [Header("Sound Config"),Space]
     public AudioClip openSound;
     public AudioClip closeSound;
     public AudioClip lockedSound;
-    private AudioSource audioSource;
+    [HideInInspector]
+    protected AudioSource audioSource;
 
     private Animator animator;
 
@@ -23,18 +30,24 @@ public class Door : Interactable
     public event DoorEvent DoorInteract;
 
     // Start is called before the first frame update
-    void Start()
+    protected void Start()
     {
         audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
-        if(isOpen)
+
+        if (animator)
         {
-            animator.SetBool("StartOpen", true);
+            if (isOpen)
+            {
+                animator.SetBool("StartOpen", true);
+            }
+            else
+            {
+                animator.SetBool("StartOpen", false);
+            }
         }
-        else
-        {
-            animator.SetBool("StartOpen", false);
-        }
+        
+        
     }
 
     public override void OnInteract()

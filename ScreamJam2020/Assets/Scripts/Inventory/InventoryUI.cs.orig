@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class InventoryUI : MonoBehaviour
+public class InventoryUI : UIBase
 {
     private InventorySystem playerInventory;
     public InventoryManager inventoryManager;
@@ -18,40 +18,43 @@ public class InventoryUI : MonoBehaviour
     public Transform itemPrefabPosition;
     public Color normalColor;
     public Color disabledColor;
+    public Vector3 scalePreview;
     private GameObject itemPrefab;
 
     [Tooltip("GameObject to toggle active when using Inventory UI")]
     public GameObject inventoryReference;
 
-    void Start()
+    public override bool IsEnabled()
     {
+        return InventoryManager.inventoryVisible;
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+
         playerInventory = inventoryManager.currentInventory;
         inventoryManager.UpdateInventoryEvent += UpdateInventoryUI;
 
-<<<<<<< HEAD
-        textName.text = "";
-        textDescription.text = "";
-        textAmount.text = "";
         InventoryManager.OnInventoryFullyEmptySlot += DeleteItem;
         MonsterAI.OnMonsterKillPlayer += DisableInventoryUI;
-=======
         EmptyInventory();
->>>>>>> f151327784ec78a704ec2d4cbc3e8f429e12c4e2
     }
 
     void UpdateInventoryUI()
     {
-        if (InventoryManager.inventoryVisible)
+        if (CanEnable())
         {
-            inventoryReference.SetActive(true);
-            CheckButton(nextButton, prevButton);
+            DisablePlayer(InventoryManager.inventoryVisible);
 
-            if (playerInventory.currentSlot < playerInventory.inventory.Count)
+            if (InventoryManager.inventoryVisible)
             {
-                ItemSlot currentItem = playerInventory.inventory[playerInventory.currentSlot];
+                inventoryReference.SetActive(true);
+                CheckButton(nextButton, prevButton);
 
-                if (currentItem.itemAmount != 0)
+                if (playerInventory.currentSlot < playerInventory.inventory.Count)
                 {
+<<<<<<< HEAD
                     //Update text
                     textName.text = currentItem.item.name;
                     textDescription.text = currentItem.item.description;
@@ -60,30 +63,52 @@ public class InventoryUI : MonoBehaviour
                     //Create the selected inventory prefab and delete the old one
                     GameObject newInventoryPrefab = Instantiate(currentItem.item.itemModel, itemPrefabPosition);
                     Destroy(itemPrefab);
+                    newInventoryPrefab.transform.localScale = scalePreview;
 
                     //Add InventoryPrefab component for spin effect
                     newInventoryPrefab.AddComponent<InventoryPrefab>();
                     newInventoryPrefab.GetComponent<Rigidbody>().isKinematic = true;
 
                     itemPrefab = newInventoryPrefab;
+=======
+                    ItemSlot currentItem = playerInventory.inventory[playerInventory.currentSlot];
+
+                    if (currentItem.itemAmount != 0)
+                    {
+                        //Update text
+                        textName.text = currentItem.item.name;
+                        textDescription.text = currentItem.item.description;
+                        textAmount.text = "Amount: " + currentItem.itemAmount + " / " + currentItem.item.maxStack;
+
+                        //Create the selected inventory prefab and delete the old one
+                        GameObject newInventoryPrefab = Instantiate(currentItem.item.itemModel, itemPrefabPosition);
+                        Destroy(itemPrefab);
+
+                        //Add InventoryPrefab component for spin effect
+                        newInventoryPrefab.AddComponent<InventoryPrefab>();
+                        newInventoryPrefab.GetComponent<Rigidbody>().isKinematic = true;
+
+                        itemPrefab = newInventoryPrefab;
+                    }
+                    else
+                    {
+                        EmptyInventory();
+                    }
+>>>>>>> 726cfcaab24f0c43c906b8a4dc491494b58225c5
                 }
                 else
                 {
                     EmptyInventory();
                 }
             }
-            else
+            else if (inventoryReference.activeSelf)
             {
-                EmptyInventory();
+                inventoryReference.SetActive(false);
             }
         }
-        else
-        {
-            inventoryReference.SetActive(false);
-        }
+        
     }
 
-<<<<<<< HEAD
     public void CheckButton(Button nextButton,Button prevButton)
     {
         if(inventoryManager.currentInventory.currentSlot >= playerInventory.inventory.Count-1)
@@ -107,10 +132,6 @@ public class InventoryUI : MonoBehaviour
     }
 
     public void DeleteItem()
-=======
-    //Clear all item text from the inventory
-    void EmptyInventory()
->>>>>>> f151327784ec78a704ec2d4cbc3e8f429e12c4e2
     {
         textName.text = "";
         textDescription.text = "";
@@ -120,14 +141,22 @@ public class InventoryUI : MonoBehaviour
             Destroy(itemPrefab);
     }
 
-<<<<<<< HEAD
     private void DisableInventoryUI()
     {
         gameObject.SetActive(false);
     }
 
-=======
->>>>>>> f151327784ec78a704ec2d4cbc3e8f429e12c4e2
+    //Clear all item text from the inventory
+    void EmptyInventory()
+    {
+        textName.text = "";
+        textDescription.text = "";
+        textAmount.text = "";
+
+        if (itemPrefab != null)
+            Destroy(itemPrefab);
+    }
+
     void OnDestroy()
     {
         inventoryManager.UpdateInventoryEvent -= UpdateInventoryUI;
