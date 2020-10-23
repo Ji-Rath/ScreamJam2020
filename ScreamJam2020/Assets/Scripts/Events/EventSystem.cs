@@ -12,12 +12,6 @@ public class EventSystem : MonoBehaviour
         instance = this;
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-            TriggerRandomEvent();
-    }
-
     //Get a random nearby event and trigger it
     public void TriggerNearbyEvent()
     {
