@@ -19,7 +19,11 @@ public class ReadUI : UIBase
     public override bool IsEnabled()
     {
         //Make sure transition animation isnt playing while determining visibility
-        return isVisible || interactAnimator.GetCurrentAnimatorStateInfo(0).IsTag("Transition");
+
+        if (interactAnimator)
+            return isVisible || interactAnimator.GetCurrentAnimatorStateInfo(0).IsTag("Transition");
+
+        return isVisible;
     }
 
     protected override void Start()
