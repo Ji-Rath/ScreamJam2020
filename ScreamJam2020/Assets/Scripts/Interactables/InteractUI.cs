@@ -37,12 +37,16 @@ public class InteractUI : MonoBehaviour
             else if (interactable)
                 textInteractable.text = interactable.interactMessage;
 
-            //Make text visible if it is not already
-            if (!isVisible)
+            if(!interactable.notShowButtonPrompt)
             {
-                isVisible = true;
-                interactAnimator.SetBool("isVisible", isVisible);
+                //Make text visible if it is not already
+                if (!isVisible)
+                {
+                    isVisible = true;
+                    interactAnimator.SetBool("isVisible", isVisible);
+                }
             }
+            
         }
         else if (isVisible)
         {
