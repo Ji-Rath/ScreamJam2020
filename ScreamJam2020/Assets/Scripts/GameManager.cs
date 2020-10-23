@@ -9,6 +9,7 @@ public class GameManager : MonobehaviourSingleton<GameManager>
     public string text;
     public GameObject playerRef;
     public GameObject enemyRef;
+    public KeyDoor vodooDollDoor;
     private MonsterAI enemy;
 
     public GameObject spawnPointsParent;
@@ -25,6 +26,11 @@ public class GameManager : MonobehaviourSingleton<GameManager>
 
         EquipSystem.OnPlayerDropItem += SpawnEnemyNearby;
         enemy = enemyRef.GetComponent<MonsterAI>();
+
+        if(vodooDollDoor)
+        {
+            vodooDollDoor.OnKeyDoorOpened += PlayerVictoryEvent;
+        }
     }
 
     // Update is called once per frame
@@ -69,8 +75,17 @@ public class GameManager : MonobehaviourSingleton<GameManager>
         
     }
 
+    public void PlayerVictoryEvent()
+    {
+        Debug.Log("PLAYER WON!");
+    }
+
     private void OnDestroy()
     {
         EquipSystem.OnPlayerDropItem -= SpawnEnemyNearby;
+        if (vodooDollDoor)
+        {
+            vodooDollDoor.OnKeyDoorOpened -= PlayerVictoryEvent;
+        }
     }
 }

@@ -4,28 +4,87 @@ using UnityEngine;
 
 public class KeyDoor : Door
 {
+    public delegate void OnKeyDoorAction();
+    public OnKeyDoorAction OnKeyDoorOpened;
+
     [Header("Locked Door Config")]
     [Tooltip("A list of items that will unlock the door")]
     public List<ItemBase> keysNeeded = new List<ItemBase>();
+    public bool allKeysInInventory;
 
     [Tooltip("Message to display when the door is locked"), TextArea]
     public string lockedMessage;
 
     public bool UnlockKey(ItemBase item)
     {
-        bool isCorrectKey = keysNeeded.Contains(item);
-
-        //Remove key if it is correct
-        if (isCorrectKey)
-            keysNeeded.Remove(item);
-
-        //Unlock door and play message if there are no more keys needed
-        if (isLocked && keysNeeded.Count == 0)
+        if(!allKeysInInventory)
         {
-            isLocked = false;
-        }
+            bool isCorrectKey = keysNeeded.Contains(item);
 
-        return isCorrectKey;
+            //Remove key if it is correct
+            if (isCorrectKey)
+                keysNeeded.Remove(item);
+
+            //Unlock door and play message if there are no more keys needed
+            if (isLocked && keysNeeded.Count == 0)
+            {
+                isLocked = false;
+                if(OnKeyDoorOpened != null)
+                {
+                    OnKeyDoorOpened();
+                }
+            }
+
+            return isCorrectKey;
+        }
+        else
+        {
+            List<int> correctKeysIndex = new List<int>();
+            InventoryManager inventoryManager = GameManager.Get().playerRef.GetComponent<InventoryManager>();
+            for (int i = 0; i < inventoryManager.currentInventory.maxSlots; i++)
+            {
+                bool isCorrectKey = keysNeeded.Contains(inventoryManager.currentInventory.inventory[i].item);
+                if (isCorrectKey)
+                {
+                    correctKeysIndex.Add(i);
+                }
+                    
+            }
+
+            if(correctKeysIndex.Count >= keysNeeded.Count)
+            {
+                List<ItemBase> itemsToDelete = new List<ItemBase>();
+
+                for (int i = 0; i < correctKeysIndex.Count; i++)
+                {
+                    itemsToDelete.Add(inventoryManager.currentInventory.inventory[correctKeysIndex[i]].item);
+                }
+
+                for (int i = 0; i < itemsToDelete.Count; i++)
+                {
+                    inventoryManager.RemoveFromInventory(itemsToDelete[i], 1);
+                }
+                itemsToDelete.Clear();
+                EquipSystem equipSystem = GameManager.Get().playerRef.GetComponent<EquipSystem>();
+                Destroy(equipSystem.currentEquippedItem.gameObject);
+                correctKeysIndex.Clear();
+
+                isLocked = false;
+
+                if (OnKeyDoorOpened != null)
+                {
+                    OnKeyDoorOpened();
+                }
+
+                return true;
+            }
+            else
+            {
+                correctKeysIndex.Clear();
+                return false;
+            }
+        }
+        
     }
 
     public override void OnInteract()
@@ -33,7 +92,7 @@ public class KeyDoor : Door
         base.OnInteract();
 
         //Display locked message
-        if(keysNeeded.Count > 0)
+        if(keysNeeded.Count > 0 && isLocked)
         {
             DialogueBox.Get().TriggerText(lockedMessage);
         }

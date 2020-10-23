@@ -124,11 +124,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 722d2f47dc07d07468fb20b3c84943ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  notShowButtonPrompt: 0
+  interactMessage: Grab Crowbar?
   item: {fileID: 11400000, guid: 5262a41aa14657a4594eb9b09352aca8, type: 2}
   destroyOnUse: 1
+  enemySpawnChance: 35
   pickupSound: {fileID: 8300000, guid: 51c204c48468b0341ae8dccf9817a7ff, type: 3}
   useSound: {fileID: 8300000, guid: 83e268a525ede6e4bb625c684d3234b5, type: 3}
   onUseMessage: Used {item} on {itemInView}
+  instantlyOpen: 0
 --- !u!82 &2859983622516689752
 AudioSource:
   m_ObjectHideFlags: 0
