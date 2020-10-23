@@ -145,7 +145,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1496
+  m_Name: pb_Mesh-8116
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -467,6 +467,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1344500103}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &332882504 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8950795559054871378, guid: eff2355b8cde20d408610cb3fc5ff90f,
+    type: 3}
+  m_PrefabInstance: {fileID: 613627993}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 716589957cb251a42a919d5391ce1d9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &573970790
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -678,6 +690,7 @@ MonoBehaviour:
   currentEquippedItem: {fileID: 0}
   itemDisplay: {fileID: 1224276428}
   dropSound: {fileID: 8300000, guid: 51c204c48468b0341ae8dccf9817a7ff, type: 3}
+  scalePreview: {x: 0, y: 0, z: 0}
   throwForce: 10
 --- !u!1001 &768877827
 PrefabInstance:
@@ -989,13 +1002,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45320dbd248d9f04c8a1f27bf0f3c505, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactablesNeeded: []
-  interactableToActivate:
-    id: 0
-  references:
-    version: 1
-    00000000:
-      type: {class: , ns: , asm: }
+  interactablesNeeded:
+  - {fileID: 1570545022}
+  - {fileID: 332882504}
 --- !u!1001 &1041375862
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1332,6 +1341,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1570545022 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8950795559054871378, guid: eff2355b8cde20d408610cb3fc5ff90f,
+    type: 3}
+  m_PrefabInstance: {fileID: 3260495263127990791}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 716589957cb251a42a919d5391ce1d9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &1612725386 stripped

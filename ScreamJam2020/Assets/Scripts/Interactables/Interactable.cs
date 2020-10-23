@@ -6,6 +6,7 @@ using UnityEngine;
 public abstract class Interactable : InteractableBase
 {
     public string interactableName;
+    public string hoverMessage;
 
 
     void Awake()

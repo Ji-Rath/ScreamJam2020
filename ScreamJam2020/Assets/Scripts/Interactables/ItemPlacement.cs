@@ -80,6 +80,7 @@ public class ItemPlacement : Interactable, IItemUsable
 
     void OnDestroy()
     {
-        itemPrefab.GetComponent<Pickupable>().PickupEvent -= Item_PickupEvent;
+        if (itemPrefab && itemPrefab.GetComponent<Pickupable>())
+            itemPrefab.GetComponent<Pickupable>().PickupEvent -= Item_PickupEvent;
     }
 }
