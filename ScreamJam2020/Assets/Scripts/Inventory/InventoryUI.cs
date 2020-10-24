@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class InventoryUI : MonoBehaviour
+public class InventoryUI : UIBase
 {
     private InventorySystem playerInventory;
     public InventoryManager inventoryManager;
@@ -18,64 +18,85 @@ public class InventoryUI : MonoBehaviour
     public Transform itemPrefabPosition;
     public Color normalColor;
     public Color disabledColor;
+    public Vector3 scalePreview;
     private GameObject itemPrefab;
 
     [Tooltip("GameObject to toggle active when using Inventory UI")]
     public GameObject inventoryReference;
 
-    void Start()
+    public override bool IsEnabled()
     {
-        playerInventory = inventoryManager.currentInventory;
+        return InventoryManager.inventoryVisible;
+    }
+
+    new void Start()
+    {
+        base.Start();
+
         inventoryManager.UpdateInventoryEvent += UpdateInventoryUI;
-
-
         InventoryManager.OnInventoryFullyEmptySlot += DeleteItem;
         MonsterAI.OnMonsterKillPlayer += DisableInventoryUI;
+
+        playerInventory = inventoryManager.currentInventory;
         EmptyInventory();
     }
 
     void UpdateInventoryUI()
     {
-        if (InventoryManager.inventoryVisible)
+        if (CanEnable())
         {
-            inventoryReference.SetActive(true);
-            CheckButton(nextButton, prevButton);
+            DisablePlayer(InventoryManager.inventoryVisible);
 
-            if(playerInventory.currentSlot < playerInventory.inventory.Count)
+            if (InventoryManager.inventoryVisible)
             {
-                ItemSlot currentItem = playerInventory.inventory[playerInventory.currentSlot];
+                inventoryReference.SetActive(true);
+                CheckButton(nextButton, prevButton);
 
-                if (currentItem.itemAmount != 0)
+                //Ensure the current slot is a valid slot
+                if (playerInventory.currentSlot < playerInventory.inventory.Count)
                 {
-                    //Update text
-                    textName.text = currentItem.item.name;
-                    textDescription.text = currentItem.item.description;
-                    textAmount.text = "Amount: " + currentItem.itemAmount + " / " + currentItem.item.maxStack;
+                    ItemSlot currentItem = playerInventory.inventory[playerInventory.currentSlot];
 
-                    //Create the selected inventory prefab and delete the old one
-                    GameObject newInventoryPrefab = Instantiate(currentItem.item.itemModel, itemPrefabPosition);
-                    Destroy(itemPrefab);
+                    //Make sure the amount is not 0 for some reason
+                    if (currentItem.itemAmount != 0)
+                    {
+                        //Update text
+                        textName.text = currentItem.item.name;
+                        textDescription.text = currentItem.item.description;
 
-                    //Add InventoryPrefab component for spin effect
-                    newInventoryPrefab.AddComponent<InventoryPrefab>();
-                    newInventoryPrefab.GetComponent<Rigidbody>().isKinematic = true;
+                        //Do not display stack count if the max stack is 1
+                        if (currentItem.item.maxStack > 1)
+                            textAmount.text = "Amount: " + currentItem.itemAmount + " / " + currentItem.item.maxStack;
+                        else
+                            textAmount.text = "";
 
-                    itemPrefab = newInventoryPrefab;
+                        //Create the selected inventory prefab and delete the old one
+                        GameObject newInventoryPrefab = Instantiate(currentItem.item.itemModel, itemPrefabPosition);
+                        Destroy(itemPrefab);
+						newInventoryPrefab.transform.localScale = scalePreview;
+
+                        //Add InventoryPrefab component for spin effect
+                        newInventoryPrefab.AddComponent<InventoryPrefab>();
+                        newInventoryPrefab.GetComponent<Rigidbody>().isKinematic = true;
+
+                        itemPrefab = newInventoryPrefab;
+                    }
+                    else
+                    {
+                        EmptyInventory();
+                    }
                 }
                 else
                 {
                     EmptyInventory();
                 }
             }
-            else
+            else if (inventoryReference.activeSelf)
             {
-                EmptyInventory();
+                inventoryReference.SetActive(false);
             }
         }
-        else
-        {
-            inventoryReference.SetActive(false);
-        }
+        
     }
 
     public void CheckButton(Button nextButton,Button prevButton)

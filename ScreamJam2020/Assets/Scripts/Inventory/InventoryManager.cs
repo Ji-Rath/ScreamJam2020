@@ -36,9 +36,6 @@ public class InventoryManager : MonoBehaviour
             inventoryVisible = !inventoryVisible;
             currentInventory.currentSlot = 0;
 
-            playerController.m_MouseLook.SetCursorLock(!inventoryVisible);
-            playerController.enabled = !inventoryVisible;
-
             UpdateInventory();
         }
     }
@@ -143,6 +140,7 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
+        Debug.Log("Unable to remove item!");
         return false;
     }
 

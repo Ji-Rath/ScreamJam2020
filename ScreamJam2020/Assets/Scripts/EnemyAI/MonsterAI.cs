@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,8 +12,9 @@ public class MonsterAI : MonoBehaviour
 
     private GameObject playerRef;
     private NavMeshAgent navAgent;
-    private Animator animator;
+    public Animator animator;
     private Player player;
+    private HidingSpot playerHidingSpot;
 
     [Header("Enemy Variables"), Space]
     public float attackDistance;
@@ -35,7 +37,7 @@ public class MonsterAI : MonoBehaviour
         //Get NavMeshAgent component for navigation
         playerRef = GameManager.Get().playerRef;
         navAgent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
+        //animator = GetComponent<Animator>();
         player = playerRef.GetComponent<Player>();
     }
 
@@ -43,6 +45,13 @@ public class MonsterAI : MonoBehaviour
     {
         //Start the visibility check coroutine
         StartCoroutine(CheckPlayerVisibility());
+    }
+    void Update()
+    {
+        if(navAgent.destination.magnitude != 0)
+        {
+            animator.SetFloat("SpeedMultiplier", navAgent.velocity.magnitude/navAgent.speed);
+        }
     }
 
     IEnumerator LookForPlayer()
@@ -70,7 +79,14 @@ public class MonsterAI : MonoBehaviour
             //Check if player is within viewing distance and within angle of view
             if (PlayerDistance < sightRadius && PlayerAngle < halfViewAngle && !player.isHiding)
             {
+                StopCoroutine(LookForPlayer());
+
                 animator.SetBool("LostSight", false);
+
+                //Moving the enemy pursuit here could make the enemy more aggresive since it can see the player
+                //through walls
+                /*navAgent.SetDestination(player.transform.position);
+                lastPosition = player.transform.position;*/
 
                 //Do a line trace to see if there is an object between the enemy and the player
                 RaycastHit RayHit;
@@ -78,14 +94,28 @@ public class MonsterAI : MonoBehaviour
                 {
                     if (RayHit.collider.tag == "Player")
                     {
-                        navAgent.SetDestination(RayHit.collider.transform.position);
-                        lastPosition = RayHit.collider.transform.position;
+                        navAgent.SetDestination(player.transform.position);
+                        lastPosition = player.transform.position;
+                    }
+                    else
+                    {
+                        if(RayHit.collider.tag == "Door")
+                        {
+                            KeyDoor door = RayHit.collider.GetComponent<KeyDoor>();
+                            if(!door.isOpen)
+                            {
+                                door.InteractDoor();
+                            }
+
+                        }
+                        navAgent.SetDestination(lastPosition);
                     }
 
                     Debug.DrawLine(transform.position, RayHit.point, Color.red, 0.5f);
                 }
                 else
                 {
+                    navAgent.SetDestination(lastPosition);
                     Debug.DrawLine(transform.position, RayHit.point, Color.green, 0.5f);
                 }
 
@@ -93,10 +123,7 @@ public class MonsterAI : MonoBehaviour
                 if(PlayerDistance <= attackDistance)
                 {
                     animator.SetTrigger("Attack");
-                    if(OnMonsterKillPlayer != null)
-                    {
-                        OnMonsterKillPlayer();
-                    }
+                    OnMonsterKillPlayer?.Invoke();
                     navAgent.isStopped = true;
                     Debug.Log("Player Died");
                 }
@@ -105,8 +132,28 @@ public class MonsterAI : MonoBehaviour
             {
                 //Go to last seen position
                 animator.SetBool("LostSight", true);
+
+                if (player.isHiding)
+                {
+                    lastPosition = player.currentHidingPlace.transform.GetComponentInParent<HidingSpot>().enemyStandPoint.transform.position;
+                }
+
+                RaycastHit RayHit;
+                if (Physics.Raycast(transform.position, Direction, out RayHit, sightRadius))
+                {
+                    if (RayHit.collider.tag == "Door")
+                    {
+                        KeyDoor door = RayHit.collider.GetComponent<KeyDoor>();
+                        if (!door.isOpen)
+                        {
+                            door.InteractDoor();
+                        }
+                    }
+                }
+
                 navAgent.SetDestination(lastPosition);
-                if(Vector3.Distance(transform.position, lastPosition) <= minimumLookAroundDistance)
+
+                if (Vector3.Distance(transform.position, lastPosition) <= minimumLookAroundDistance)
                 {
                     StartCoroutine(LookForPlayer());
                 }
@@ -130,6 +177,5 @@ public class MonsterAI : MonoBehaviour
         Debug.Log("Appeared Again");
     }
 
-    
-    
+
 }

@@ -9,6 +9,9 @@ public class GameManager : MonobehaviourSingleton<GameManager>
     public string text;
     public GameObject playerRef;
     public GameObject enemyRef;
+    public KeyDoor vodooDollDoor;
+    public KeyDoor mainEntrance;
+    public DeathScreen deathScreen;
     private MonsterAI enemy;
 
     public GameObject spawnPointsParent;
@@ -25,42 +28,81 @@ public class GameManager : MonobehaviourSingleton<GameManager>
 
         EquipSystem.OnPlayerDropItem += SpawnEnemyNearby;
         enemy = enemyRef.GetComponent<MonsterAI>();
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        //Test
-        /*if (Input.GetKeyDown(KeyCode.Alpha2))
+        if(vodooDollDoor)
         {
-            DialogueBox.Get().SetText(text);
-            DialogueBox.Get().TriggerText(textTime);
-        }*/
+            vodooDollDoor.OnKeyDoorUnlocked += UnlockMainEntrance;
+        }
+
+        if (mainEntrance)
+        {
+            mainEntrance.OnDoorOpened += PlayerVictoryEvent;
+        }
     }
 
     //Stimulates the monster to appear at an available spawn point
-    public void SpawnEnemyNearby()
+    public void SpawnEnemyNearby(int chance)
     {
-        //GameManager gameManager = GameManager.Get();
-        for (int i = 0; i < spawnPoints.Length; i++)
+        int randomChance = Random.Range(0, 101);
+
+        if(randomChance <= chance)
         {
-            Vector3 spawnPos = spawnPoints[i].transform.position;
-            float distanceBetween = Vector3.Distance(playerRef.transform.position, spawnPos);
-            Ray ray = new Ray(spawnPos, (playerRef.transform.position - spawnPos).normalized);
-
-
-            if (distanceBetween < enemy.spawnRadiusMax && distanceBetween > enemy.spawnRadiusMin
-                /*&& Physics.Raycast(ray, distanceBetween, LayerMask.GetMask("Default"))*/)
+            //GameManager gameManager = GameManager.Get();
+            for (int i = 0; i < spawnPoints.Length; i++)
             {
-                enemyRef.SetActive(true);
-                enemyRef.transform.position = spawnPos;
-                break;
+                Vector3 spawnPos = spawnPoints[i].transform.position;
+                float distanceBetween = Vector3.Distance(playerRef.transform.position, spawnPos);
+                Ray ray = new Ray(spawnPos, (playerRef.transform.position - spawnPos).normalized);
+
+
+                if (distanceBetween < enemy.spawnRadiusMax && distanceBetween > enemy.spawnRadiusMin
+                    /*&& Physics.Raycast(ray, distanceBetween, LayerMask.GetMask("Default"))*/)
+                {
+                    enemyRef.SetActive(true);
+                    enemyRef.transform.position = spawnPos;
+                    break;
+                }
             }
+
+            DialogueBox.Get().SetText("I think the enemy heard that..");
+            DialogueBox.Get().TriggerText(2);
+        }
+
+        
+    }
+
+    public void UnlockMainEntrance()
+    {
+        if(mainEntrance)
+        {
+            mainEntrance.isLocked = false;
+            //mainEntrance.InteractDoor();
+
+            DialogueBox.Get().SetText("The main entrance is open..");
+            DialogueBox.Get().TriggerText(3);
+        }
+    }
+
+    public void PlayerVictoryEvent()
+    {
+        Debug.Log("PLAYER WON!");
+        if (deathScreen)
+        {
+            deathScreen.StartWinScreen();
         }
     }
 
     private void OnDestroy()
     {
         EquipSystem.OnPlayerDropItem -= SpawnEnemyNearby;
+        if (vodooDollDoor)
+        {
+            vodooDollDoor.OnKeyDoorUnlocked -= UnlockMainEntrance;
+        }
+
+        if (mainEntrance)
+        {
+            mainEntrance.OnDoorOpened -= PlayerVictoryEvent;
+        }
     }
 }

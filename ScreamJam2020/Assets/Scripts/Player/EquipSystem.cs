@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class EquipSystem : MonoBehaviour
 {
-    public delegate void OnPlayerEquipAction();
+    public delegate void OnPlayerEquipAction(int chance);
     public static OnPlayerEquipAction OnPlayerDropItem;
 
     [HideInInspector]
     public Pickupable currentEquippedItem = null;
     public Transform itemDisplay;
     public AudioClip dropSound;
+    public Vector3 scalePreview;
     private AudioSource audioSource;
 
     public float throwForce = 10f;
@@ -24,11 +25,21 @@ public class EquipSystem : MonoBehaviour
     {
         //Destroy currently equipped item
         if (currentEquippedItem != null)
+        {
+            if (currentEquippedItem.item == item.GetComponent<Pickupable>().item)
+            {
+                Destroy(currentEquippedItem.gameObject);
+                return;
+            }
+
             Destroy(currentEquippedItem.gameObject);
+        }
+        
+
         //Create new item
         
         currentEquippedItem = Instantiate(item, itemDisplay).GetComponent<Pickupable>();
-        currentEquippedItem.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        currentEquippedItem.transform.localScale = scalePreview;
         currentEquippedItem.GetComponent<Collider>().enabled = false;
         currentEquippedItem.GetComponent<Rigidbody>().isKinematic = true;
 
@@ -44,6 +55,8 @@ public class EquipSystem : MonoBehaviour
     //Drop the selected item
     public void DropItem(ItemBase item)
     {
+        if (!item) { Debug.Log("No Item found to drop!"); return; }
+
         GetComponent<InventoryManager>().RemoveFromInventory(item, 1);
 
         if (currentEquippedItem != null)
@@ -54,9 +67,9 @@ public class EquipSystem : MonoBehaviour
             audioSource.clip = dropSound;
             audioSource.Play();
         }
-        
 
         GameObject droppedItem = Instantiate(item.itemModel, gameObject.transform.position, Quaternion.identity);
+        Pickupable pickup = droppedItem.GetComponent<Pickupable>();
 
         //Add velocity and angular velocity to thrown object
         Rigidbody itemBody = droppedItem.GetComponent<Rigidbody>();
@@ -64,12 +77,15 @@ public class EquipSystem : MonoBehaviour
         itemBody.angularVelocity = new Vector3(throwForce, throwForce, throwForce);
 
         //Cause enemy to appear
-        if(OnPlayerDropItem != null)
+        if(pickup)
         {
-            OnPlayerDropItem();
+            if (OnPlayerDropItem != null)
+            {
+                OnPlayerDropItem(pickup.enemySpawnChance);
+            }
         }
+        
 
-        DialogueBox.Get().SetText("I think the enemy heard that..");
-        DialogueBox.Get().TriggerText(2);
+        
     }
 }

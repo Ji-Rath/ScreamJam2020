@@ -106,4 +106,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75a6623e275f75246875b6ff0dd661fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  light: {fileID: 0}
+  interactableName: Power Box
+  toggleComponent: []

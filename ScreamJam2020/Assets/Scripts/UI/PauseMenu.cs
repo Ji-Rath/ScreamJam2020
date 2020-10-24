@@ -4,17 +4,21 @@ using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 using UnityStandardAssets.Characters.FirstPerson;
 
-public class PauseMenu : MonoBehaviour
+public class PauseMenu : UIBase
 {
     public bool isGamePaused = false;
     public GameObject pauseMenuUI;
-    private FirstPersonController playerController;
+
+    public override bool IsEnabled()
+    {
+        return isGamePaused;
+    }
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         pauseMenuUI.SetActive(false);
-        playerController = GameManager.Get().playerRef.GetComponent<FirstPersonController>();
     }
 
     // Update is called once per frame
@@ -28,14 +32,14 @@ public class PauseMenu : MonoBehaviour
 
     public void SwitchPause()
     {
+        //Make sure there is no other UI open before enabling
+        if (!CanEnable()) { return; }
+        
+
         isGamePaused = !isGamePaused;
 
-        if(playerController)
-        {
-            playerController.m_MouseLook.SetCursorLock(!isGamePaused);
-            playerController.enabled = !isGamePaused;
-        }
-        
+        DisablePlayer(isGamePaused);
+
         if (isGamePaused)
         {
             Time.timeScale = 0;
