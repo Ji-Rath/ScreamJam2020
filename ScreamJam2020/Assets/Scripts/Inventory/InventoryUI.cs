@@ -29,16 +29,19 @@ public class InventoryUI : UIBase
         return InventoryManager.inventoryVisible;
     }
 
-    protected override void Start()
+    new void Start()
     {
         base.Start();
 
         playerInventory = inventoryManager.currentInventory;
-        inventoryManager.UpdateInventoryEvent += UpdateInventoryUI;
+        EmptyInventory();
+    }
 
+    void OnEnable()
+    {
+        inventoryManager.UpdateInventoryEvent += UpdateInventoryUI;
         InventoryManager.OnInventoryFullyEmptySlot += DeleteItem;
         MonsterAI.OnMonsterKillPlayer += DisableInventoryUI;
-        EmptyInventory();
     }
 
     void UpdateInventoryUI()
@@ -147,7 +150,7 @@ public class InventoryUI : UIBase
             Destroy(itemPrefab);
     }
 
-    void OnDestroy()
+    void OnDisable()
     {
         inventoryManager.UpdateInventoryEvent -= UpdateInventoryUI;
         InventoryManager.OnInventoryFullyEmptySlot -= DeleteItem;

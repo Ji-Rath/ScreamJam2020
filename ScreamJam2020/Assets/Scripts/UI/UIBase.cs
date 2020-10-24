@@ -8,7 +8,7 @@ public abstract class UIBase : MonoBehaviour
     private static List<UIBase> UIList = new List<UIBase>();
     protected FirstPersonController playerController;
 
-    void Awake()
+    void OnEnable()
     {
         UIList.Add(this);
     }
@@ -18,7 +18,7 @@ public abstract class UIBase : MonoBehaviour
         playerController = GameManager.Get().playerRef.GetComponent<FirstPersonController>();
     }
 
-    void OnDestroy()
+    void OnDisable()
     {
         UIList.Remove(this);
     }
