@@ -78,6 +78,11 @@ public class PlayerInteraction : MonoBehaviour
                 itemInView = HitObject;
                 InteractHover?.Invoke();
             }
+            else
+            {
+                itemInView = null;
+                InteractHover?.Invoke();
+            }
                 
             if (enableDebug)
                 Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward, Color.green);

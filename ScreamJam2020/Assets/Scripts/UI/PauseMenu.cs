@@ -33,7 +33,7 @@ public class PauseMenu : UIBase
     public void SwitchPause()
     {
         //Make sure there is no other UI open before enabling
-        if (!IsEnabled() && !CanEnable()) { return; }
+        if (!CanEnable()) { return; }
         
 
         isGamePaused = !isGamePaused;
