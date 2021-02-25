@@ -48,6 +48,8 @@ GameObject:
   - component: {fileID: 583278684}
   - component: {fileID: 583278692}
   - component: {fileID: 583278693}
+  - component: {fileID: 2663594226810702684}
+  - component: {fileID: 4365472724283826027}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -215,6 +217,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 40e1d2d3aef18c645914c174be73b0a4, type: 3}
   m_JumpSound: {fileID: 8300000, guid: 40e1d2d3aef18c645914c174be73b0a4, type: 3}
   m_LandSound: {fileID: 8300000, guid: 04e2a9ff1d4471240a77cc069396c1af, type: 3}
+  m_Camera: {fileID: 0}
   m_IsCrouching: 0
   originalHeight: 0
   crouchHeight: 0.1
@@ -350,6 +353,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 488c2d5ccf3d6e244bcc1523d381bfd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCamera: {fileID: 0}
+  pixelCamera: {fileID: 0}
   isHiding: 0
   currentHidingPlace: {fileID: 0}
 --- !u!81 &583278684
@@ -376,7 +381,6 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 4864
-  itemInView: {fileID: 0}
   enableDebug: 0
 --- !u!114 &583278693
 MonoBehaviour:
@@ -396,6 +400,33 @@ MonoBehaviour:
   smoothTime: 3
   maxSway: 0.2
   swaySensitivity: 0.1
+--- !u!114 &2663594226810702684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6181635542439563922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eda3d64092983f24ebf9fd6125fc3ca3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nearbyEventRadius: 10
+--- !u!114 &4365472724283826027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6181635542439563922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3e2bd056990b547b82defb4681dbbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventory: {fileID: 11400000, guid: 326e3abcfecaf53499cac571bf070c43, type: 2}
+  currentSlot: 0
 --- !u!1 &6181635542651078422
 GameObject:
   m_ObjectHideFlags: 0

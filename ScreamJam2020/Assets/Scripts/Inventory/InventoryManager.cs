@@ -8,95 +8,90 @@ using System;
 
 public class InventoryManager : MonoBehaviour
 {
-    public delegate void OnInventoryAction();
-    public static OnInventoryAction OnInventoryFullyEmptySlot;
-    public InventorySystem currentInventory;
+
+    // Event called when there is an update to the inventory
+    public event Action UpdateInventoryEvent;
+
+    // ScriptableObject that contains inventory items/info
+    public InventorySystem inventory;
 
     [HideInInspector]
     public static bool inventoryVisible = false;
 
-    //Get player reference to manage cursor locking
-    private FirstPersonController playerController;
-
-    //Event called to update the inventory UI
-    public event Action UpdateInventoryEvent;
-
-    void Start()
-    {
-        //Get child gameObject to manage visibility of the inventory system
-        playerController = GetComponent<FirstPersonController>();
-        MonsterAI.OnMonsterKillPlayer += DisableInventory;
-    }
+    [HideInInspector]
+    public int currentSlot = 0;
 
     void Update()
     {
-        //Check if inventory key was pressed (Should be moved to player controller to prevent random references)
+        //Check if inventory key was pressed
         if (CrossPlatformInputManager.GetButtonDown("Inventory"))
         {
-            inventoryVisible = !inventoryVisible;
-            currentInventory.currentSlot = 0;
-
-            UpdateInventory();
+            ToggleInventory();
         }
     }
 
-    private void DisableInventory()
+    // Toggle visiblity of inventory
+    private void ToggleInventory()
     {
-        enabled = false;
-    }
+        inventoryVisible = !inventoryVisible;
+        currentSlot = 0;
 
-    //Update inventory information with the currently selected item
-    void UpdateInventory()
-    {
         UpdateInventoryEvent?.Invoke();
     }
 
     //Called when the player wants to view the next item in their inventory
     public void ViewNextItem()
     {
-        if(currentInventory.currentSlot < currentInventory.inventory.Count - 1)
+        if(currentSlot < inventory.itemList.Count - 1)
         {
-            if (currentInventory.inventory[currentInventory.currentSlot + 1].item != null)
-                currentInventory.currentSlot++;
+            if (inventory.itemList[currentSlot+1].item != null)
+            {
+                currentSlot++;
+            }
             else
-                currentInventory.currentSlot = 0;
-
-            UpdateInventory();
+            {
+                currentSlot = 0;
+            }
+            UpdateInventoryEvent?.Invoke();
         }
     }
 
     //Called when the player wants to view the previous item in their inventory
     public void ViewPreviousItem()
     {
-        if(currentInventory.currentSlot != 0)
+        if(currentSlot != 0)
         {
-            if (currentInventory.inventory[currentInventory.currentSlot - 1].item != null)
-                currentInventory.currentSlot--;
+            if (inventory.itemList[currentSlot - 1].item != null)
+            {
+                currentSlot--;
+            }
             else
-                currentInventory.currentSlot = currentInventory.inventory.Count - 1;
-            UpdateInventory();
+            {
+                currentSlot = inventory.itemList.Count - 1;
+            }
+            UpdateInventoryEvent?.Invoke();
         }
     }
 
     //Button for equipping the item
     public void EquipSelectedItem()
     {
-        if(currentInventory.inventory.Count > 0)
+        if(inventory.itemList.Count > 0)
         {
-            GetComponent<EquipSystem>().EquipItem(currentInventory.inventory[currentInventory.currentSlot].item.itemModel);
+            GetComponent<EquipSystem>().EquipItem(inventory.itemList[currentSlot].item.itemModel);
         }
-        
     }
 
     //Add specified item to the players inventory if possible
     public bool AddToInventory(ItemBase item, int amount = 1)
     {
-        for (int i = 0; i < currentInventory.inventory.Count; i++)
+        // Cycle through all inventory slots
+        for (int i = 0; i < inventory.itemList.Count; i++)
         {
-            ItemSlot itemSlot = currentInventory.inventory[i];
+            InventoryItem itemSlot = inventory.itemList[i];
             ItemBase itemTest = itemSlot.item;
 
-            //Test whether the player already has the item in their inventory and if there is enough room
+            // If the player has the item already in their inventory, attempt to add to stack
             if (itemTest.Equals(item) && (itemSlot.itemAmount + amount) <= itemTest.maxStack)
             {
                 AddToStack(i, amount);
@@ -105,9 +100,9 @@ public class InventoryManager : MonoBehaviour
         }
 
         //If there is an empty slot available, use that instead
-        if (currentInventory.inventory.Count < currentInventory.maxSlots)
+        if (inventory.itemList.Count < inventory.maxSlots)
         {
-            currentInventory.inventory.Add(new ItemSlot(item, amount));
+            inventory.itemList.Add(new InventoryItem(item, amount));
             return true;
         }
 
@@ -118,22 +113,18 @@ public class InventoryManager : MonoBehaviour
     //Remove specified item/amount from inventory
     public bool RemoveFromInventory(ItemBase item, int amount)
     {
-        for (int i = 0; i < currentInventory.inventory.Count; i++)
+        for (int i = 0; i < inventory.itemList.Count; i++)
         {
             //When the item is found, remove the set amount
-            if(currentInventory.inventory[i].item == item)
+            if(inventory.itemList[i].item == item)
             {
-                ItemSlot itemSlot = currentInventory.inventory[i];
+                InventoryItem itemSlot = inventory.itemList[i];
                 itemSlot.itemAmount -= amount;
-                currentInventory.inventory[i] = itemSlot;
+                inventory.itemList[i] = itemSlot;
 
                 if (itemSlot.itemAmount <= 0)
                 {
-                    currentInventory.inventory.RemoveAt(i);
-                    if(OnInventoryFullyEmptySlot != null)
-                    {
-                        OnInventoryFullyEmptySlot();
-                    }
+                    inventory.itemList.RemoveAt(i);
                 }
 
                 return true;
@@ -145,18 +136,17 @@ public class InventoryManager : MonoBehaviour
     }
 
     //Add specified item to the inventory (assuming it was possible)
-    void AddToStack(int slotIndex, int amount)
+    public void AddToStack(int slotIndex, int amount)
     {
-        ItemSlot itemSlot = currentInventory.inventory[slotIndex];
+        InventoryItem itemSlot = inventory.itemList[slotIndex];
         itemSlot.itemAmount += amount;
 
-        currentInventory.inventory[slotIndex] = itemSlot;
+        inventory.itemList[slotIndex] = itemSlot;
     }
 
     public void OnDestroy()
     {
         //Clean Scriptable Object
-        currentInventory.inventory.Clear();
-        MonsterAI.OnMonsterKillPlayer -= DisableInventory;
+        inventory.itemList.Clear();
     }
 }

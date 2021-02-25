@@ -6,18 +6,17 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Inventory", menuName = "Inventory")]
 public class InventorySystem : ScriptableObject
 {
-    public List<ItemSlot> inventory = new List<ItemSlot>();
-    public int currentSlot = 0;
+    public List<InventoryItem> itemList = new List<InventoryItem>();
     public int maxSlots = 3;
 }
 
 [Serializable]
-public struct ItemSlot
+public struct InventoryItem
 {
     public ItemBase item;
     public int itemAmount;
 
-    public ItemSlot(ItemBase item, int itemAmount)
+    public InventoryItem(ItemBase item, int itemAmount)
     {
         this.item = item;
         this.itemAmount = itemAmount;

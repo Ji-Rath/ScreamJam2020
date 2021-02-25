@@ -79,10 +79,7 @@ public class EquipSystem : MonoBehaviour
         //Cause enemy to appear
         if(pickup)
         {
-            if (OnPlayerDropItem != null)
-            {
-                OnPlayerDropItem(pickup.enemySpawnChance);
-            }
+            OnPlayerDropItem?.Invoke(pickup.enemySpawnChance);
         }
         
 

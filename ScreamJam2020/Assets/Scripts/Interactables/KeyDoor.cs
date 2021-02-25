@@ -47,9 +47,9 @@ public class KeyDoor : Door, IItemUsable
         {
             List<int> correctKeysIndex = new List<int>();
             InventoryManager inventoryManager = GameManager.Get().playerRef.GetComponent<InventoryManager>();
-            for (int i = 0; i < inventoryManager.currentInventory.maxSlots; i++)
+            for (int i = 0; i < inventoryManager.inventory.maxSlots; i++)
             {
-                bool isCorrectKey = keysNeeded.Contains(inventoryManager.currentInventory.inventory[i].item);
+                bool isCorrectKey = keysNeeded.Contains(inventoryManager.inventory.itemList[i].item);
                 if (isCorrectKey)
                 {
                     correctKeysIndex.Add(i);
@@ -63,7 +63,7 @@ public class KeyDoor : Door, IItemUsable
 
                 for (int i = 0; i < correctKeysIndex.Count; i++)
                 {
-                    itemsToDelete.Add(inventoryManager.currentInventory.inventory[correctKeysIndex[i]].item);
+                    itemsToDelete.Add(inventoryManager.inventory.itemList[correctKeysIndex[i]].item);
                 }
 
                 for (int i = 0; i < itemsToDelete.Count; i++)

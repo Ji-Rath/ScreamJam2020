@@ -6,8 +6,7 @@ using UnityEngine.UI;
 
 public class InventoryUI : UIBase
 {
-    private InventorySystem playerInventory;
-    public InventoryManager inventoryManager;
+    public InventoryManager playerInventory;
 
     //Get UI references
     public Button nextButton;
@@ -33,11 +32,9 @@ public class InventoryUI : UIBase
     {
         base.Start();
 
-        inventoryManager.UpdateInventoryEvent += UpdateInventoryUI;
-        InventoryManager.OnInventoryFullyEmptySlot += DeleteItem;
+        playerInventory.UpdateInventoryEvent += UpdateInventoryUI;
         MonsterAI.OnMonsterKillPlayer += DisableInventoryUI;
 
-        playerInventory = inventoryManager.currentInventory;
         EmptyInventory();
     }
 
@@ -53,9 +50,9 @@ public class InventoryUI : UIBase
                 CheckButton(nextButton, prevButton);
 
                 //Ensure the current slot is a valid slot
-                if (playerInventory.currentSlot < playerInventory.inventory.Count)
+                if (playerInventory.currentSlot < playerInventory.inventory.itemList.Count)
                 {
-                    ItemSlot currentItem = playerInventory.inventory[playerInventory.currentSlot];
+                    InventoryItem currentItem = playerInventory.inventory.itemList[playerInventory.currentSlot];
 
                     //Make sure the amount is not 0 for some reason
                     if (currentItem.itemAmount != 0)
@@ -93,6 +90,7 @@ public class InventoryUI : UIBase
             }
             else if (inventoryReference.activeSelf)
             {
+                // Toggle visibility of Inventory UI when it should not be visible
                 inventoryReference.SetActive(false);
             }
         }
@@ -101,7 +99,7 @@ public class InventoryUI : UIBase
 
     public void CheckButton(Button nextButton,Button prevButton)
     {
-        if(inventoryManager.currentInventory.currentSlot >= playerInventory.inventory.Count-1)
+        if(playerInventory.currentSlot >= playerInventory.inventory.itemList.Count-1)
         {
             nextButton.image.color = disabledColor;
         }
@@ -110,7 +108,7 @@ public class InventoryUI : UIBase
             nextButton.image.color = normalColor;
         }
 
-        if (inventoryManager.currentInventory.currentSlot <= 0)
+        if (playerInventory.currentSlot <= 0)
         {
             prevButton.image.color = disabledColor;
         }
@@ -119,16 +117,6 @@ public class InventoryUI : UIBase
             prevButton.image.color = normalColor;
         }
 
-    }
-
-    public void DeleteItem()
-    {
-        textName.text = "";
-        textDescription.text = "";
-        textAmount.text = "";
-
-        if (itemPrefab != null)
-            Destroy(itemPrefab);
     }
 
     private void DisableInventoryUI()
@@ -149,8 +137,7 @@ public class InventoryUI : UIBase
 
     void OnDestroy()
     {
-        inventoryManager.UpdateInventoryEvent -= UpdateInventoryUI;
-        InventoryManager.OnInventoryFullyEmptySlot -= DeleteItem;
+        playerInventory.UpdateInventoryEvent -= UpdateInventoryUI;
         MonsterAI.OnMonsterKillPlayer -= DisableInventoryUI;
     }
 }
