@@ -425,7 +425,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e3e2bd056990b547b82defb4681dbbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventory: {fileID: 11400000, guid: 326e3abcfecaf53499cac571bf070c43, type: 2}
+  inventory: {fileID: 11400000, guid: 2b9adc346367a6d408f2b2deeb8274d8, type: 2}
   currentSlot: 0
 --- !u!1 &6181635542651078422
 GameObject:

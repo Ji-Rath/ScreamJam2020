@@ -1,4 +1,21 @@
 {
-  "name": "Inventory System",
-  "version": "1.0.0"
+  "name": "com.jirath.inventorysystem",
+  "version": "1.0.0",
+  "displayName": "Inventory System",
+  "description": "This is an example package",
+  "unity": "2019.3",
+  "unityRelease": "15f1",
+  "dependencies": {
+    "com.jirath.interactsystem": "1.0.0"
+  },
+  "keywords": [
+    "inventory",
+    "jirath",
+    "system"
+  ],
+  "author": {
+    "name": "Gareth Aguilar",
+    "email": "garethaguilar@gmail.com",
+    "url": "https://github.com/Ji-Rath"
+  }
 }

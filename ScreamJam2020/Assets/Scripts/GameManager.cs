@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using JiRath.InventorySystem.EquipSystem;
 
 
 public class GameManager : MonobehaviourSingleton<GameManager>

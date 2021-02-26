@@ -2,6 +2,8 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using JiRath.InteractSystem.PlayerInteract;
+using JiRath.InventorySystem.Pickupables;
 
 [RequireComponent(typeof(Animator))]
 public class ReadUI : UIBase

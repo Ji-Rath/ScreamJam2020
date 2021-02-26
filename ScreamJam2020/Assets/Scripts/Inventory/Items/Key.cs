@@ -2,28 +2,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using JiRath.InventorySystem.Pickupables;
+using JiRath.InteractSystem.PlayerInteract;
 
-public class Key : Pickupable
+namespace JiRath.InventorySystem.Interactables
 {
-    public bool instantlyOpen;
-
-    public override bool Use()
+    public class Key : Pickupable
     {
-        GameObject itemInView = GameManager.Get().playerRef.GetComponent<PlayerInteraction>().GetItemInView();
-        if(itemInView)
+        public bool instantlyOpen;
+
+        public override bool Use()
         {
-            KeyDoor keyDoor = itemInView.GetComponent<KeyDoor>();
-            if (keyDoor)
+            GameObject itemInView = GameManager.Get().playerRef.GetComponent<PlayerInteraction>().GetItemInView();
+            if (itemInView)
             {
-                bool couldUnlock = keyDoor.OnItemUse(item);
-                if(instantlyOpen)
+                KeyDoor keyDoor = itemInView.GetComponent<KeyDoor>();
+                if (keyDoor)
                 {
-                    keyDoor.InteractDoor();
+                    bool couldUnlock = keyDoor.OnItemUse(item);
+                    if (instantlyOpen)
+                    {
+                        keyDoor.InteractDoor();
+                    }
+                    return couldUnlock;
                 }
-                return couldUnlock;
             }
+            return false;
         }
-        return false;
     }
 }
 

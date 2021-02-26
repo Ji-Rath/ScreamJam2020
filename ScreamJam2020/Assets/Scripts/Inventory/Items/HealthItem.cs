@@ -1,12 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using JiRath.InventorySystem.Pickupables;
 
-public class HealthItem : Pickupable
+namespace JiRath.InventorySystem.Interactables
 {
-    public override bool Use()
+    public class HealthItem : Pickupable
     {
-        Debug.Log("Gave player some health!");
-        return true;
+        public override bool Use()
+        {
+            Debug.Log("Gave player some health!");
+            return true;
+        }
     }
 }

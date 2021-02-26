@@ -1,0 +1,19 @@
+{
+  "name": "com.jirath.interactsystem",
+  "version": "1.0.0",
+  "displayName": "Interaction System",
+  "description": "This is an example package",
+  "unity": "2019.3",
+  "unityRelease": "15f1",
+  "dependencies": {},
+  "keywords": [
+    "interaction",
+    "jirath",
+    "system"
+  ],
+  "author": {
+    "name": "Gareth Aguilar",
+    "email": "garethaguilar@gmail.com",
+    "url": "https://github.com/Ji-Rath"
+  }
+}
