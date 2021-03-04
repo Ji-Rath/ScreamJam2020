@@ -1235,7 +1235,7 @@ GameObject:
   - component: {fileID: 8090557884241898774}
   - component: {fileID: 2235844843082695055}
   - component: {fileID: 2728676007500759509}
-  - component: {fileID: 2918712958806083373}
+  - component: {fileID: 800233790242682087}
   m_Layer: 8
   m_Name: Knives Note
   m_TagString: Untagged
@@ -1430,7 +1430,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &2918712958806083373
+--- !u!114 &800233790242682087
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1439,10 +1439,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 9165954669988578071}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f8aeb6699b2c3d49a7fa7d4da1cbf15, type: 3}
+  m_Script: {fileID: 11500000, guid: d990537033d3bf3458fe75a8ea5df77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  notShowButtonPrompt: 0
+  interactableName: 
+  hoverMessage: 
   item: {fileID: 11400000, guid: 5b28450fb8790a846a3a98ab8c273250, type: 2}
   destroyOnUse: 0
   enemySpawnChance: 0

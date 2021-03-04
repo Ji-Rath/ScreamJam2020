@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 using System;
 
 namespace JiRath.InventorySystem
@@ -40,46 +39,12 @@ namespace JiRath.InventorySystem
         }
 
         //Called when the player wants to view the next item in their inventory
-        public void ViewNextItem()
+        public InventoryItem GetItem(int index)
         {
-            if (currentSlot < inventory.itemList.Count - 1)
-            {
-                if (inventory.itemList[currentSlot + 1].item != null)
-                {
-                    currentSlot++;
-                }
-                else
-                {
-                    currentSlot = 0;
-                }
-                UpdateInventoryEvent?.Invoke();
-            }
-        }
+            if (index < inventory.itemList.Count && index >= 0)
+                return inventory.itemList[index];
 
-        //Called when the player wants to view the previous item in their inventory
-        public void ViewPreviousItem()
-        {
-            if (currentSlot != 0)
-            {
-                if (inventory.itemList[currentSlot - 1].item != null)
-                {
-                    currentSlot--;
-                }
-                else
-                {
-                    currentSlot = inventory.itemList.Count - 1;
-                }
-                UpdateInventoryEvent?.Invoke();
-            }
-        }
-
-        //Button for equipping the item
-        public void EquipSelectedItem()
-        {
-            if (inventory.itemList.Count > 0)
-            {
-                //GetComponent<EquipSystem>().EquipItem(inventory.itemList[currentSlot].item.itemModel);
-            }
+            return new InventoryItem();
         }
 
         //Add specified item to the players inventory if possible

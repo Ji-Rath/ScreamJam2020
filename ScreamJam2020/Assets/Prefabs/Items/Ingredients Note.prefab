@@ -1233,7 +1233,7 @@ GameObject:
   - component: {fileID: 8090557884241898774}
   - component: {fileID: 2235844843082695055}
   - component: {fileID: 2728676007500759509}
-  - component: {fileID: 2918712958806083373}
+  - component: {fileID: 8704924085679049692}
   m_Layer: 8
   m_Name: Ingredients Note
   m_TagString: Untagged
@@ -1381,7 +1381,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &2918712958806083373
+--- !u!114 &8704924085679049692
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1390,10 +1390,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 9165954669988578071}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f8aeb6699b2c3d49a7fa7d4da1cbf15, type: 3}
+  m_Script: {fileID: 11500000, guid: d990537033d3bf3458fe75a8ea5df77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  notShowButtonPrompt: 0
+  interactableName: 
+  hoverMessage: 
   item: {fileID: 11400000, guid: c2a8ce594d46b2b448cf2cff00f9853d, type: 2}
   destroyOnUse: 0
   enemySpawnChance: 0

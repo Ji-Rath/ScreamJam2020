@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
     public Camera pixelCamera;
     public bool isHiding;
     public GameObject currentHidingPlace;
+
+    public GameObject PauseUI;
     
 
     // Start is called before the first frame update
@@ -18,6 +20,9 @@ public class Player : MonoBehaviour
         //playerCamera.enabled = false;
         //pixelCamera.enabled = true;
         //playerCamera.enabled = true;
+
+        PauseUI = Instantiate(PauseUI);
+        PauseUI.GetComponent<UIBase>().owningPlayer = gameObject;
     }
 
     private void OnTriggerEnter(Collider other)

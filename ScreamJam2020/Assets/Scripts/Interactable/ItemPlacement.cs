@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using JiRath.InventorySystem.Usable;
 using JiRath.InteractSystem;
-using JiRath.InventorySystem.Pickupables;
 using JiRath.InventorySystem;
 
 public class ItemPlacement : Interactable, IItemUsable
@@ -29,19 +26,13 @@ public class ItemPlacement : Interactable, IItemUsable
     public bool OnItemUse(ItemBase item)
     {
         bool isSuccess = false;
+
+        //Drop currently placed item
         if(placedItem)
-        {
-            if (GameManager.Get().playerRef.GetComponent<InventoryManager>().AddToInventory(placedItem))
-            {
-                placedItem = item;
-                isSuccess = true;
-            }
-        }
-        else
-        {
-            placedItem = item;
-            isSuccess = true;
-        }
+            Instantiate(placedItem, transform);
+
+        placedItem = item;
+        isSuccess = true;
 
         //Create the selected inventory prefab and delete the old one
         GameObject newItemPrefab = Instantiate(placedItem.itemModel, itemPosition);

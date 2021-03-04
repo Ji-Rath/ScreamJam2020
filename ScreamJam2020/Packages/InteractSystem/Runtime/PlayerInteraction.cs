@@ -1,10 +1,8 @@
 ﻿
 using System;
 using UnityEngine;
-//using UnityStandardAssets.Characters.FirstPerson;
-//using UnityStandardAssets.CrossPlatformInput;
 
-namespace JiRath.InteractSystem.PlayerInteract
+namespace JiRath.InteractSystem
 {
     public class PlayerInteraction : MonoBehaviour
     {
@@ -28,23 +26,6 @@ namespace JiRath.InteractSystem.PlayerInteract
                 //Interacting with objects in the world
                 itemInView.GetComponent<Interactable>().OnInteract(gameObject);
             }
-            /*
-            else if (equipSystem && equipSystem.currentEquippedItem)
-            {
-                Pickupable pickupable = equipSystem.currentEquippedItem.GetComponent<Pickupable>();
-                if (pickupable)
-                {
-                    //Using item that the player has equipped
-                    if (CrossPlatformInputManager.GetButtonDown("Fire1"))
-                    {
-                        pickupable.OnUse();
-                        UseItem?.Invoke(pickupable);
-                    }
-                    else if (CrossPlatformInputManager.GetButtonDown("DropItem"))
-                        equipSystem.DropItem(pickupable.item);
-                }
-            }
-            */
 
             if (Input.GetButtonDown("Cancel"))
             {
@@ -83,9 +64,11 @@ namespace JiRath.InteractSystem.PlayerInteract
             }
         }
 
-        public GameObject GetItemInView()
+        public Interactable GetItemInView()
         {
-            return itemInView;
+            if (itemInView)
+                return itemInView.GetComponent<Interactable>();
+            return null;
         }
     }
 }

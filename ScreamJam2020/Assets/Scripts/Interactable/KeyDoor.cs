@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using JiRath.InventorySystem.Usable;
-using JiRath.InventorySystem.EquipSystem;
 using JiRath.InventorySystem;
+using JiRath.InventorySystem.EquipSystem;
 
 [Serializable]
 public class KeyDoor : Door, IItemUsable
@@ -37,10 +37,8 @@ public class KeyDoor : Door, IItemUsable
             if (isLocked && keysNeeded.Count == 0)
             {
                 isLocked = false;
-                if (OnKeyDoorUnlocked != null)
-                {
-                    OnKeyDoorUnlocked();
-                }
+                OnKeyDoorUnlocked?.Invoke();
+                OnInteract(gameObject);
             }
 
             UseItem?.Invoke();
@@ -74,7 +72,7 @@ public class KeyDoor : Door, IItemUsable
                     inventoryManager.RemoveFromInventory(itemsToDelete[i], 1);
                 }
                 itemsToDelete.Clear();
-                EquipSystem equipSystem = GameManager.Get().playerRef.GetComponent<EquipSystem>();
+                EquipManager equipSystem = GameManager.Get().playerRef.GetComponent<EquipManager>();
                 Destroy(equipSystem.currentEquippedItem.gameObject);
                 correctKeysIndex.Clear();
 

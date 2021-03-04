@@ -1,11 +1,10 @@
 ﻿using System;
 using UnityEngine;
-using JiRath.InteractSystem.PlayerInteract;
 using JiRath.InteractSystem;
 using JiRath.InventorySystem.Usable;
 
 
-namespace JiRath.InventorySystem.Pickupables
+namespace JiRath.InventorySystem
 {
     /// <summary>
     /// Class that handles objects that can be picked up by the player and optionally used
@@ -31,11 +30,6 @@ namespace JiRath.InventorySystem.Pickupables
         public string onUseMessage;
 
         public event Action PickupEvent;
-
-        void Start()
-        {
-            //Get player inventory
-        }
 
         public override void OnInteract(GameObject Interactor)
         {
@@ -63,17 +57,16 @@ namespace JiRath.InventorySystem.Pickupables
         /// <summary>
         /// Called when the item will be used
         /// </summary>
-        public bool OnUse()
+        public bool OnUse(GameObject user, Interactable itemInView)
         {
+            playerInventory = user.GetComponent<InventoryManager>();
+            playerInteract = user.GetComponent<PlayerInteraction>();
+
             //If the item could be used, play sound
-            if (!UseOnInteractactable() && Use())
+            if (Use(user, itemInView))
             {
                 //Play use sound
-                if (audioSource)
-                {
-                    audioSource.clip = useSound;
-                    audioSource.Play();
-                }
+                audioSource?.PlayOneShot(useSound);
 
                 //Destroy item if specified
                 if (destroyOnUse)
@@ -96,40 +89,24 @@ namespace JiRath.InventorySystem.Pickupables
         /// </summary>
         void UpdateUseText()
         {
-            GameObject itemInView = playerInteract.GetItemInView();
+            Interactable itemInView = playerInteract.GetItemInView();
             onUseMessage = onUseMessage.Replace("{item}", item.name);
             if (itemInView)
                 onUseMessage = onUseMessage.Replace("{itemInView}", itemInView.name);
         }
 
         /// <summary>
-        /// Called to see if the current pickupable can be used on whats being hovered by the player
-        /// </summary>
-        /// <returns></returns>
-        private bool UseOnInteractactable()
-        {
-            //Check if the player is hovering over an ItemPlacement object and determine whether the object is able to be used by it
-            GameObject itemInView = playerInteract.GetItemInView();
-            if (itemInView)
-            {
-                IItemUsable itemPlacement = itemInView.GetComponent<IItemUsable>();
-                if (itemPlacement != null && itemPlacement.OnItemUse(item))
-                {
-                    playerInventory.RemoveFromInventory(item, 1);
-                    Destroy(gameObject);
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Functionality of using the item
+        /// Functionality of using an item on a IItemUsable component
         /// </summary>
         /// <returns>Whether the item could be used.</returns>
-        public virtual bool Use()
+        public virtual bool Use(GameObject user, Interactable itemInView)
         {
+            if (itemInView)
+            {
+                IItemUsable itemUsable = itemInView.GetComponent<IItemUsable>();
+                if (itemUsable != null)
+                    return itemUsable.OnItemUse(item);
+            }
             return false;
         }
     }

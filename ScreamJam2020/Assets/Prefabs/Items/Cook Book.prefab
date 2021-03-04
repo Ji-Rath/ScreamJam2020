@@ -91,7 +91,7 @@ GameObject:
   - component: {fileID: 5049021693440784092}
   - component: {fileID: 2977307016150342213}
   - component: {fileID: 1407622970092345887}
-  - component: {fileID: 8927430588599262785}
+  - component: {fileID: 849237005466813542}
   m_Layer: 8
   m_Name: Cook Book
   m_TagString: Untagged
@@ -239,7 +239,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &8927430588599262785
+--- !u!114 &849237005466813542
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -248,12 +248,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 5288025069186881757}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f8aeb6699b2c3d49a7fa7d4da1cbf15, type: 3}
+  m_Script: {fileID: 11500000, guid: d990537033d3bf3458fe75a8ea5df77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactableName: 
+  hoverMessage: 
   item: {fileID: 11400000, guid: a36176132b3560242b0a4bac5ce3b6a1, type: 2}
   destroyOnUse: 0
-  enemySpawnChance: 20
+  enemySpawnChance: 0
   pickupSound: {fileID: 8300000, guid: 51c204c48468b0341ae8dccf9817a7ff, type: 3}
   useSound: {fileID: 8300000, guid: 83e268a525ede6e4bb625c684d3234b5, type: 3}
   onUseMessage: 

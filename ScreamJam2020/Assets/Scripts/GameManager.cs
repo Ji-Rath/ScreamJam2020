@@ -14,6 +14,7 @@ public class GameManager : MonobehaviourSingleton<GameManager>
     public KeyDoor mainEntrance;
     public DeathScreen deathScreen;
     private MonsterAI enemy;
+    public Transform PlayerSpawnLocation;
 
     public GameObject spawnPointsParent;
     public GameObject[] spawnPoints;
@@ -27,7 +28,7 @@ public class GameManager : MonobehaviourSingleton<GameManager>
             spawnPoints[i] = spawnPointsParent.transform.GetChild(i).gameObject;
         }
 
-        EquipSystem.OnPlayerDropItem += SpawnEnemyNearby;
+        EquipManager.OnPlayerDropItem += SpawnEnemyNearby;
         enemy = enemyRef.GetComponent<MonsterAI>();
 
         if(vodooDollDoor)
@@ -39,6 +40,9 @@ public class GameManager : MonobehaviourSingleton<GameManager>
         {
             mainEntrance.OnDoorOpened += PlayerVictoryEvent;
         }
+
+        // Create instance of player
+        playerRef = Instantiate(playerRef, PlayerSpawnLocation.position, PlayerSpawnLocation.rotation);
     }
 
     //Stimulates the monster to appear at an available spawn point
@@ -95,7 +99,7 @@ public class GameManager : MonobehaviourSingleton<GameManager>
 
     private void OnDestroy()
     {
-        EquipSystem.OnPlayerDropItem -= SpawnEnemyNearby;
+        EquipManager.OnPlayerDropItem -= SpawnEnemyNearby;
         if (vodooDollDoor)
         {
             vodooDollDoor.OnKeyDoorUnlocked -= UnlockMainEntrance;

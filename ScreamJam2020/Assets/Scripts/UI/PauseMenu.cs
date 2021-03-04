@@ -15,9 +15,8 @@ public class PauseMenu : UIBase
     }
 
     // Start is called before the first frame update
-    protected override void Start()
+    void Start()
     {
-        base.Start();
         pauseMenuUI.SetActive(false);
     }
 

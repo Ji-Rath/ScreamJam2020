@@ -49,7 +49,8 @@ GameObject:
   - component: {fileID: 583278692}
   - component: {fileID: 583278693}
   - component: {fileID: 2663594226810702684}
-  - component: {fileID: 4365472724283826027}
+  - component: {fileID: 5174882231958690320}
+  - component: {fileID: 6444009889248250825}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -217,7 +218,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 40e1d2d3aef18c645914c174be73b0a4, type: 3}
   m_JumpSound: {fileID: 8300000, guid: 40e1d2d3aef18c645914c174be73b0a4, type: 3}
   m_LandSound: {fileID: 8300000, guid: 04e2a9ff1d4471240a77cc069396c1af, type: 3}
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 6181635542651078417}
   m_IsCrouching: 0
   originalHeight: 0
   crouchHeight: 0.1
@@ -357,6 +358,7 @@ MonoBehaviour:
   pixelCamera: {fileID: 0}
   isHiding: 0
   currentHidingPlace: {fileID: 0}
+  PauseUI: {fileID: 2655943982876830208, guid: 3f54ccf4c3c66d743ba978054b1e3e81, type: 3}
 --- !u!81 &583278684
 AudioListener:
   m_ObjectHideFlags: 0
@@ -413,7 +415,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nearbyEventRadius: 10
---- !u!114 &4365472724283826027
+--- !u!114 &5174882231958690320
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -422,11 +424,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 6181635542439563922}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3e2bd056990b547b82defb4681dbbe, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e9b89322a6223647975bc335183863b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentEquippedItem: {fileID: 0}
+  itemDisplay: {fileID: 6181635541808351300}
+  dropSound: {fileID: 8300000, guid: 43fbe098160f93b42b50185c8794e919, type: 3}
+  scalePreview: 1
+  throwForce: 10
+--- !u!114 &6444009889248250825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6181635542439563922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 223672fefeba75c4283c0ee18340cb1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   inventory: {fileID: 11400000, guid: 2b9adc346367a6d408f2b2deeb8274d8, type: 2}
   currentSlot: 0
+  invUI: {fileID: 2098521163120732071, guid: 2a86260963cf2af49a81a99a11da449d, type: 3}
+  readUI: {fileID: 7636118833697605265, guid: 50c4e55ab34f6904b9c4eb13f8d59e4d, type: 3}
 --- !u!1 &6181635542651078422
 GameObject:
   m_ObjectHideFlags: 0
@@ -522,6 +543,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Lantern
+      objectReference: {fileID: 0}
+    - target: {fileID: 2557691266305825632, guid: e4940469c454b5b4880daf8301740e46,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2557691266305825637, guid: e4940469c454b5b4880daf8301740e46,
         type: 3}

@@ -5,7 +5,9 @@
   "description": "This is an example package",
   "unity": "2019.3",
   "unityRelease": "15f1",
-  "dependencies": {},
+  "dependencies": {
+    "com.unity.textmeshpro": "2.0.1"
+  },
   "keywords": [
     "interaction",
     "jirath",
