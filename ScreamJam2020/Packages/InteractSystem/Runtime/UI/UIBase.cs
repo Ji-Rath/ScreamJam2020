@@ -12,7 +12,7 @@ namespace JiRath.InteractSystem.UI
         protected GameObject owningPlayer;
         public bool enableUIOverlap = false;
 
-        public Type disableComponent;
+        public event Action<bool> OnDisablePlayer;
 
         void OnEnable()
         {
@@ -60,6 +60,8 @@ namespace JiRath.InteractSystem.UI
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
             }
+
+            OnDisablePlayer?.Invoke(disablePlayer);
         }
     }
 }

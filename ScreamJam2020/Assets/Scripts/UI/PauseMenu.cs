@@ -30,8 +30,7 @@ public class PauseMenu : UIBase
         pauseMenuUI.SetActive(isPaused);
 
         // Used to update player comp - primarily used to update variables when the player presses a UI button to switch pause.
-        Player player = owningPlayer.GetComponent<Player>();
-        player.DisablePlayerMovement(isPaused);
+        UIController player = owningPlayer.GetComponent<UIController>();
         player.isPaused = isPaused;
 
     }
@@ -39,12 +38,12 @@ public class PauseMenu : UIBase
     private void OnDestroy()
     {
         Time.timeScale = 1;
-        owningPlayer.GetComponent<Player>().OnTogglePause -= SwitchPause;
+        owningPlayer.GetComponent<UIController>().OnTogglePause -= SwitchPause;
     }
 
     public override void Bind(GameObject owner)
     {
         base.Bind(owner);
-        owner.GetComponent<Player>().OnTogglePause += SwitchPause;
+        owner.GetComponent<UIController>().OnTogglePause += SwitchPause;
     }
 }

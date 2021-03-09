@@ -49,31 +49,32 @@ namespace JiRath.InventorySystem.EquipSystem
 
         public void EquipItem(GameObject item)
         {
-            //Destroy currently equipped item
+            bool isSameItem = false;
+
+            // Destroy currently equipped item
             if (currentEquippedItem != null)
             {
-                if (currentEquippedItem.item == item.GetComponent<Pickupable>().item)
-                {
-                    Destroy(currentEquippedItem.gameObject);
-                    return;
-                }
-
+                isSameItem = currentEquippedItem.item == item.GetComponent<Pickupable>().item;
                 Destroy(currentEquippedItem.gameObject);
             }
-
-            //Create new item
-            GameObject InstanceItem = Instantiate(item, itemDisplay.transform);
-            currentEquippedItem = InstanceItem.GetComponent<Pickupable>();
-            currentEquippedItem.transform.localScale = new Vector3(scalePreview, scalePreview, scalePreview);
-            currentEquippedItem.GetComponent<Collider>().enabled = false;
-            currentEquippedItem.GetComponent<Rigidbody>().isKinematic = true;
-
-            //Make sure it follows the player properly
-            ItemSway itemSway = GetComponent<ItemSway>();
-            if (itemSway)
+                
+            // Only equip the item if it is not already equipped 
+            if (!isSameItem)
             {
-                itemSway.TargetItem = currentEquippedItem.gameObject;
-                itemSway.targetLocation = itemDisplay.transform;
+                //Create new item
+                GameObject InstanceItem = Instantiate(item, itemDisplay.transform);
+                currentEquippedItem = InstanceItem.GetComponent<Pickupable>();
+                currentEquippedItem.transform.localScale = new Vector3(scalePreview, scalePreview, scalePreview);
+                currentEquippedItem.GetComponent<Collider>().enabled = false;
+                currentEquippedItem.GetComponent<Rigidbody>().isKinematic = true;
+
+                //Make sure it follows the player properly
+                ItemSway itemSway = GetComponent<ItemSway>();
+                if (itemSway)
+                {
+                    itemSway.TargetItem = currentEquippedItem.gameObject;
+                    itemSway.targetLocation = itemDisplay.transform;
+                }
             }
         }
 

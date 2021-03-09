@@ -2,7 +2,7 @@
   "name": "com.jirath.interactsystem",
   "version": "1.0.0",
   "displayName": "Interaction System",
-  "description": "This is an example package",
+  "description": "Interaction system that supports custom interactables, actions on interact,\n definable mask filters for ray tracing interactables, and more.\nIncludes an example UI for interaction.",
   "unity": "2019.3",
   "unityRelease": "15f1",
   "dependencies": {
