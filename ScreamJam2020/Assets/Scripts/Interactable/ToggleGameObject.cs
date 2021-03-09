@@ -9,7 +9,13 @@ public class ToggleGameObject : Interactable
 
     public override void OnInteract(GameObject Interactor)
     {
+        base.OnInteract(Interactor);
         foreach (GameObject newGameObject in toggleGameObject)
             newGameObject.SetActive(!newGameObject.activeSelf);
+    }
+
+    public override bool CanInteract(GameObject Interactor)
+    {
+        return true;
     }
 }

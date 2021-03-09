@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 using UnityStandardAssets.Characters.FirstPerson;
+using JiRath.InteractSystem.UI;
 
 public class PauseMenu : UIBase
 {
-    public bool isGamePaused = false;
     public GameObject pauseMenuUI;
 
     public override bool IsEnabled()
     {
-        return isGamePaused;
+        return pauseMenuUI.activeSelf;
     }
 
     // Start is called before the first frame update
@@ -20,39 +20,31 @@ public class PauseMenu : UIBase
         pauseMenuUI.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if(CrossPlatformInputManager.GetButtonDown("Pause"))
-        {
-            SwitchPause();
-        }
-    }
-
-    public void SwitchPause()
+    public void SwitchPause(bool isPaused)
     {
         //Make sure there is no other UI open before enabling
         if (!CanEnable()) { return; }
-        
 
-        isGamePaused = !isGamePaused;
+        DisablePlayer(isPaused);
+        Time.timeScale = isPaused ? 0 : 1;
+        pauseMenuUI.SetActive(isPaused);
 
-        DisablePlayer(isGamePaused);
+        // Used to update player comp - primarily used to update variables when the player presses a UI button to switch pause.
+        Player player = owningPlayer.GetComponent<Player>();
+        player.DisablePlayerMovement(isPaused);
+        player.isPaused = isPaused;
 
-        if (isGamePaused)
-        {
-            Time.timeScale = 0;
-            pauseMenuUI.SetActive(true);
-        }
-        else
-        {
-            Time.timeScale = 1;
-            pauseMenuUI.SetActive(false);
-        }
     }
 
     private void OnDestroy()
     {
         Time.timeScale = 1;
+        owningPlayer.GetComponent<Player>().OnTogglePause -= SwitchPause;
+    }
+
+    public override void Bind(GameObject owner)
+    {
+        base.Bind(owner);
+        owner.GetComponent<Player>().OnTogglePause += SwitchPause;
     }
 }

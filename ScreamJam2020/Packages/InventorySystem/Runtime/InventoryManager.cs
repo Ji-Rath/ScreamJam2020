@@ -11,14 +11,13 @@ namespace JiRath.InventorySystem
         // Event called when there is an update to the inventory
         public event Action UpdateInventoryEvent;
 
+        public event Action<bool> OnToggleInventory;
+
         // ScriptableObject that contains inventory items/info
         public Inventory inventory;
 
         [HideInInspector]
-        public static bool inventoryVisible = false;
-
-        [HideInInspector]
-        public int currentSlot = 0;
+        private bool inventoryVisible = false;
 
         void Update()
         {
@@ -29,13 +28,11 @@ namespace JiRath.InventorySystem
             }
         }
 
-        // Toggle visiblity of inventory
+        // Toggle visibility of inventory
         private void ToggleInventory()
         {
             inventoryVisible = !inventoryVisible;
-            currentSlot = 0;
-
-            UpdateInventoryEvent?.Invoke();
+            OnToggleInventory?.Invoke(inventoryVisible);
         }
 
         //Called when the player wants to view the next item in their inventory
@@ -60,6 +57,7 @@ namespace JiRath.InventorySystem
                 if (itemTest.Equals(item) && (itemSlot.itemAmount + amount) <= itemTest.maxStack)
                 {
                     AddToStack(i, amount);
+                    UpdateInventoryEvent?.Invoke();
                     return true;
                 }
             }
@@ -91,7 +89,7 @@ namespace JiRath.InventorySystem
                     {
                         inventory.itemList.RemoveAt(i);
                     }
-
+                    UpdateInventoryEvent?.Invoke();
                     return true;
                 }
             }

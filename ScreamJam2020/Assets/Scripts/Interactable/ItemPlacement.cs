@@ -61,7 +61,8 @@ public class ItemPlacement : Interactable, IItemUsable
 
     public override void OnInteract(GameObject Interactor)
     {
-        if (placedItem && GameManager.Get().playerRef.GetComponent<InventoryManager>().AddToInventory(placedItem))
+        base.OnInteract(Interactor);
+        if (CanInteract(Interactor))
         {
             Item_PickupEvent();
             UseItem?.Invoke();
@@ -77,5 +78,10 @@ public class ItemPlacement : Interactable, IItemUsable
     {
         if (itemPrefab && itemPrefab.GetComponent<Pickupable>())
             itemPrefab.GetComponent<Pickupable>().PickupEvent -= Item_PickupEvent;
+    }
+
+    public override bool CanInteract(GameObject Interactor)
+    {
+        return placedItem && Interactor.GetComponent<InventoryManager>().AddToInventory(placedItem);
     }
 }

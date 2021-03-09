@@ -9,11 +9,17 @@ public class ToggleOpenDoor : Interactable
 
     public override void OnInteract(GameObject Interactor)
     {
+        base.OnInteract(Interactor);
         foreach (KeyDoor door in toggleDoor)
         {
             door.isLocked = false;
-            door.InteractDoor();
+            door.OnInteract(Interactor);
         }
             
+    }
+
+    public override bool CanInteract(GameObject Interactor)
+    {
+        return true;
     }
 }

@@ -9,7 +9,7 @@ namespace JiRath.InteractSystem
     {
         public string interactableName;
         public string hoverMessage;
-
+        protected bool bActivated = false;
 
         void Awake()
         {
@@ -21,11 +21,18 @@ namespace JiRath.InteractSystem
         /// Called to change the state of the Interactable (on/off)
         /// </summary>
         /// <param name="activate"></param>
-        public virtual void Activate(bool activate)
+        public virtual void Activate(bool bActivate)
         {
-            OnInteract(gameObject);
+            if (bActivate != bActivated)
+                OnInteract(gameObject);
         }
 
-        public abstract void OnInteract(GameObject Interactor);
+        public virtual void OnInteract(GameObject Interactor)
+        {
+            if (CanInteract(Interactor))
+                bActivated = !bActivated;
+        }
+
+        public abstract bool CanInteract(GameObject Interactor);
     }
 }

@@ -104,7 +104,7 @@ public class MonsterAI : MonoBehaviour
                             KeyDoor door = RayHit.collider.GetComponent<KeyDoor>();
                             if(!door.isOpen)
                             {
-                                door.InteractDoor();
+                                door.OnInteract(gameObject);
                             }
 
                         }
@@ -146,7 +146,7 @@ public class MonsterAI : MonoBehaviour
                         KeyDoor door = RayHit.collider.GetComponent<KeyDoor>();
                         if (!door.isOpen)
                         {
-                            door.InteractDoor();
+                            door.OnInteract(gameObject);
                         }
                     }
                 }

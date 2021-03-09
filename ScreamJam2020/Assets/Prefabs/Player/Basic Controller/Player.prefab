@@ -46,11 +46,11 @@ GameObject:
   - component: {fileID: 6181635542439563934}
   - component: {fileID: 8735113333121868281}
   - component: {fileID: 583278684}
-  - component: {fileID: 583278692}
   - component: {fileID: 583278693}
   - component: {fileID: 2663594226810702684}
   - component: {fileID: 5174882231958690320}
   - component: {fileID: 6444009889248250825}
+  - component: {fileID: 6336405270999119397}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -120,7 +120,7 @@ MonoBehaviour:
     MaximumX: 90
     smooth: 0
     smoothTime: 5
-    lockCursor: 1
+    lockCursor: 0
   m_UseFovKick: 1
   m_FovKick:
     Camera: {fileID: 0}
@@ -367,23 +367,6 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6181635542439563922}
   m_Enabled: 1
---- !u!114 &583278692
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6181635542439563922}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2def30350f8e1d14b9aac1c166964a5c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactRange: 2
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 4864
-  enableDebug: 0
 --- !u!114 &583278693
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -445,9 +428,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventory: {fileID: 11400000, guid: 2b9adc346367a6d408f2b2deeb8274d8, type: 2}
-  currentSlot: 0
   invUI: {fileID: 2098521163120732071, guid: 2a86260963cf2af49a81a99a11da449d, type: 3}
   readUI: {fileID: 7636118833697605265, guid: 50c4e55ab34f6904b9c4eb13f8d59e4d, type: 3}
+--- !u!114 &6336405270999119397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6181635542439563922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e00bf8ce0243d004bb169d8ba53993ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactRange: 5
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 4864
+  enableDebug: 0
+  camComp: {fileID: 6181635542651078417}
+  interactUI: {fileID: 6586483420238888929, guid: 29b473d4d56d9c9409a6f645e8f5e573,
+    type: 3}
 --- !u!1 &6181635542651078422
 GameObject:
   m_ObjectHideFlags: 0

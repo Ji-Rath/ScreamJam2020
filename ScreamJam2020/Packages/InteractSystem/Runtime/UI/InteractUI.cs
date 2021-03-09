@@ -8,7 +8,7 @@ namespace JiRath.InteractSystem.UI
     [RequireComponent(typeof(Animator))]
     public class InteractUI : UIBase
     {
-        public TextMeshProUGUI textInteractable;
+        public TMP_Text textInteractable;
         private Animator interactAnimator;
 
         private bool isVisible = false;
@@ -17,46 +17,24 @@ namespace JiRath.InteractSystem.UI
         {
             //Allow interact UI to overlap with other UI
             enableUIOverlap = true;
-        }
 
-        void Start()
-        {
             interactAnimator = GetComponent<Animator>();
         }
 
-        void UI_InteractHover()
+        void UI_InteractHover(Interactable interactableInView)
         {
             //Make sure player is hovering over an item
-            Interactable itemInView = owningPlayer.GetComponent<PlayerInteraction>().GetItemInView();
-            if (itemInView)
+            if (interactableInView && GetInteractableMessage(interactableInView) != "")
             {
-                textInteractable.text = "";
-
-                //Update interact UI text
-                Interactable interactable = itemInView.GetComponent<Interactable>();
-
-                if (interactable && GetItemInViewName() != "")
-                {
-                    string interactName = GetItemInViewName();
-                    textInteractable.text = interactName;
-
-                }
-                else
-                {
-                    isVisible = false;
-                    StartCoroutine(DelayedFadeOut());
-                }
-
+                StopCoroutine(DelayedFadeOut());
+                textInteractable.SetText(GetInteractableMessage(interactableInView));
 
                 //Make text visible if it is not already
                 if (!isVisible && textInteractable.text != "")
                 {
                     //Make text visible if it is not already
-                    if (!isVisible)
-                    {
-                        isVisible = true;
-                        interactAnimator.SetBool("isVisible", isVisible);
-                    }
+                    isVisible = true;
+                    interactAnimator.SetBool("isVisible", isVisible);
                 }
 
             }
@@ -68,40 +46,35 @@ namespace JiRath.InteractSystem.UI
             }
         }
 
-        string GetItemInViewName()
+        string GetInteractableMessage(Interactable interactable)
         {
             string interactName = "";
-            Interactable itemInView = owningPlayer.GetComponent<PlayerInteraction>().GetItemInView();
-            if (itemInView)
+            if (interactable)
             {
-                if (itemInView.interactableName != "") //Display interactable name
-                    interactName = itemInView.interactableName;
-                else if (itemInView.hoverMessage != "") //Display hover message
-                    interactName = itemInView.hoverMessage;
+                if (interactable.interactableName != "") //Display interactable name
+                    interactName = interactable.interactableName;
+                else if (interactable.hoverMessage != "") //Display hover message
+                    interactName = interactable.hoverMessage;
             }
             return interactName;
         }
 
         IEnumerator DelayedFadeOut()
         {
-            yield return new WaitForSeconds(0.25f);
-
-            if (GetItemInViewName() == "")
-                interactAnimator.SetBool("isVisible", isVisible);
-            else
-                isVisible = true;
+            yield return new WaitForSeconds(0.1f);
+            interactAnimator.SetBool("isVisible", isVisible);
         }
 
         void OnDestroy()
         {
             if (owningPlayer)
-                owningPlayer.GetComponent<PlayerInteraction>().InteractHover -= UI_InteractHover;
+                owningPlayer.GetComponent<InteractManager>().OnHoverUpdate -= UI_InteractHover;
         }
 
         public override void Bind(GameObject owner)
         {
             base.Bind(owner);
-            owner.GetComponent<PlayerInteraction>().InteractHover += UI_InteractHover;
+            owner.GetComponent<InteractManager>().OnHoverUpdate += UI_InteractHover;
         }
 
         public override bool IsEnabled()

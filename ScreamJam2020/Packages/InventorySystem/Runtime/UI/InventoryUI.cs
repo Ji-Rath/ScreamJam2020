@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using JiRath.InteractSystem.UI;
 using JiRath.InventorySystem.EquipSystem;
 
 namespace JiRath.InventorySystem.UI
@@ -26,64 +25,64 @@ namespace JiRath.InventorySystem.UI
         [Tooltip("GameObject to toggle active when using Inventory UI")]
         public GameObject inventoryReference;
 
-        int viewedSlot = 0;
+        private int viewedSlot = 0;
+        private bool inventoryVisible;
 
         public override bool IsEnabled()
         {
-            return InventoryManager.inventoryVisible;
+            return inventoryVisible;
+        }
+
+        private void CreateItemPrefab(InventoryItem currentItem)
+        {
+            //Create the selected inventory prefab, scale it, and delete the old one
+            Destroy(itemPrefab);
+            GameObject newInventoryPrefab = Instantiate(currentItem.item.itemModel, itemPrefabPosition);
+            newInventoryPrefab.transform.localScale = new Vector3(scalePreview, scalePreview, scalePreview);
+
+            //Add InventoryPrefab component for spin effect
+            newInventoryPrefab.AddComponent<InventoryPrefab>();
+            newInventoryPrefab.GetComponent<Rigidbody>().isKinematic = true;
+
+            itemPrefab = newInventoryPrefab;
         }
 
         void UpdateInventoryUI()
         {
-            if (CanEnable())
+            if (CanEnable() && inventoryVisible)
             {
-                DisablePlayer(InventoryManager.inventoryVisible);
-                EmptyInventory();
+                CheckButton(nextButton, prevButton);
 
-                if (InventoryManager.inventoryVisible)
+                //Only try displaying item if there are any contents
+                int itemCount = playerInventory.inventory.itemList.Count;
+                if (itemCount > 0)
                 {
-                    inventoryReference.SetActive(true);
-                    CheckButton(nextButton, prevButton);
+                    InventoryItem currentItem = playerInventory.inventory.itemList[viewedSlot];
 
-                    //Only try displaying item if there are any contents
-                    if (playerInventory.inventory.itemList.Count > 0)
+                    //Update text
+                    textName.SetText(currentItem.item.name);
+                    textDescription.SetText(currentItem.item.description);
+
+                    //Do not display stack count if the max stack is 1
+                    int itemStack = currentItem.item.maxStack;
+                    if (itemStack > 1)
                     {
-                        InventoryItem currentItem = playerInventory.inventory.itemList[viewedSlot];
-
-                        //Update text
-                        textName.SetText(currentItem.item.name);
-                        textDescription.SetText(currentItem.item.description);
-
-                        //Do not display stack count if the max stack is 1
-                        if (currentItem.item.maxStack > 1)
-                            textAmount.text = "Amount: " + currentItem.itemAmount + " / " + currentItem.item.maxStack;
-                        else
-                            textAmount.text = "";
-
-                        //Create the selected inventory prefab and delete the old one
-                        GameObject newInventoryPrefab = Instantiate(currentItem.item.itemModel, itemPrefabPosition);
-                        Destroy(itemPrefab);
-                        newInventoryPrefab.transform.localScale = new Vector3(scalePreview, scalePreview, scalePreview);
-
-                        //Add InventoryPrefab component for spin effect
-                        newInventoryPrefab.AddComponent<InventoryPrefab>();
-                        newInventoryPrefab.GetComponent<Rigidbody>().isKinematic = true;
-
-                        itemPrefab = newInventoryPrefab;
+                        textAmount.text = "Amount: " + currentItem.itemAmount + " / " + itemStack;
                     }
-                }
-                else if (inventoryReference.activeSelf)
-                {
-                    // Toggle visibility of Inventory UI when it should not be visible
-                    inventoryReference.SetActive(false);
+                    else
+                    {
+                        textAmount.text = "";
+                    }
+
+                    CreateItemPrefab(currentItem);
                 }
             }
-
         }
 
         public void CheckButton(Button nextButton, Button prevButton)
         {
-            if (playerInventory.currentSlot >= playerInventory.inventory.itemList.Count - 1)
+            int lastInvIndex = playerInventory.inventory.itemList.Count - 1;
+            if (viewedSlot >= lastInvIndex)
             {
                 nextButton.image.color = disabledColor;
             }
@@ -92,7 +91,7 @@ namespace JiRath.InventorySystem.UI
                 nextButton.image.color = normalColor;
             }
 
-            if (playerInventory.currentSlot <= 0)
+            if (viewedSlot <= 0)
             {
                 prevButton.image.color = disabledColor;
             }
@@ -103,9 +102,13 @@ namespace JiRath.InventorySystem.UI
 
         }
 
-        private void DisableInventoryUI()
+        public void SetVisibility(bool isVisible)
         {
-            gameObject.SetActive(false);
+            viewedSlot = 0;
+            inventoryVisible = isVisible;
+            inventoryReference.SetActive(isVisible);
+            EmptyInventory();
+            UpdateInventoryUI();
         }
 
         public void EquipCurrentItem()
@@ -131,6 +134,8 @@ namespace JiRath.InventorySystem.UI
         void OnDestroy()
         {
             playerInventory.UpdateInventoryEvent -= UpdateInventoryUI;
+            playerInventory.OnToggleInventory -= SetVisibility;
+            playerInventory.OnToggleInventory += DisablePlayer;
             //MonsterAI.OnMonsterKillPlayer -= DisableInventoryUI;
         }
 
@@ -170,6 +175,8 @@ namespace JiRath.InventorySystem.UI
 
             playerInventory = owner.GetComponent<InventoryManager>();
             playerInventory.UpdateInventoryEvent += UpdateInventoryUI;
+            playerInventory.OnToggleInventory += SetVisibility;
+            playerInventory.OnToggleInventory += DisablePlayer;
             //MonsterAI.OnMonsterKillPlayer += DisableInventoryUI;
         }
     }

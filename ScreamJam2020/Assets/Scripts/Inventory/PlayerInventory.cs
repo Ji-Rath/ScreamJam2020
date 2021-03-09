@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using JiRath.InventorySystem;
+using JiRath.InteractSystem.UI;
 
 public class PlayerInventory : InventoryManager
 {

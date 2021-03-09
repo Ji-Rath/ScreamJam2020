@@ -24,7 +24,7 @@ namespace JiRath.InventorySystem
 
         private AudioSource audioSource;
         protected InventoryManager playerInventory;
-        protected PlayerInteraction playerInteract;
+        protected InteractManager playerInteract;
 
         [Tooltip("Message displayed when item is successfully used"), TextArea]
         public string onUseMessage;
@@ -33,9 +33,11 @@ namespace JiRath.InventorySystem
 
         public override void OnInteract(GameObject Interactor)
         {
+            base.OnInteract(Interactor);
+
             GameObject playerRef = Interactor;
             playerInventory = playerRef.GetComponent<InventoryManager>();
-            playerInteract = playerRef.GetComponent<PlayerInteraction>();
+            playerInteract = playerRef.GetComponent<InteractManager>();
             audioSource = playerRef.GetComponent<AudioSource>();
 
             //If the item is pickupable, add it to inventory
@@ -50,8 +52,6 @@ namespace JiRath.InventorySystem
                 PickupEvent?.Invoke();
                 Destroy(gameObject);
             }
-            else
-                Debug.Log("Unable to add to inventory!");
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace JiRath.InventorySystem
         public bool OnUse(GameObject user, Interactable itemInView)
         {
             playerInventory = user.GetComponent<InventoryManager>();
-            playerInteract = user.GetComponent<PlayerInteraction>();
+            playerInteract = user.GetComponent<InteractManager>();
 
             //If the item could be used, play sound
             if (Use(user, itemInView))
@@ -108,6 +108,11 @@ namespace JiRath.InventorySystem
                     return itemUsable.OnItemUse(item);
             }
             return false;
+        }
+
+        public override bool CanInteract(GameObject Interactor)
+        {
+            return true;
         }
     }
 }

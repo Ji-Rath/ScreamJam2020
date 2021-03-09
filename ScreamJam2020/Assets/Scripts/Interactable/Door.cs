@@ -56,22 +56,8 @@ public class Door : Interactable
 
     public override void OnInteract(GameObject Interactor)
     {
-        InteractDoor();
-    }
-
-    public override void Activate(bool activate)
-    {
-        isLocked = !activate;
-
-        if (isLocked && isOpen)
-            ToggleDoor();
-        if (!isLocked && !isOpen)
-            ToggleDoor();
-    }
-
-    public void InteractDoor()
-    {
-        if (!isLocked && canInteract)
+        base.OnInteract(Interactor);
+        if (CanInteract(Interactor))
         {
             ToggleDoor();
         }
@@ -83,6 +69,12 @@ public class Door : Interactable
                 audioSource.Play();
             }
         }
+    }
+
+    public override void Activate(bool activate)
+    {
+        base.Activate(activate);
+        isLocked = !activate;
     }
 
     private void ToggleDoor()
@@ -157,13 +149,18 @@ public class Door : Interactable
         }
     }
 
-    public void CanInteract()
+    public override bool CanInteract(GameObject Interactor)
     {
-        canInteract = true;
+        return !isLocked && canInteract;
     }
 
-    public void CannotInteract()
+    /// <summary>
+    /// Change whether the interactable can be interacted with. Primarily used for AnimationEvents.
+    /// </summary>
+    /// <param name="canInteract">bool value</param>
+    /// <returns></returns>
+    public void SetCanInteract(int canInteract)
     {
-        canInteract = false;
+        this.canInteract = Convert.ToBoolean(canInteract);
     }
 }

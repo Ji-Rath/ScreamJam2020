@@ -2,6 +2,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using JiRath.InteractSystem.UI;
 using JiRath.InteractSystem;
 using JiRath.InventorySystem.EquipSystem;
 
@@ -83,7 +84,7 @@ namespace JiRath.InventorySystem.UI
         {
             if (owningPlayer)
             {
-                owningPlayer.GetComponent<PlayerInteraction>().CancelAction -= UI_CancelAction;
+                owningPlayer.GetComponent<InteractManager>().OnCancelAction -= UI_CancelAction;
                 owningPlayer.GetComponent<EquipManager>().OnUseItem -= UI_UseItem;
             }
         }
@@ -93,7 +94,7 @@ namespace JiRath.InventorySystem.UI
             base.Bind(owner);
             if (owner)
             {
-                owner.GetComponent<PlayerInteraction>().CancelAction += UI_CancelAction;
+                owner.GetComponent<InteractManager>().OnCancelAction += UI_CancelAction;
                 owner.GetComponent<EquipManager>().OnUseItem += UI_UseItem;
             }
         }

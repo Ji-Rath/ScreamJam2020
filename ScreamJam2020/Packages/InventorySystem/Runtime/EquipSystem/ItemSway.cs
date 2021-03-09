@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace JiRath.InventorySystem.EquipSystem
 {
+    [RequireComponent(typeof(EquipManager))]
     public class ItemSway : MonoBehaviour
     {
         [HideInInspector]

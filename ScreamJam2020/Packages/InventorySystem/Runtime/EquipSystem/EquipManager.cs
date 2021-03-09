@@ -19,14 +19,14 @@ namespace JiRath.InventorySystem.EquipSystem
         public AudioClip dropSound;
         public float scalePreview = 1f;
         private AudioSource audioSource;
-        private PlayerInteraction interactSystem;
+        private InteractManager interactSystem;
 
         public float throwForce = 10f;
 
         private void Start()
         {
             audioSource = GetComponent<AudioSource>();
-            interactSystem = GetComponent<PlayerInteraction>();
+            interactSystem = GetComponent<InteractManager>();
         }
 
         void Update()
