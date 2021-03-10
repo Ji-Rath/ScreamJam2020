@@ -38,7 +38,8 @@ public class PauseMenu : UIBase
     private void OnDestroy()
     {
         Time.timeScale = 1;
-        owningPlayer.GetComponent<UIController>().OnTogglePause -= SwitchPause;
+        if (owningPlayer)
+            owningPlayer.GetComponent<UIController>().OnTogglePause -= SwitchPause;
     }
 
     public override void Bind(GameObject owner)

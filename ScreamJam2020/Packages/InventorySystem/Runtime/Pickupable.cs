@@ -14,7 +14,6 @@ namespace JiRath.InventorySystem
     {
         [Tooltip("The item that will be given to the player when interacted")]
         public ItemBase item;
-        public bool destroyOnUse = true;
         [Range(0, 100)]
         public int enemySpawnChance;
 
@@ -29,7 +28,7 @@ namespace JiRath.InventorySystem
         [Tooltip("Message displayed when item is successfully used"), TextArea]
         public string onUseMessage;
 
-        public event Action PickupEvent;
+        public event Action<GameObject> PickupEvent;
 
         public override void OnInteract(GameObject Interactor)
         {
@@ -49,7 +48,7 @@ namespace JiRath.InventorySystem
                     audioSource.Play();
                 }
 
-                PickupEvent?.Invoke();
+                PickupEvent?.Invoke(Interactor);
                 Destroy(gameObject);
             }
         }
@@ -67,13 +66,6 @@ namespace JiRath.InventorySystem
             {
                 //Play use sound
                 audioSource?.PlayOneShot(useSound);
-
-                //Destroy item if specified
-                if (destroyOnUse)
-                {
-                    playerInventory.RemoveFromInventory(item, 1);
-                    Destroy(gameObject);
-                }
 
                 //Show used message
                 UpdateUseText();
@@ -105,7 +97,7 @@ namespace JiRath.InventorySystem
             {
                 IItemUsable itemUsable = itemInView.GetComponent<IItemUsable>();
                 if (itemUsable != null)
-                    return itemUsable.OnItemUse(item);
+                    return itemUsable.OnItemUse(user, item);
             }
             return false;
         }

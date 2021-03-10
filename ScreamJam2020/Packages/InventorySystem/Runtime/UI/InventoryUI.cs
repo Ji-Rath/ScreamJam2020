@@ -10,27 +10,35 @@ namespace JiRath.InventorySystem.UI
     {
         InventoryManager playerInventory;
 
-        //Get UI references
+        // Get UI references
         public Button nextButton;
         public Button prevButton;
+        public Button equipButton;
         public TMP_Text textName;
         public TMP_Text textDescription;
         public TMP_Text textAmount;
+        
+        [Space]
         public Transform itemPrefabPosition;
-        public Color normalColor;
-        public Color disabledColor;
         public float scalePreview = 1;
         private GameObject itemPrefab;
 
+        [Space]
+        public bool loopInventory = false;
+
         [Tooltip("GameObject to toggle active when using Inventory UI")]
         public GameObject inventoryReference;
-
         private int viewedSlot = 0;
         private bool inventoryVisible;
 
         public override bool IsEnabled()
         {
             return inventoryVisible;
+        }
+
+        void Start()
+        {
+            inventoryReference.SetActive(false);
         }
 
         private void CreateItemPrefab(InventoryItem currentItem)
@@ -51,60 +59,37 @@ namespace JiRath.InventorySystem.UI
         {
             if (CanEnable() && inventoryVisible)
             {
-                CheckButton(nextButton, prevButton);
-
                 //Only try displaying item if there are any contents
                 int itemCount = playerInventory.inventory.itemList.Count;
                 if (itemCount > 0)
                 {
                     InventoryItem currentItem = playerInventory.inventory.itemList[viewedSlot];
-
-                    //Update text
-                    textName.SetText(currentItem.item.name);
-                    textDescription.SetText(currentItem.item.description);
-
-                    //Do not display stack count if the max stack is 1
-                    int itemStack = currentItem.item.maxStack;
-                    if (itemStack > 1)
+                    if (currentItem.item != null)
                     {
-                        textAmount.text = "Amount: " + currentItem.itemAmount + " / " + itemStack;
-                    }
-                    else
-                    {
-                        textAmount.text = "";
-                    }
+                        //Update text
+                        textName.SetText(currentItem.item.name);
+                        textDescription.SetText(currentItem.item.description);
 
-                    CreateItemPrefab(currentItem);
+                        //Do not display stack count if the max stack is 1
+                        int itemStack = currentItem.item.maxStack;
+                        if (itemStack > 1)
+                        {
+                            textAmount.text = "Amount: " + currentItem.itemAmount + " / " + itemStack;
+                        }
+                        else
+                        {
+                            textAmount.text = "";
+                        }
+
+                        CreateItemPrefab(currentItem);
+                    }
                 }
             }
         }
 
-        public void CheckButton(Button nextButton, Button prevButton)
-        {
-            int lastInvIndex = playerInventory.inventory.itemList.Count - 1;
-            if (viewedSlot >= lastInvIndex)
-            {
-                nextButton.image.color = disabledColor;
-            }
-            else
-            {
-                nextButton.image.color = normalColor;
-            }
-
-            if (viewedSlot <= 0)
-            {
-                prevButton.image.color = disabledColor;
-            }
-            else
-            {
-                prevButton.image.color = normalColor;
-            }
-
-        }
-
         public void SetVisibility(bool isVisible)
         {
-            viewedSlot = 0;
+            CheckValidSlot();
             inventoryVisible = isVisible;
             inventoryReference.SetActive(isVisible);
             EmptyInventory();
@@ -116,7 +101,8 @@ namespace JiRath.InventorySystem.UI
             if (playerInventory != null && playerInventory.inventory.itemList.Count > 0)
             {
                 EquipManager equipSystem = owningPlayer.GetComponent<EquipManager>();
-                equipSystem.EquipItem(playerInventory.inventory.itemList[viewedSlot].item.itemModel);
+                GameObject itemPrefab = playerInventory.inventory.itemList[viewedSlot].item.itemModel;
+                equipSystem.EquipItem(itemPrefab);
             }
         }
 
@@ -136,7 +122,6 @@ namespace JiRath.InventorySystem.UI
             playerInventory.UpdateInventoryEvent -= UpdateInventoryUI;
             playerInventory.OnToggleInventory -= SetVisibility;
             playerInventory.OnToggleInventory += DisablePlayer;
-            //MonsterAI.OnMonsterKillPlayer -= DisableInventoryUI;
         }
 
         public void GetNextItem()
@@ -152,19 +137,51 @@ namespace JiRath.InventorySystem.UI
             UpdateInventoryUI();
         }
 
-        public int IncrementSlot(int amountChange)
+        private void CheckValidSlot()
         {
-            viewedSlot += amountChange;
             int maxSlots = playerInventory.inventory.itemList.Count;
-
             if (viewedSlot >= maxSlots)
             {
-                viewedSlot -= maxSlots;
+                if (loopInventory)
+                {
+                    viewedSlot -= maxSlots;
+                }
+                else
+                {
+                    viewedSlot = maxSlots != 0 ? maxSlots-1 : 0;
+                }
             }
             else if (viewedSlot < 0)
             {
-                viewedSlot = maxSlots - Mathf.Abs(viewedSlot);
+                if (loopInventory)
+                {
+                    viewedSlot = maxSlots - Mathf.Abs(viewedSlot);
+                }
+                else
+                {
+                    viewedSlot = 0;
+                }
             }
+
+            if (equipButton)
+            {
+                equipButton.interactable = playerInventory.inventory.itemList.Count != 0 ? true : false;
+            }
+
+            if (!loopInventory && nextButton && prevButton)
+            {
+                prevButton.interactable = true;
+                nextButton.interactable = true;
+                prevButton.interactable = viewedSlot == 0 ? false : true;
+                nextButton.interactable = viewedSlot >= maxSlots-1 ? false : true;
+            }
+        }
+
+        public int IncrementSlot(int amountChange)
+        {
+            viewedSlot += amountChange;
+            CheckValidSlot();
+
 
             return Mathf.Abs(viewedSlot);
         }

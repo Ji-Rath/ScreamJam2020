@@ -44,6 +44,18 @@ namespace JiRath.InventorySystem
             return new InventoryItem();
         }
 
+        public bool ItemExists(ItemBase item)
+        {
+            foreach (InventoryItem invItem in inventory.itemList)
+            {
+                if (invItem.item == item)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         //Add specified item to the players inventory if possible
         public bool AddToInventory(ItemBase item, int amount = 1)
         {
@@ -54,7 +66,7 @@ namespace JiRath.InventorySystem
                 ItemBase itemTest = itemSlot.item;
 
                 // If the player has the item already in their inventory, attempt to add to stack
-                if (itemTest.Equals(item) && (itemSlot.itemAmount + amount) <= itemTest.maxStack)
+                if (itemTest && itemTest.Equals(item) && (itemSlot.itemAmount + amount) <= itemTest.maxStack)
                 {
                     AddToStack(i, amount);
                     UpdateInventoryEvent?.Invoke();
@@ -66,6 +78,31 @@ namespace JiRath.InventorySystem
             if (inventory.itemList.Count < inventory.maxSlots)
             {
                 inventory.itemList.Add(new InventoryItem(item, amount));
+                return true;
+            }
+
+            //Unable to add item to inventory
+            return false;
+        }
+
+        public bool CanAdd(ItemBase item, int amount = 1)
+        {
+            // Cycle through all inventory slots
+            for (int i = 0; i < inventory.itemList.Count; i++)
+            {
+                InventoryItem itemSlot = inventory.itemList[i];
+                ItemBase itemTest = itemSlot.item;
+
+                // If the player has the item already in their inventory, attempt to add to stack
+                if (itemTest && itemTest.Equals(item) && (itemSlot.itemAmount + amount) <= itemTest.maxStack)
+                {
+                    return true;
+                }
+            }
+
+            //If there is an empty slot available, use that instead
+            if (inventory.itemList.Count < inventory.maxSlots)
+            {
                 return true;
             }
 

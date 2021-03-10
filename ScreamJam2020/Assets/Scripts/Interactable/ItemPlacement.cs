@@ -3,6 +3,7 @@ using UnityEngine;
 using JiRath.InventorySystem.Usable;
 using JiRath.InteractSystem;
 using JiRath.InventorySystem;
+using JiRath.InventorySystem.EquipSystem;
 
 public class ItemPlacement : Interactable, IItemUsable
 {
@@ -23,19 +24,12 @@ public class ItemPlacement : Interactable, IItemUsable
             placedItem = null;
     }
 
-    public bool OnItemUse(ItemBase item)
+    public bool OnItemUse(GameObject user, ItemBase item)
     {
         bool isSuccess = false;
 
-        //Drop currently placed item
-        if(placedItem)
-            Instantiate(placedItem, transform);
-
-        placedItem = item;
-        isSuccess = true;
-
         //Create the selected inventory prefab and delete the old one
-        GameObject newItemPrefab = Instantiate(placedItem.itemModel, itemPosition);
+        GameObject newItemPrefab = Instantiate(item.itemModel, itemPosition);
         Destroy(itemPrefab);
 
         //Add InventoryPrefab component for spin effect
@@ -45,7 +39,22 @@ public class ItemPlacement : Interactable, IItemUsable
         itemPrefab = newItemPrefab;
 
         itemPrefab.GetComponent<Pickupable>().PickupEvent += Item_PickupEvent;
+        user.GetComponent<InventoryManager>().RemoveFromInventory(item, 1);
 
+        //Drop or equip item that was on the stand
+        if (placedItem != null)
+        {
+            if (!user.GetComponent<InventoryManager>().AddToInventory(placedItem))
+            {
+                Instantiate(placedItem, transform);
+            }
+            else
+            {
+                user.GetComponent<EquipManager>().EquipItem(placedItem.itemModel);
+            }
+        }
+
+        placedItem = item;
         UseItem?.Invoke();
         return isSuccess;
     }
@@ -53,8 +62,9 @@ public class ItemPlacement : Interactable, IItemUsable
     /// <summary>
     /// Called from listener when placed item is picked up
     /// </summary>
-    private void Item_PickupEvent()
+    private void Item_PickupEvent(GameObject Interactor)
     {
+        itemPrefab = null;
         placedItem = null;
         UseItem?.Invoke();
     }
@@ -64,7 +74,7 @@ public class ItemPlacement : Interactable, IItemUsable
         base.OnInteract(Interactor);
         if (CanInteract(Interactor))
         {
-            Item_PickupEvent();
+            itemPrefab.GetComponent<Pickupable>().OnInteract(Interactor);
             UseItem?.Invoke();
         }
     }
@@ -82,6 +92,6 @@ public class ItemPlacement : Interactable, IItemUsable
 
     public override bool CanInteract(GameObject Interactor)
     {
-        return placedItem && Interactor.GetComponent<InventoryManager>().AddToInventory(placedItem);
+        return placedItem && Interactor.GetComponent<InventoryManager>().CanAdd(placedItem);
     }
 }

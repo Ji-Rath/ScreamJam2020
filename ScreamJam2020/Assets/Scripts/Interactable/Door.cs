@@ -73,8 +73,9 @@ public class Door : Interactable
 
     public override void Activate(bool activate)
     {
-        base.Activate(activate);
         isLocked = !activate;
+        base.Activate(activate);
+        
     }
 
     private void ToggleDoor()

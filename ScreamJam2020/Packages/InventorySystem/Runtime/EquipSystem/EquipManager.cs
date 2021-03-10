@@ -27,6 +27,7 @@ namespace JiRath.InventorySystem.EquipSystem
         {
             audioSource = GetComponent<AudioSource>();
             interactSystem = GetComponent<InteractManager>();
+            GetComponent<InventoryManager>().UpdateInventoryEvent += CheckEquippedItem;
         }
 
         void Update()
@@ -47,17 +48,23 @@ namespace JiRath.InventorySystem.EquipSystem
             }
         }
 
-        public void EquipItem(GameObject item)
+        private void UnequipItem()
         {
-            bool isSameItem = false;
-
             // Destroy currently equipped item
             if (currentEquippedItem != null)
             {
-                isSameItem = currentEquippedItem.item == item.GetComponent<Pickupable>().item;
                 Destroy(currentEquippedItem.gameObject);
             }
-                
+        }
+
+        public void EquipItem(GameObject item)
+        {
+            bool isSameItem = false;
+            if (currentEquippedItem != null)
+                isSameItem = currentEquippedItem.item == item.GetComponent<Pickupable>().item;
+            UnequipItem();
+
+
             // Only equip the item if it is not already equipped 
             if (!isSameItem)
             {
@@ -106,6 +113,20 @@ namespace JiRath.InventorySystem.EquipSystem
             if (pickup)
             {
                 OnPlayerDropItem?.Invoke(pickup.enemySpawnChance);
+            }
+        }
+
+        public void DropItem()
+        {
+            DropItem(currentEquippedItem.item);
+        }
+
+        private void CheckEquippedItem()
+        {
+            var inventory = GetComponent<InventoryManager>();
+            if (!inventory.ItemExists(currentEquippedItem.item))
+            {
+                UnequipItem();
             }
         }
     }

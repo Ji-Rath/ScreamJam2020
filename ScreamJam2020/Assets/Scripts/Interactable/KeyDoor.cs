@@ -23,7 +23,7 @@ public class KeyDoor : Door, IItemUsable
 
     public event Action UseItem;
 
-    public bool OnItemUse(ItemBase item)
+    public bool OnItemUse(GameObject user, ItemBase item)
     {
         if (!allKeysInInventory)
         {
@@ -31,7 +31,10 @@ public class KeyDoor : Door, IItemUsable
 
             //Remove key if it is correct
             if (isCorrectKey)
+            {
+                user.GetComponent<InventoryManager>().RemoveFromInventory(item, 1);
                 keysNeeded.Remove(item);
+            }
 
             //Unlock door and play message if there are no more keys needed
             if (isLocked && keysNeeded.Count == 0)

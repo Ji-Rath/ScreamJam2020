@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace JiRath.InventorySystem.Usable
 {
@@ -12,7 +13,7 @@ namespace JiRath.InventorySystem.Usable
         /// </summary>
         /// <param name="item"></param>
         /// <returns>Whether the item could be used by self</returns>
-        bool OnItemUse(ItemBase item);
+        bool OnItemUse(GameObject user, ItemBase item);
 
         /// <summary>
         /// Determines the solved state of the component
