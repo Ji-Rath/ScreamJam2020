@@ -1,5 +1,8 @@
 {
   "dependencies": {
+    "com.coffee.upm-git-extension": "https://github.com/mob-sakai/UpmGitExtension.git",
+    "com.jirath.interactsystem": "https://github.com/Ji-Rath/unityinteractsystem.git#master",
+    "com.jirath.inventorysystem": "https://github.com/Ji-Rath/unityinventorysystem.git#master",
     "com.unity.collab-proxy": "1.2.16",
     "com.unity.ide.rider": "1.1.4",
     "com.unity.ide.vscode": "1.2.0",
@@ -40,5 +43,19 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0"
+  },
+  "lock": {
+    "com.coffee.upm-git-extension": {
+      "revision": "HEAD",
+      "hash": "c5bd85b033ee9994cf7b4d711479e2602d42c639"
+    },
+    "com.jirath.inventorysystem": {
+      "revision": "master",
+      "hash": "8efc72a0814114bc1ead3b05a9303bd21d6df293"
+    },
+    "com.jirath.interactsystem": {
+      "revision": "master",
+      "hash": "ba8a0c71e74421f17d248a9262f5db05eff46bf3"
+    }
   }
 }
